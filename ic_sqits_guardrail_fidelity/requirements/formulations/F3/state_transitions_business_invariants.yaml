@@ -1,0 +1,98 @@
+metadata:
+  date: 2026-08-28
+  status: DRAFT_FOR_HUMAN_CLARIFICATION_REVIEW
+  formulation_family: F3
+  category: state transitions/business invariants
+  source_requirements_file: requirements/requirements_v1.yaml
+
+formulations:
+  - requirement_id: R031
+    f0_text: >
+      A payment may move from `DRAFT` to `SUBMITTED` only if it has at least one
+      line item and the beneficiary record is verified.
+    f3_text: >
+      A payment may transition from `DRAFT` to `SUBMITTED` only when both of these
+      conditions hold: the payment has at least one line item, and the beneficiary
+      record is verified.
+    clarification_note: >
+      Makes the transition gate and both prerequisite checks explicit.
+
+  - requirement_id: R032
+    f0_text: >
+      A `SUBMITTED` payment may transition to `APPROVED` only after the required
+      approver count for that payment type has been reached.
+    f3_text: >
+      A payment in `SUBMITTED` state may transition to `APPROVED` only after the
+      required approver count for that payment type has been reached.
+    clarification_note: >
+      Makes the starting state and the count threshold as explicit gating checks.
+
+  - requirement_id: R033
+    f0_text: >
+      Once a payment reaches `EXECUTED`, no mutable field except
+      `reconciliation_note` may be changed.
+    f3_text: >
+      After a payment reaches `EXECUTED`, the only mutable field that may still be
+      changed is `reconciliation_note`; every other mutable field must remain
+      unchanged.
+    clarification_note: >
+      Makes the allowed exception and blocked mutation set explicit.
+
+  - requirement_id: R034
+    f0_text: >
+      Rejecting a payment must set status to `REJECTED` and clear any scheduled
+      execution timestamp.
+    f3_text: >
+      When a payment is rejected, the system must set its status to `REJECTED` and
+      must clear any scheduled execution timestamp.
+    clarification_note: >
+      Makes the rejection trigger and both required state mutations explicit.
+
+  - requirement_id: R036
+    f0_text: >
+      A payment may be canceled only from `DRAFT` or `SUBMITTED`; a cancel request
+      for `APPROVED` or `EXECUTED` must return `409` and leave status unchanged.
+    f3_text: >
+      A payment may be canceled only while its status is `DRAFT` or `SUBMITTED`.
+      If a cancel request is made while the payment is `APPROVED` or `EXECUTED`,
+      the system must return `409` and must leave the payment status unchanged.
+    clarification_note: >
+      Makes the allowed states, blocked states, response, and no-mutation effect
+      explicit.
+
+  - requirement_id: R037
+    f0_text: >
+      If a delegation window expires while a delegated approval task is still
+      pending, that delegated task must become invalid and an expiration event must
+      be emitted.
+    f3_text: >
+      If a delegated approval task is still pending when the delegation window
+      expires, the task must become invalid and the system must emit an expiration
+      event.
+    clarification_note: >
+      Makes the trigger timing, state effect, and event consequence explicit.
+
+  - requirement_id: R038
+    f0_text: >
+      Opening a chargeback on a captured payment must set `dispute_status` to
+      `OPEN` and must block creation of further refunds until the dispute is
+      resolved.
+    f3_text: >
+      When a chargeback is opened on a captured payment, the system must set
+      `dispute_status` to `OPEN` and must block any further refund creation until
+      the dispute is resolved.
+    clarification_note: >
+      Makes the opening trigger, state effect, and duration of the refund block
+      explicit.
+
+  - requirement_id: R040
+    f0_text: >
+      A partially refunded payment must remain in `CAPTURED` status until the sum
+      of approved refunds equals the captured amount; only then may status become
+      `REFUNDED`.
+    f3_text: >
+      A partially refunded payment must stay in `CAPTURED` status until the sum of
+      approved refunds equals the captured amount. Only at that equality point may
+      the payment status change to `REFUNDED`.
+    clarification_note: >
+      Makes the equality trigger and state-transition timing explicit.

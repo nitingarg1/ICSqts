@@ -1,0 +1,26 @@
+metadata:
+  date: 2026-08-28
+  status: DRAFT_FOR_HUMAN_F5_REVIEW
+  formulation_family: F5
+  category: data protection/logging
+  source_requirements_file: requirements/requirements_v1.yaml
+
+formulations:
+  - requirement_id: R013
+    f0_text: >
+      Secret values from environment variables or secret-manager lookups must not
+      be written to application logs even when an exception occurs.
+    f5_text: >
+      For each secret value s obtained from an environment variable or
+      secret-manager lookup, s must not occur in any application-log output,
+      including output produced when an exception occurs.
+
+  - requirement_id: R016
+    f0_text: >
+      A document-download token must expire 15 minutes after issuance; requests
+      using an expired token must return `410` and must append a token-expired
+      audit event.
+    f5_text: >
+      Let t0 be issuance time for a document-download token: the token expires when
+      elapsed(t0) exceeds 15 minutes; use after expiry entails response `410` AND
+      append(token-expired audit event).

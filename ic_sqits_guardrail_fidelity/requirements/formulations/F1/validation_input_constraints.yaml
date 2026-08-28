@@ -1,0 +1,119 @@
+metadata:
+  date: 2026-08-28
+  status: DRAFT_FOR_HUMAN_EQUIVALENCE_REVIEW
+  formulation_family: F1
+  category: validation/input constraints
+  source_requirements_file: requirements/requirements_v1.yaml
+
+formulations:
+  - requirement_id: R021
+    f0_text: >
+      A payment-create request must be rejected unless `amount` is greater than 0
+      and less than or equal to 100000.
+    f1_text: >
+      Reject a payment-create request unless `amount` is greater than 0 and less
+      than or equal to 100000.
+    semantic_diff_checklist:
+      - obligation: request rejected unless lower bound satisfied
+        where_it_appears_in_f1: Reject a payment-create request unless `amount` is greater than 0
+      - obligation: upper bound is less than or equal to 100000
+        where_it_appears_in_f1: and less than or equal to 100000
+
+  - requirement_id: R024
+    f0_text: >
+      A scheduled payment date must not be earlier than the request date and must
+      not be more than 30 calendar days after the request date.
+    f1_text: >
+      A scheduled payment date must be no earlier than the request date and no
+      more than 30 calendar days after the request date.
+    semantic_diff_checklist:
+      - obligation: scheduled date must not be earlier than request date
+        where_it_appears_in_f1: neither earlier than the request date
+      - obligation: scheduled date must not be more than 30 calendar days after request date
+        where_it_appears_in_f1: nor more than 30 calendar days after the request date
+
+  - requirement_id: R025
+    f0_text: >
+      A rejection decision must include a comment between 10 and 500 characters;
+      approval decisions must not require that comment.
+    f1_text: >
+      A rejection decision must include a comment that is between 10 and 500
+      characters long, while approval decisions must not require that comment.
+    semantic_diff_checklist:
+      - obligation: rejection decision requires comment
+        where_it_appears_in_f1: A rejection decision must include a comment
+      - obligation: comment length is between 10 and 500 characters
+        where_it_appears_in_f1: between 10 and 500 characters long
+      - obligation: approval decisions do not require that comment
+        where_it_appears_in_f1: approval decisions must not require that comment
+
+  - requirement_id: R026
+    f0_text: >
+      A beneficiary bank update request must include either an IBAN or both an
+      account number and routing number, but it must not include both forms at the
+      same time.
+    f1_text: >
+      A beneficiary bank update request must include either an IBAN or both an
+      account number and a routing number, but it must not include both forms at
+      the same time.
+    semantic_diff_checklist:
+      - obligation: one allowed form is IBAN
+        where_it_appears_in_f1: either an IBAN
+      - obligation: alternative allowed form is both account number and routing number
+        where_it_appears_in_f1: or both an account number and a routing number
+      - obligation: both forms cannot appear together
+        where_it_appears_in_f1: must not include both forms at the same time
+
+  - requirement_id: R027
+    f0_text: >
+      Attachment upload for a payment request must accept only `pdf` or `png`
+      files no larger than 5 MB.
+    f1_text: >
+      Attachment upload for a payment request must accept only `pdf` or `png`
+      files, and those files must be no larger than 5 MB.
+    semantic_diff_checklist:
+      - obligation: only `pdf` or `png` file types accepted
+        where_it_appears_in_f1: may accept only `pdf` or `png` files
+      - obligation: size limit is 5 MB maximum
+        where_it_appears_in_f1: must be no larger than 5 MB
+
+  - requirement_id: R028
+    f0_text: >
+      A batch payout request must contain between 1 and 100 items, and all
+      `client_reference` values within the batch must be unique.
+    f1_text: >
+      A batch payout request must include between 1 and 100 items, and all
+      `client_reference` values within that batch must be unique.
+    semantic_diff_checklist:
+      - obligation: batch size remains between 1 and 100 items
+        where_it_appears_in_f1: include between 1 and 100 items
+      - obligation: "`client_reference` values must be unique within batch"
+        where_it_appears_in_f1: "all `client_reference` values within that batch must be unique"
+
+  - requirement_id: R029
+    f0_text: >
+      A callback URL for asynchronous payment updates must use `https` and its
+      hostname must be on the tenant allowlist.
+    f1_text: >
+      A callback URL used for asynchronous payment updates must use `https`, and
+      its hostname must appear on the tenant allowlist.
+    semantic_diff_checklist:
+      - obligation: callback URL is for asynchronous payment updates
+        where_it_appears_in_f1: A callback URL used for asynchronous payment updates
+      - obligation: URL must use `https`
+        where_it_appears_in_f1: must use `https`
+      - obligation: hostname must be on tenant allowlist
+        where_it_appears_in_f1: hostname must appear on the tenant allowlist
+
+  - requirement_id: R030
+    f0_text: >
+      A refund request amount must not exceed the captured amount minus all prior
+      approved refunds for that payment.
+    f1_text: >
+      The amount of a refund request must not exceed the captured amount less all
+      previously approved refunds for that payment.
+    semantic_diff_checklist:
+      - obligation: refund amount capped by captured amount
+        where_it_appears_in_f1: must not exceed the captured amount
+      - obligation: prior approved refunds are subtracted from cap
+        where_it_appears_in_f1: less all previously approved refunds for that payment

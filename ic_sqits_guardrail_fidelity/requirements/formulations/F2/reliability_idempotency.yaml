@@ -1,0 +1,131 @@
+metadata:
+  date: 2026-08-28
+  status: DRAFT_FOR_HUMAN_EQUIVALENCE_REVIEW
+  formulation_family: F2
+  category: reliability/idempotency
+  source_requirements_file: requirements/requirements_v1.yaml
+
+formulations:
+  - requirement_id: R041
+    f0_text: >
+      Repeating a create-payment request with the same idempotency key and the same
+      request body must return the original payment ID and must not create a second
+      payment record.
+    f2_text: >
+      A repeated create-payment request with the same idempotency key and the same
+      request body must not create a second payment record and must return the
+      original payment ID.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: trigger is repeat request with same idempotency key and same body
+        f2_location: A repeated create-payment request with the same idempotency key and the same request body
+      - f0_obligation: no second payment record created
+        f2_location: must not create a second payment record
+      - f0_obligation: original payment ID returned
+        f2_location: must return the original payment ID
+
+  - requirement_id: R042
+    f0_text: >
+      Reusing an idempotency key with a different request body must return `409`
+      and must not create or modify any payment record.
+    f2_text: >
+      For a reused idempotency key with a different request body, the response must
+      be `409`, and no payment record may be created or modified.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: trigger is reused key with different body
+        f2_location: For a reused idempotency key with a different request body
+      - f0_obligation: response must be `409`
+        f2_location: the response must be `409`
+      - f0_obligation: no payment record created or modified
+        f2_location: no payment record may be created or modified
+
+  - requirement_id: R043
+    f0_text: >
+      Retrying the same approval command after a client timeout must not record a
+      duplicate approval action for the same approver and payment.
+    f2_text: >
+      For the same approver and payment, retrying the same approval command after a
+      client timeout must not record a duplicate approval action.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: trigger is retry of same approval command after client timeout
+        f2_location: retrying the same approval command after a client timeout
+      - f0_obligation: scope is same approver and payment
+        f2_location: For the same approver and payment
+      - f0_obligation: duplicate approval action must not be recorded
+        f2_location: must not record a duplicate approval action
+
+  - requirement_id: R044
+    f0_text: >
+      The ledger-posting consumer must ignore a duplicate provider message ID and
+      must append a `duplicate_ignored` event.
+    f2_text: >
+      A `duplicate_ignored` event must be appended, and the duplicate provider
+      message ID must be ignored, by the ledger-posting consumer.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: "`duplicate_ignored` event appended"
+        f2_location: A `duplicate_ignored` event must be appended
+      - f0_obligation: duplicate provider message ID ignored
+        f2_location: the duplicate provider message ID must be ignored
+      - f0_obligation: actor is ledger-posting consumer
+        f2_location: by the ledger-posting consumer
+
+  - requirement_id: R045
+    f0_text: >
+      Webhook delivery retries may occur on `5xx` responses up to three attempts,
+      and retries must stop immediately after the first successful delivery.
+    f2_text: >
+      Retries must stop immediately after the first successful delivery, and on
+      `5xx` responses webhook delivery retries may occur for up to three attempts.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: retries stop immediately after first successful delivery
+        f2_location: Retries must stop immediately after the first successful delivery
+      - f0_obligation: retries may occur on `5xx` responses
+        f2_location: on `5xx` responses webhook delivery retries may occur
+      - f0_obligation: maximum is three attempts
+        f2_location: for up to three attempts
+
+  - requirement_id: R046
+    f0_text: >
+      Restarting an export job after a worker crash must resume under the same
+      job ID and must not duplicate output rows already written.
+    f2_text: >
+      After a worker crash, restarting an export job must not duplicate output rows
+      already written and must resume under the same job ID.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: trigger is restart after worker crash
+        f2_location: After a worker crash, restarting an export job
+      - f0_obligation: already written output rows must not be duplicated
+        f2_location: must not duplicate output rows already written
+      - f0_obligation: resume under same job ID
+        f2_location: must resume under the same job ID
+
+  - requirement_id: R047
+    f0_text: >
+      If a payout executor lock remains stale for more than five minutes, exactly
+      one successor worker may acquire the lock and continue the job.
+    f2_text: >
+      If a payout executor lock remains stale for more than five minutes, the job
+      may be continued only by exactly one successor worker acquiring the lock.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: stale-lock threshold is more than five minutes
+        f2_location: remains stale for more than five minutes
+      - f0_obligation: exactly one successor worker may acquire lock
+        f2_location: only by exactly one successor worker acquiring the lock
+      - f0_obligation: acquired lock lets successor continue the job
+        f2_location: the job may be continued
+
+  - requirement_id: R049
+    f0_text: >
+      Importing a reconciliation file whose checksum matches a previously
+      successful import must mark the new attempt as duplicate and must not apply
+      the file contents a second time.
+    f2_text: >
+      The file contents must not be applied a second time, and the new attempt must
+      be marked as duplicate, when a reconciliation file checksum matches a
+      previously successful import.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: file contents not applied second time
+        f2_location: The file contents must not be applied a second time
+      - f0_obligation: new attempt marked as duplicate
+        f2_location: the new attempt must be marked as duplicate
+      - f0_obligation: trigger is checksum match with previously successful import
+        f2_location: when a reconciliation file checksum matches a previously successful import

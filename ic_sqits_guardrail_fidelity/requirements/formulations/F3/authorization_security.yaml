@@ -1,0 +1,111 @@
+metadata:
+  date: 2026-08-28
+  status: DRAFT_FOR_HUMAN_CLARIFICATION_REVIEW
+  formulation_family: F3
+  category: authorization/security
+  source_requirements_file: requirements/requirements_v1.yaml
+
+formulations:
+  - requirement_id: R001
+    f0_text: >
+      A payment request may be approved only by a user with the `approver` role,
+      and the user who submitted the request must not approve that same request.
+    f3_text: >
+      For a payment-request approval operation, the acting user must have the
+      `approver` role. If the acting user is the same user who submitted that
+      payment request, the system must not approve the request.
+    clarification_note: >
+      Makes the approval operation, actor check, and blocked self-approval path
+      explicit without adding a new rule.
+
+  - requirement_id: R002
+    f0_text: >
+      A payment greater than 10000 USD may be released only after two distinct
+      approvers have approved it, and at least one approver must hold the
+      `finance_manager` role.
+    f3_text: >
+      For a payment greater than 10000 USD, release is permitted only after two
+      distinct approvers have approved the payment, and at least one of those
+      approvers must hold the `finance_manager` role.
+    clarification_note: >
+      Makes the release operation and the approver set for the finance-manager
+      check explicit.
+
+  - requirement_id: R003
+    f0_text: >
+      A payment may be voided only by its creator or by an `admin` user before
+      settlement, and a successful void must set status to `VOIDED` and append a
+      void audit event.
+    f3_text: >
+      Before settlement, only the payment creator or an `admin` user may perform
+      a void operation. On a successful void, the system must set the payment
+      status to `VOIDED` and append a void audit event.
+    clarification_note: >
+      Makes the operation, timing trigger, state effect, and audit evidence
+      explicit.
+
+  - requirement_id: R004
+    f0_text: >
+      If an approval request is made with an inactive session token, the system
+      must return `401`, must not record an approval, and must not change payment
+      state.
+    f3_text: >
+      If an approval request uses an inactive session token, the system must
+      return `401`, must not record an approval action, and must not change the
+      payment state.
+    clarification_note: >
+      Makes the request trigger and the blocked approval/state-mutation effects
+      explicit.
+
+  - requirement_id: R005
+    f0_text: >
+      A user with the `support_readonly` role may view payment summaries but must
+      not see full account numbers, routing numbers, or approval comments marked
+      confidential.
+    f3_text: >
+      When a user with the `support_readonly` role views a payment summary, the
+      response may include summary data but must not expose full account numbers,
+      routing numbers, or approval comments marked confidential.
+    clarification_note: >
+      Makes the viewing operation and the response-level disclosure restrictions
+      explicit.
+
+  - requirement_id: R007
+    f0_text: >
+      An approval delegate may act for the original approver only during the
+      configured delegation window, and the delegate must not create a further
+      delegation from that temporary authority.
+    f3_text: >
+      During the configured delegation window, an approval delegate may act for
+      the original approver. Outside that window, delegated action is not
+      permitted. The delegate must not create a further delegation from that
+      temporary authority.
+    clarification_note: >
+      Makes the allowed time window and the blocked chained-delegation path
+      explicit.
+
+  - requirement_id: R008
+    f0_text: >
+      A settled payment may be reversed only by a user with the `treasury` role,
+      and the reversal request must reference an existing incident ticket.
+    f3_text: >
+      For a settled-payment reversal, the acting user must have the `treasury`
+      role, and the reversal request must reference an existing incident ticket.
+      If either condition is not met, reversal is not permitted.
+    clarification_note: >
+      Makes the reversal operation, actor requirement, and blocked negative path
+      explicit.
+
+  - requirement_id: R010
+    f0_text: >
+      A service account may create an internal transfer only when its mTLS client
+      subject is on the approved allowlist; otherwise the request must be denied
+      and no transfer record may be created.
+    f3_text: >
+      For an internal-transfer create request made by a service account, the mTLS
+      client subject must be on the approved allowlist. If the subject is not on
+      that allowlist, the system must deny the request and must not create a
+      transfer record.
+    clarification_note: >
+      Makes the request type, subject check, denial response, and persistence
+      side effect explicit.

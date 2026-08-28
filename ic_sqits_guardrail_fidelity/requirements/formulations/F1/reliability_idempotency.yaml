@@ -1,0 +1,130 @@
+metadata:
+  date: 2026-08-28
+  status: DRAFT_FOR_HUMAN_EQUIVALENCE_REVIEW
+  formulation_family: F1
+  category: reliability/idempotency
+  source_requirements_file: requirements/requirements_v1.yaml
+
+formulations:
+  - requirement_id: R041
+    f0_text: >
+      Repeating a create-payment request with the same idempotency key and the same
+      request body must return the original payment ID and must not create a second
+      payment record.
+    f1_text: >
+      If a create-payment request is repeated with the same idempotency key and the
+      same request body, it must return the original payment ID and must not create
+      another payment record.
+    semantic_diff_checklist:
+      - obligation: trigger is repeat request with same idempotency key
+        where_it_appears_in_f1: repeated with the same idempotency key
+      - obligation: request body must be same
+        where_it_appears_in_f1: and the same request body
+      - obligation: original payment ID returned
+        where_it_appears_in_f1: must return the original payment ID
+      - obligation: no second payment record created
+        where_it_appears_in_f1: must not create another payment record
+
+  - requirement_id: R042
+    f0_text: >
+      Reusing an idempotency key with a different request body must return `409`
+      and must not create or modify any payment record.
+    f1_text: >
+      Reusing an idempotency key with a different request body must return `409`
+      and must neither create nor modify any payment record.
+    semantic_diff_checklist:
+      - obligation: trigger is reused idempotency key with different body
+        where_it_appears_in_f1: Reusing an idempotency key with a different request body
+      - obligation: response must be `409`
+        where_it_appears_in_f1: must return `409`
+      - obligation: no payment record created or modified
+        where_it_appears_in_f1: must neither create nor modify any payment record
+
+  - requirement_id: R043
+    f0_text: >
+      Retrying the same approval command after a client timeout must not record a
+      duplicate approval action for the same approver and payment.
+    f1_text: >
+      Retrying the same approval command after a client timeout must not record a
+      second approval action for that same approver and payment.
+    semantic_diff_checklist:
+      - obligation: trigger is retry of same approval command after client timeout
+        where_it_appears_in_f1: Retrying the same approval command after a client timeout
+      - obligation: duplicate approval action must not be recorded
+        where_it_appears_in_f1: must not record a second approval action for that same approver and payment
+
+  - requirement_id: R044
+    f0_text: >
+      The ledger-posting consumer must ignore a duplicate provider message ID and
+      must append a `duplicate_ignored` event.
+    f1_text: >
+      The ledger-posting consumer must ignore any duplicate provider message ID and
+      must append a `duplicate_ignored` event.
+    semantic_diff_checklist:
+      - obligation: duplicate provider message ID is ignored
+        where_it_appears_in_f1: must ignore any duplicate provider message ID
+      - obligation: "`duplicate_ignored` event appended"
+        where_it_appears_in_f1: "must append a `duplicate_ignored` event"
+
+  - requirement_id: R045
+    f0_text: >
+      Webhook delivery retries may occur on `5xx` responses up to three attempts,
+      and retries must stop immediately after the first successful delivery.
+    f1_text: >
+      Webhook delivery retries may occur for `5xx` responses for up to three
+      attempts, and those retries must stop immediately after the first successful
+      delivery.
+    semantic_diff_checklist:
+      - obligation: retries may occur on `5xx` responses
+        where_it_appears_in_f1: retries may occur for `5xx` responses
+      - obligation: maximum is three attempts
+        where_it_appears_in_f1: for up to three attempts
+      - obligation: retries stop immediately after first successful delivery
+        where_it_appears_in_f1: must stop immediately after the first successful delivery
+
+  - requirement_id: R046
+    f0_text: >
+      Restarting an export job after a worker crash must resume under the same
+      job ID and must not duplicate output rows already written.
+    f1_text: >
+      After a worker crash, restarting an export job must resume under the same
+      job ID and must not duplicate output rows that were already written.
+    semantic_diff_checklist:
+      - obligation: trigger is restart after worker crash
+        where_it_appears_in_f1: After a worker crash, restarting an export job
+      - obligation: resume under same job ID
+        where_it_appears_in_f1: must resume under the same job ID
+      - obligation: already written output rows must not be duplicated
+        where_it_appears_in_f1: must not duplicate output rows that were already written
+
+  - requirement_id: R047
+    f0_text: >
+      If a payout executor lock remains stale for more than five minutes, exactly
+      one successor worker may acquire the lock and continue the job.
+    f1_text: >
+      If a payout executor lock stays stale for more than five minutes, exactly one
+      successor worker may acquire that lock and continue the job.
+    semantic_diff_checklist:
+      - obligation: lock stale threshold is more than five minutes
+        where_it_appears_in_f1: stays stale for more than five minutes
+      - obligation: exactly one successor worker may acquire lock
+        where_it_appears_in_f1: exactly one successor worker may acquire that lock
+      - obligation: same worker may continue job
+        where_it_appears_in_f1: and continue the job
+
+  - requirement_id: R049
+    f0_text: >
+      Importing a reconciliation file whose checksum matches a previously
+      successful import must mark the new attempt as duplicate and must not apply
+      the file contents a second time.
+    f1_text: >
+      When a reconciliation file is imported and its checksum matches a previously
+      successful import, the new attempt must be marked as duplicate and the file
+      contents must not be applied a second time.
+    semantic_diff_checklist:
+      - obligation: trigger is checksum match with previously successful import
+        where_it_appears_in_f1: its checksum matches a previously successful import
+      - obligation: new attempt marked as duplicate
+        where_it_appears_in_f1: the new attempt must be marked as duplicate
+      - obligation: file contents not applied second time
+        where_it_appears_in_f1: the file contents must not be applied a second time

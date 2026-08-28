@@ -1,0 +1,79 @@
+metadata:
+  date: 2026-08-28
+  status: DRAFT_FOR_HUMAN_UNDERSPECIFICATION_REVIEW
+  formulation_family: F4
+  category: state transitions/business invariants
+  source_requirements_file: requirements/requirements_v1.yaml
+
+formulations:
+  - requirement_id: R031
+    f0_text: >
+      A payment may move from `DRAFT` to `SUBMITTED` only if it has at least one
+      line item and the beneficiary record is verified.
+    f4_text: >
+      A payment may move from `DRAFT` to `SUBMITTED` only if it has at least one
+      line item.
+    removed_semantic_detail: beneficiary record must be verified
+
+  - requirement_id: R032
+    f0_text: >
+      A `SUBMITTED` payment may transition to `APPROVED` only after the required
+      approver count for that payment type has been reached.
+    f4_text: >
+      A `SUBMITTED` payment may transition to `APPROVED` only after the required
+      approver count has been reached.
+    removed_semantic_detail: payment-type scope of required approver count
+
+  - requirement_id: R033
+    f0_text: >
+      Once a payment reaches `EXECUTED`, no mutable field except
+      `reconciliation_note` may be changed.
+    f4_text: >
+      Once a payment reaches `EXECUTED`, no mutable field may be changed.
+    removed_semantic_detail: "`reconciliation_note` exception"
+
+  - requirement_id: R034
+    f0_text: >
+      Rejecting a payment must set status to `REJECTED` and clear any scheduled
+      execution timestamp.
+    f4_text: >
+      Rejecting a payment must set status to `REJECTED`.
+    removed_semantic_detail: clearing any scheduled execution timestamp
+
+  - requirement_id: R036
+    f0_text: >
+      A payment may be canceled only from `DRAFT` or `SUBMITTED`; a cancel request
+      for `APPROVED` or `EXECUTED` must return `409` and leave status unchanged.
+    f4_text: >
+      A cancel request for `APPROVED` or `EXECUTED` must return `409`.
+    removed_semantic_detail: status must remain unchanged on rejected cancel request
+
+  - requirement_id: R037
+    f0_text: >
+      If a delegation window expires while a delegated approval task is still
+      pending, that delegated task must become invalid and an expiration event must
+      be emitted.
+    f4_text: >
+      If a delegation window expires while a delegated approval task is still
+      pending, that delegated task must become invalid.
+    removed_semantic_detail: expiration event emission
+
+  - requirement_id: R038
+    f0_text: >
+      Opening a chargeback on a captured payment must set `dispute_status` to
+      `OPEN` and must block creation of further refunds until the dispute is
+      resolved.
+    f4_text: >
+      Opening a chargeback on a captured payment must block creation of further
+      refunds until the dispute is resolved.
+    removed_semantic_detail: "setting `dispute_status` to `OPEN`"
+
+  - requirement_id: R040
+    f0_text: >
+      A partially refunded payment must remain in `CAPTURED` status until the sum
+      of approved refunds equals the captured amount; only then may status become
+      `REFUNDED`.
+    f4_text: >
+      Only when the sum of approved refunds equals the captured amount may status
+      become `REFUNDED`.
+    removed_semantic_detail: "payment must remain in `CAPTURED` status until that point"

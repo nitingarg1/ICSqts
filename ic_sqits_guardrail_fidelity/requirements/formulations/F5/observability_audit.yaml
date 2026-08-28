@@ -1,0 +1,25 @@
+metadata:
+  date: 2026-08-28
+  status: DRAFT_FOR_HUMAN_F5_REVIEW
+  formulation_family: F5
+  category: observability/audit
+  source_requirements_file: requirements/requirements_v1.yaml
+
+formulations:
+  - requirement_id: R053
+    f0_text: >
+      The system must record approval latency as the elapsed time between payment
+      submission and the first terminal approval or rejection decision.
+    f5_text: >
+      approval_latency := timestamp(latest terminal approval-or-rejection decision)
+      - timestamp(payment submission), and the system must record that value.
+
+  - requirement_id: R057
+    f0_text: >
+      When the provider retry circuit opens, the system must emit one alert event
+      per open interval and must not emit duplicate alerts until the circuit has
+      closed again.
+    f5_text: >
+      During each provider retry circuit open interval, at most one alert event may
+      be emitted; duplicate alerts must remain suppressed until the circuit has
+      closed again.

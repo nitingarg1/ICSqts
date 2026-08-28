@@ -1,0 +1,97 @@
+metadata:
+  date: 2026-08-28
+  status: DRAFT_FOR_HUMAN_CLARIFICATION_REVIEW
+  formulation_family: F3
+  category: data protection/logging
+  source_requirements_file: requirements/requirements_v1.yaml
+
+formulations:
+  - requirement_id: R011
+    f0_text: >
+      Application logs must never contain a full account number; if an account
+      number is logged, only the last four digits may remain visible.
+    f3_text: >
+      Application logs must never contain a full account number. If a log entry
+      includes an account number, the logged value must mask all but the last
+      four digits.
+    clarification_note: >
+      Makes the logging artifact and the masking expectation explicit.
+
+  - requirement_id: R012
+    f0_text: >
+      Every payment status change must append an audit event containing payment ID,
+      old status, new status, actor ID, and event timestamp.
+    f3_text: >
+      For every payment status change, the system must append an audit event. The
+      appended event must contain payment ID, old status, new status, actor ID,
+      and event timestamp.
+    clarification_note: >
+      Makes the append operation and the required audit-event fields explicit.
+
+  - requirement_id: R013
+    f0_text: >
+      Secret values from environment variables or secret-manager lookups must not
+      be written to application logs even when an exception occurs.
+    f3_text: >
+      Even during exception handling, application logs must not contain secret
+      values obtained from environment variables or from secret-manager lookups.
+    clarification_note: >
+      Makes exception-handling scope and both secret sources explicit.
+
+  - requirement_id: R014
+    f0_text: >
+      A denied approval attempt caused by insufficient permission must create a
+      security audit event containing actor ID, payment ID, reason code, and
+      timestamp.
+    f3_text: >
+      If an approval attempt is denied because permission is insufficient, the
+      system must create a security audit event. That event must contain actor ID,
+      payment ID, reason code, and timestamp.
+    clarification_note: >
+      Makes the denial trigger and the required audit-event payload explicit.
+
+  - requirement_id: R016
+    f0_text: >
+      A document-download token must expire 15 minutes after issuance; requests
+      using an expired token must return `410` and must append a token-expired
+      audit event.
+    f3_text: >
+      A document-download token becomes expired 15 minutes after issuance. If a
+      request uses an expired token, the system must return `410` and must append
+      a token-expired audit event.
+    clarification_note: >
+      Makes the expiry trigger, response, and audit consequence explicit.
+
+  - requirement_id: R018
+    f0_text: >
+      Every reconciliation report download must append an audit record containing
+      requester ID, applied filters, row count, and generation timestamp.
+    f3_text: >
+      For every reconciliation report download, the system must append an audit
+      record. The appended record must contain requester ID, applied filters, row
+      count, and generation timestamp.
+    clarification_note: >
+      Makes the download trigger and required audit-record fields explicit.
+
+  - requirement_id: R019
+    f0_text: >
+      Search logs for customer-email lookups must store only a salted hash of the
+      search term and must never store the raw email string.
+    f3_text: >
+      For a customer-email lookup, the search log may store only a salted hash of
+      the search term. The raw email string must never be stored in that log.
+    clarification_note: >
+      Makes the logged artifact and the permitted versus forbidden stored values
+      explicit.
+
+  - requirement_id: R020
+    f0_text: >
+      Both successful and denied reads of the payment-provider configuration must
+      append an audit event containing actor ID, outcome, and configuration name.
+    f3_text: >
+      For each read of the payment-provider configuration, whether the outcome is
+      successful or denied, the system must append an audit event containing actor
+      ID, outcome, and configuration name.
+    clarification_note: >
+      Makes the read operation, both outcome branches, and the required event
+      payload explicit.

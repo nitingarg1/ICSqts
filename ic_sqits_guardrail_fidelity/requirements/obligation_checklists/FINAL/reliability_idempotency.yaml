@@ -1,0 +1,240 @@
+metadata:
+  date: 2026-08-27
+  status: FINAL_HUMAN_REVIEWED
+  category: reliability/idempotency
+  source_requirements_file: requirements/requirements_v1.yaml
+
+checklists:
+  - requirement_id: R041
+    review_status: OK
+    requirement_text: >
+      Repeating a create-payment request with the same idempotency key and the same
+      request body must return the original payment ID and must not create a second
+      payment record.
+    obligations:
+      - obligation_id: R041_O1
+        requirement_id: R041
+        actor: create-payment workflow
+        precondition: repeat create-payment request uses same idempotency key and same request body
+        action: return the original payment ID
+        expected_response_or_event: repeated request responds with previously created payment ID
+        required_state_effect: none beyond reuse of original identifier
+        forbidden_state_effect: returning a different payment ID for identical replay
+        exception: none stated
+        evidence_needed: original and repeated request headers and bodies; response payloads
+        why_this_obligation_is_required_by_the_text: Text explicitly says repeated request must return original payment ID.
+      - obligation_id: R041_O2
+        requirement_id: R041
+        actor: create-payment workflow
+        precondition: repeat create-payment request uses same idempotency key and same request body
+        action: avoid creating a second payment record
+        expected_response_or_event: only one payment record exists for the repeated create request
+        required_state_effect: no duplicate payment record is created
+        forbidden_state_effect: creation of a second payment record for identical replay
+        exception: none stated
+        evidence_needed: payment table row count; original and repeated responses
+        why_this_obligation_is_required_by_the_text: Text explicitly says repeated request must not create a second payment record.
+
+  - requirement_id: R042
+    review_status: OK
+    requirement_text: >
+      Reusing an idempotency key with a different request body must return `409`
+      and must not create or modify any payment record.
+    obligations:
+      - obligation_id: R042_O1
+        requirement_id: R042
+        actor: create-payment workflow
+        precondition: reused idempotency key arrives with different request body
+        action: return `409`
+        expected_response_or_event: conflict response code is `409`
+        required_state_effect: none required by text on rejection
+        forbidden_state_effect: returning success or non-409 response for conflicting replay
+        exception: none stated
+        evidence_needed: original and repeated request bodies; response code
+        why_this_obligation_is_required_by_the_text: Text explicitly requires `409` for reused idempotency key with different body.
+      - obligation_id: R042_O2
+        requirement_id: R042
+        actor: create-payment workflow
+        precondition: conflicting reused idempotency key request is received
+        action: avoid creating or modifying any payment record
+        expected_response_or_event: payment persistence state remains unchanged
+        required_state_effect: no create and no modification
+        forbidden_state_effect: creating or modifying payment record in response to conflicting replay
+        exception: none stated
+        evidence_needed: payment persistence state before and after request; response
+        why_this_obligation_is_required_by_the_text: Text says conflicting reused idempotency key must not create or modify any payment record.
+
+  - requirement_id: R043
+    review_status: FIX_TOO_STRONG
+    requirement_text: >
+      Retrying the same approval command after a client timeout must not record a
+      duplicate approval action for the same approver and payment.
+    obligations:
+      - obligation_id: R043_O1
+        requirement_id: R043
+        actor: approval workflow
+        precondition: same approval command is retried after client timeout for same approver and payment
+        action: avoid recording duplicate approval action
+        expected_response_or_event: approval history contains no duplicate approval action for same retried command, approver, and payment
+        required_state_effect: no duplicate approval action is recorded
+        forbidden_state_effect: duplicate approval action for same approver and payment
+        exception: none stated
+        evidence_needed: original and retried approval commands; evidence of client timeout; approver identity; payment identity; approval history
+        why_this_obligation_is_required_by_the_text: Text explicitly forbids duplicate approval action on retry after timeout.
+
+  - requirement_id: R044
+    review_status: OK
+    requirement_text: >
+      The ledger-posting consumer must ignore a duplicate provider message ID and
+      must append a `duplicate_ignored` event.
+    obligations:
+      - obligation_id: R044_O1
+        requirement_id: R044
+        actor: ledger-posting consumer
+        precondition: incoming provider message ID matches a previously processed message
+        action: ignore the duplicate message for ledger posting
+        expected_response_or_event: no second ledger posting occurs
+        required_state_effect: none required by text beyond suppression
+        forbidden_state_effect: duplicate ledger posting for same provider message ID
+        exception: none stated
+        evidence_needed: consumer input messages; ledger posting records
+        why_this_obligation_is_required_by_the_text: Text says consumer must ignore a duplicate provider message ID.
+      - obligation_id: R044_O2
+        requirement_id: R044
+        actor: ledger-posting consumer
+        precondition: duplicate provider message ID is detected
+        action: append a `duplicate_ignored` event
+        expected_response_or_event: event log contains `duplicate_ignored` event
+        required_state_effect: duplicate_ignored event appended
+        forbidden_state_effect: suppressing duplicate without emitting required event
+        exception: none stated
+        evidence_needed: event log entry linked to duplicate handling
+        why_this_obligation_is_required_by_the_text: Text explicitly requires a `duplicate_ignored` event.
+
+  - requirement_id: R045
+    review_status: FIX_TOO_STRONG
+    requirement_text: >
+      Webhook delivery retries may occur on `5xx` responses up to three attempts,
+      and retries must stop immediately after the first successful delivery.
+    obligations:
+      - obligation_id: R045_O1
+        requirement_id: R045
+        actor: webhook delivery retry logic
+        precondition: webhook delivery attempt receives `5xx` response
+        action: may retry delivery
+        expected_response_or_event: retry is permitted after `5xx` response
+        required_state_effect: none stated
+        forbidden_state_effect: none stated
+        exception: max-attempt limit and success-stop rule handled separately
+        evidence_needed: delivery attempt log; response codes; retry scheduler state
+        why_this_obligation_is_required_by_the_text: Text says retries may occur on `5xx` responses.
+      - obligation_id: R045_O2
+        requirement_id: R045
+        actor: webhook delivery retry logic
+        precondition: delivery attempts continue after `5xx` responses and no successful delivery has occurred
+        action: limit total attempts to three
+        expected_response_or_event: fourth attempt is not made
+        required_state_effect: no more than three delivery attempts occur
+        forbidden_state_effect: more than three total delivery attempts
+        exception: none stated
+        evidence_needed: delivery attempt log; retry attempt count
+        why_this_obligation_is_required_by_the_text: Text explicitly limits retries to up to three attempts.
+      - obligation_id: R045_O3
+        requirement_id: R045
+        actor: webhook delivery retry logic
+        precondition: a delivery attempt succeeds before max attempts are exhausted
+        action: stop retrying immediately after first success
+        expected_response_or_event: no further retry attempts occur after success
+        required_state_effect: retry schedule ends after success
+        forbidden_state_effect: retry attempts after first successful delivery
+        exception: none stated
+        evidence_needed: delivery attempt log with response codes; retry scheduler state
+        why_this_obligation_is_required_by_the_text: Text says retries must stop immediately after the first successful delivery.
+
+  - requirement_id: R046
+    review_status: OK
+    requirement_text: >
+      Restarting an export job after a worker crash must resume under the same
+      job ID and must not duplicate output rows already written.
+    obligations:
+      - obligation_id: R046_O1
+        requirement_id: R046
+        actor: export job recovery logic
+        precondition: worker crash occurs and export job is restarted
+        action: resume under the same job ID
+        expected_response_or_event: restarted job uses original job ID
+        required_state_effect: job identity preserved across recovery
+        forbidden_state_effect: new job ID assigned to restarted instance
+        exception: none stated
+        evidence_needed: job metadata before and after restart; crash and recovery logs
+        why_this_obligation_is_required_by_the_text: Text explicitly requires resume under same job ID.
+      - obligation_id: R046_O2
+        requirement_id: R046
+        actor: export job recovery logic
+        precondition: worker crash occurs after some output rows are already written
+        action: avoid duplicating rows already written before restart
+        expected_response_or_event: exported row set contains no duplicates caused by restart
+        required_state_effect: resumed processing continues without duplicate output rows
+        forbidden_state_effect: duplicate output rows from crash recovery
+        exception: none stated
+        evidence_needed: output row set; row duplication check; recovery logs
+        why_this_obligation_is_required_by_the_text: Text explicitly says restart must not duplicate output rows already written.
+
+  - requirement_id: R047
+    review_status: FIX_TOO_STRONG
+    requirement_text: >
+      If a payout executor lock remains stale for more than five minutes, exactly
+      one successor worker may acquire the lock and continue the job.
+    obligations:
+      - obligation_id: R047_O1
+        requirement_id: R047
+        actor: lock management logic
+        precondition: payout executor lock remains stale for more than five minutes
+        action: allow a successor worker to acquire the lock
+        expected_response_or_event: one successor worker can take over job execution
+        required_state_effect: none required; acquisition is permitted, not mandated
+        forbidden_state_effect: none stated
+        exception: none stated
+        evidence_needed: lock timestamp; worker acquisition log; job execution trace
+        why_this_obligation_is_required_by_the_text: Text says stale lock beyond five minutes may be acquired by a successor worker.
+      - obligation_id: R047_O2
+        requirement_id: R047
+        actor: lock management logic
+        precondition: payout executor lock remains stale for more than five minutes and takeover occurs
+        action: ensure exactly one successor worker acquires the lock and continues the job
+        expected_response_or_event: no parallel successor workers continue the same job
+        required_state_effect: if takeover occurs, no more than one successor acquires lock and continues job
+        forbidden_state_effect: multiple successor workers acquiring the lock and continuing job
+        exception: none stated
+        evidence_needed: worker acquisition log; concurrent execution trace
+        why_this_obligation_is_required_by_the_text: Text explicitly says exactly one successor worker may acquire the lock and continue the job.
+
+  - requirement_id: R049
+    review_status: OK
+    requirement_text: >
+      Importing a reconciliation file whose checksum matches a previously
+      successful import must mark the new attempt as duplicate and must not apply
+      the file contents a second time.
+    obligations:
+      - obligation_id: R049_O1
+        requirement_id: R049
+        actor: reconciliation import workflow
+        precondition: incoming file checksum matches a previously successful import
+        action: mark the new attempt as duplicate
+        expected_response_or_event: import attempt is labeled duplicate
+        required_state_effect: duplicate mark recorded for the new attempt
+        forbidden_state_effect: treating matching-checksum re-import as fresh import
+        exception: none stated
+        evidence_needed: import attempt records; checksums; duplicate-marking response
+        why_this_obligation_is_required_by_the_text: Text says matching-checksum import must mark new attempt as duplicate.
+      - obligation_id: R049_O2
+        requirement_id: R049
+        actor: reconciliation import workflow
+        precondition: incoming file checksum matches a previously successful import
+        action: avoid applying file contents a second time
+        expected_response_or_event: reconciliation state is not changed by duplicate re-import
+        required_state_effect: no second application of file contents
+        forbidden_state_effect: applying same file contents again
+        exception: none stated
+        evidence_needed: reconciliation state before and after repeat import; import logs
+        why_this_obligation_is_required_by_the_text: Text explicitly says duplicate import must not apply file contents a second time.

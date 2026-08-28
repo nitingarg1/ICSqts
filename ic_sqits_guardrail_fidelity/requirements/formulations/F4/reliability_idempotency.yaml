@@ -1,0 +1,79 @@
+metadata:
+  date: 2026-08-28
+  status: DRAFT_FOR_HUMAN_UNDERSPECIFICATION_REVIEW
+  formulation_family: F4
+  category: reliability/idempotency
+  source_requirements_file: requirements/requirements_v1.yaml
+
+formulations:
+  - requirement_id: R041
+    f0_text: >
+      Repeating a create-payment request with the same idempotency key and the same
+      request body must return the original payment ID and must not create a second
+      payment record.
+    f4_text: >
+      Repeating a create-payment request with the same idempotency key and the same
+      request body must return the original payment ID.
+    removed_semantic_detail: no second payment record may be created
+
+  - requirement_id: R042
+    f0_text: >
+      Reusing an idempotency key with a different request body must return `409`
+      and must not create or modify any payment record.
+    f4_text: >
+      Reusing an idempotency key with a different request body must return `409`
+      and must not create any payment record.
+    removed_semantic_detail: existing payment records must not be modified
+
+  - requirement_id: R043
+    f0_text: >
+      Retrying the same approval command after a client timeout must not record a
+      duplicate approval action for the same approver and payment.
+    f4_text: >
+      Retrying the same approval command after a client timeout must not record a
+      duplicate approval action.
+    removed_semantic_detail: same approver and payment scope
+
+  - requirement_id: R044
+    f0_text: >
+      The ledger-posting consumer must ignore a duplicate provider message ID and
+      must append a `duplicate_ignored` event.
+    f4_text: >
+      The ledger-posting consumer must ignore a duplicate provider message ID.
+    removed_semantic_detail: "`duplicate_ignored` event emission"
+
+  - requirement_id: R045
+    f0_text: >
+      Webhook delivery retries may occur on `5xx` responses up to three attempts,
+      and retries must stop immediately after the first successful delivery.
+    f4_text: >
+      Webhook delivery retries may occur on `5xx` responses up to three attempts.
+    removed_semantic_detail: retries must stop immediately after the first successful delivery
+
+  - requirement_id: R046
+    f0_text: >
+      Restarting an export job after a worker crash must resume under the same
+      job ID and must not duplicate output rows already written.
+    f4_text: >
+      Restarting an export job after a worker crash must not duplicate output rows
+      already written.
+    removed_semantic_detail: restart must resume under the same job ID
+
+  - requirement_id: R047
+    f0_text: >
+      If a payout executor lock remains stale for more than five minutes, exactly
+      one successor worker may acquire the lock and continue the job.
+    f4_text: >
+      If a payout executor lock remains stale for more than five minutes, a
+      successor worker may acquire the lock and continue the job.
+    removed_semantic_detail: exactly one successor worker limitation
+
+  - requirement_id: R049
+    f0_text: >
+      Importing a reconciliation file whose checksum matches a previously
+      successful import must mark the new attempt as duplicate and must not apply
+      the file contents a second time.
+    f4_text: >
+      Importing a reconciliation file whose checksum matches a previously
+      successful import must not apply the file contents a second time.
+    removed_semantic_detail: new attempt must be marked as duplicate

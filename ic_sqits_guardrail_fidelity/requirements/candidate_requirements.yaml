@@ -1,0 +1,1147 @@
+metadata:
+  date: 2026-08-27
+  status: DRAFT_FOR_HUMAN_SELECTION
+  benchmark_theme: service-oriented payment and approval workflow
+  total_candidates: 60
+  category_counts:
+    authorization/security: 10
+    data protection/logging: 10
+    validation/input constraints: 10
+    state transitions/business invariants: 10
+    reliability/idempotency: 10
+    observability/audit: 10
+  notes:
+    - All candidates are newly written for IC-SQITS and marked NEW_SYNTHETIC.
+    - No FE/PE/NE labels are assigned in this file.
+    - Human Step 7 selection must reduce this set to a final frozen subset.
+
+requirements:
+  - requirement_id: R001
+    text: >
+      A payment request may be approved only by a user with the `approver` role,
+      and the user who submitted the request must not approve that same request.
+    category: authorization/security
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Verify the acting user has the `approver` role.
+      - Verify the acting user is not the original submitter of the payment request.
+      - Reject the approval attempt if either check fails.
+    candidate_evidence:
+      - Approval endpoint response code and body.
+      - Payment approval record showing actor identity.
+      - Audit entry for approved or denied approval attempt.
+    reason_it_is_in_scope: >
+      Machine-checkable role and identity constraints with clear allow/deny behavior
+      and audit evidence.
+
+  - requirement_id: R002
+    text: >
+      A payment greater than 10000 USD may be released only after two distinct
+      approvers have approved it, and at least one approver must hold the
+      `finance_manager` role.
+    category: authorization/security
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Detect whether payment amount exceeds 10000 USD.
+      - Require two distinct approval actions before release.
+      - Require at least one recorded approver to hold `finance_manager`.
+      - Block release if any prerequisite is missing.
+    candidate_evidence:
+      - Payment record with amount and release status.
+      - Approval history with approver identities and roles.
+      - Release attempt response or execution log.
+    reason_it_is_in_scope: >
+      Multi-obligation authorization rule with threshold, cardinality, and role
+      constraints.
+
+  - requirement_id: R003
+    text: >
+      A payment may be voided only by its creator or by an `admin` user before
+      settlement, and a successful void must set status to `VOIDED` and append a
+      void audit event.
+    category: authorization/security
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Allow void only for creator or `admin` actor.
+      - Allow void only before settlement occurs.
+      - Set payment status to `VOIDED` on success.
+      - Append a void audit event on success.
+    candidate_evidence:
+      - Payment state before and after void request.
+      - Actor identity and role in request context.
+      - Audit stream entry for void action.
+    reason_it_is_in_scope: >
+      Combines actor authorization, temporal precondition, and explicit state and
+      audit effects.
+
+  - requirement_id: R004
+    text: >
+      If an approval request is made with an inactive session token, the system
+      must return `401`, must not record an approval, and must not change payment
+      state.
+    category: authorization/security
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Detect inactive session token at approval time.
+      - Return `401` for the request.
+      - Prevent creation of any approval record.
+      - Preserve existing payment state unchanged.
+    candidate_evidence:
+      - HTTP response code.
+      - Approval table or event log.
+      - Payment state snapshot before and after request.
+    reason_it_is_in_scope: >
+      Negative security rule with explicit non-mutation requirements and observable
+      response semantics.
+
+  - requirement_id: R005
+    text: >
+      A user with the `support_readonly` role may view payment summaries but must
+      not see full account numbers, routing numbers, or approval comments marked
+      confidential.
+    category: authorization/security
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Allow summary read access for `support_readonly`.
+      - Prevent exposure of full account numbers.
+      - Prevent exposure of routing numbers.
+      - Prevent exposure of confidential approval comments.
+    candidate_evidence:
+      - API response payload for support_readonly requests.
+      - Field-level masking behavior in rendered response.
+      - Access log showing request actor and endpoint.
+    reason_it_is_in_scope: >
+      Role-conditioned data exposure rule with multiple forbidden fields and clear
+      payload evidence.
+
+  - requirement_id: R006
+    text: >
+      Requests to rotate a webhook signing key must be accepted only from a user
+      with the `security_admin` role and must include a non-empty rotation reason.
+    category: authorization/security
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Verify caller has `security_admin` role.
+      - Require a non-empty rotation reason.
+      - Reject rotation if either condition fails.
+    candidate_evidence:
+      - Rotation request payload.
+      - Caller role in request context.
+      - Rotation response and audit event.
+    reason_it_is_in_scope: >
+      Compact machine-checkable authorization rule with input presence constraint
+      and clear rejection behavior.
+
+  - requirement_id: R007
+    text: >
+      An approval delegate may act for the original approver only during the
+      configured delegation window, and the delegate must not create a further
+      delegation from that temporary authority.
+    category: authorization/security
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Permit delegated approval only while delegation window is active.
+      - Associate delegated action with original approver context.
+      - Reject any attempt by the delegate to create a chained delegation.
+    candidate_evidence:
+      - Delegation record with start and end timestamps.
+      - Approval action log with delegate identity.
+      - Delegation-create response for chained attempt.
+    reason_it_is_in_scope: >
+      Time-bounded authorization with exception-like temporary authority and
+      explicit forbidden follow-on behavior.
+
+  - requirement_id: R008
+    text: >
+      A settled payment may be reversed only by a user with the `treasury` role,
+      and the reversal request must reference an existing incident ticket.
+    category: authorization/security
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Verify payment is settled before reversal path applies.
+      - Verify acting user has `treasury` role.
+      - Require reference to an existing incident ticket.
+      - Reject reversal if any required condition fails.
+    candidate_evidence:
+      - Payment settlement status.
+      - User role at reversal time.
+      - Incident ticket identifier lookup and response.
+    reason_it_is_in_scope: >
+      Authorization rule with state precondition and linked evidence requirement.
+
+  - requirement_id: R009
+    text: >
+      Export of pending approvals is permitted only to users in `compliance` or
+      `finance_lead`, and the exported file must omit API secrets and internal
+      signing keys.
+    category: authorization/security
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Restrict export action to `compliance` or `finance_lead` roles.
+      - Generate export only for authorized callers.
+      - Omit API secrets from exported content.
+      - Omit internal signing keys from exported content.
+    candidate_evidence:
+      - Export request actor role.
+      - Export success or denial response.
+      - Produced export file contents.
+    reason_it_is_in_scope: >
+      Mixes role restriction with forbidden content exposure in a file artifact.
+
+  - requirement_id: R010
+    text: >
+      A service account may create an internal transfer only when its mTLS client
+      subject is on the approved allowlist; otherwise the request must be denied
+      and no transfer record may be created.
+    category: authorization/security
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Read and validate mTLS client subject for the request.
+      - Permit transfer creation only if subject is allowlisted.
+      - Deny request when subject is absent or not allowlisted.
+      - Prevent transfer record creation on denied request.
+    candidate_evidence:
+      - mTLS subject in request context.
+      - Allowlist lookup result.
+      - Transfer creation response and persistence log.
+    reason_it_is_in_scope: >
+      Service-to-service authorization with explicit negative path and persistence
+      side-effect constraint.
+
+  - requirement_id: R011
+    text: >
+      Application logs must never contain a full account number; if an account
+      number is logged, only the last four digits may remain visible.
+    category: data protection/logging
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Detect logged account number fields.
+      - Prevent full account number from appearing in log output.
+      - Preserve at most the last four digits when masking is applied.
+    candidate_evidence:
+      - Structured log entries.
+      - Example payloads written to logger.
+      - Masking output comparison.
+    reason_it_is_in_scope: >
+      Simple but non-trivial data-protection rule with precise forbidden output and
+      observable log evidence.
+
+  - requirement_id: R012
+    text: >
+      Every payment status change must append an audit event containing payment ID,
+      old status, new status, actor ID, and event timestamp.
+    category: data protection/logging
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Emit an audit event for each payment status change.
+      - Include payment ID in the event.
+      - Include old and new status values.
+      - Include actor ID and timestamp.
+    candidate_evidence:
+      - Audit event stream.
+      - Payment state transition history.
+      - Event schema validation result.
+    reason_it_is_in_scope: >
+      Multi-field audit requirement with deterministic presence checks and state
+      transition linkage.
+
+  - requirement_id: R013
+    text: >
+      Secret values from environment variables or secret-manager lookups must not
+      be written to application logs even when an exception occurs.
+    category: data protection/logging
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Prevent secret values from appearing in normal logs.
+      - Prevent secret values from appearing in exception logs.
+      - Preserve logging behavior without leaking secret contents.
+    candidate_evidence:
+      - Normal execution logs.
+      - Exception trace or error logs.
+      - Secret fixture values used in test run.
+    reason_it_is_in_scope: >
+      Negative logging constraint with exception-sensitive branch and clear string
+      evidence.
+
+  - requirement_id: R014
+    text: >
+      A denied approval attempt caused by insufficient permission must create a
+      security audit event containing actor ID, payment ID, reason code, and
+      timestamp.
+    category: data protection/logging
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Detect denial caused by insufficient permission.
+      - Emit a security audit event for that denial.
+      - Include actor ID, payment ID, and reason code.
+      - Include event timestamp.
+    candidate_evidence:
+      - Denied approval response.
+      - Security audit log entry.
+      - Event schema fields.
+    reason_it_is_in_scope: >
+      Security logging rule with conditional trigger and fixed evidence fields.
+
+  - requirement_id: R015
+    text: >
+      When a `support_readonly` user requests customer details, the response must
+      mask email local-part and phone number except the last two digits.
+    category: data protection/logging
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Detect `support_readonly` role on customer-detail request.
+      - Mask the email local-part in the response.
+      - Mask phone number except the last two digits.
+    candidate_evidence:
+      - Response payload for support_readonly request.
+      - Role information in request context.
+      - Field-level masking checks.
+    reason_it_is_in_scope: >
+      Role-conditioned data masking rule with two independently observable fields.
+
+  - requirement_id: R016
+    text: >
+      A document-download token must expire 15 minutes after issuance; requests
+      using an expired token must return `410` and must append a token-expired
+      audit event.
+    category: data protection/logging
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Enforce 15-minute token lifetime from issuance time.
+      - Return `410` when an expired token is used.
+      - Append a token-expired audit event for the denied access.
+    candidate_evidence:
+      - Token issuance timestamp.
+      - Download response code after expiry.
+      - Audit log entry for expired-token access.
+    reason_it_is_in_scope: >
+      Time-based access rule with response and audit side effects that are easy to
+      observe.
+
+  - requirement_id: R017
+    text: >
+      Confidential-case notification logs must include a correlation ID but must
+      not contain the raw analyst comment text.
+    category: data protection/logging
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Log a correlation ID for confidential-case notification handling.
+      - Exclude raw analyst comment text from the log entry.
+    candidate_evidence:
+      - Notification handler logs.
+      - Confidential comment fixture text.
+      - Correlation ID field presence.
+    reason_it_is_in_scope: >
+      Compact logging rule with one required field and one forbidden field.
+
+  - requirement_id: R018
+    text: >
+      Every reconciliation report download must append an audit record containing
+      requester ID, applied filters, row count, and generation timestamp.
+    category: data protection/logging
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Emit an audit record for each reconciliation report download.
+      - Include requester ID and applied filters.
+      - Include row count and generation timestamp.
+    candidate_evidence:
+      - Download audit records.
+      - Report generation request payload.
+      - Generated report metadata.
+    reason_it_is_in_scope: >
+      Audit completeness requirement with multiple named evidence fields.
+
+  - requirement_id: R019
+    text: >
+      Search logs for customer-email lookups must store only a salted hash of the
+      search term and must never store the raw email string.
+    category: data protection/logging
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Transform email search term to salted hash before logging.
+      - Prevent raw email string from appearing in search logs.
+    candidate_evidence:
+      - Search log entries.
+      - Hashing function output for test input.
+      - Raw email fixture used in request.
+    reason_it_is_in_scope: >
+      Deterministic data-protection rule with precise expected and forbidden log
+      content.
+
+  - requirement_id: R020
+    text: >
+      Both successful and denied reads of the payment-provider configuration must
+      append an audit event containing actor ID, outcome, and configuration name.
+    category: data protection/logging
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Emit audit event for successful configuration read.
+      - Emit audit event for denied configuration read.
+      - Include actor ID, outcome, and configuration name in each event.
+    candidate_evidence:
+      - Audit log entries for allowed and denied reads.
+      - Configuration-read responses.
+      - Event field validation.
+    reason_it_is_in_scope: >
+      Symmetric success/failure audit rule useful for negative controls and denial
+      observability.
+
+  - requirement_id: R021
+    text: >
+      A payment-create request must be rejected unless `amount` is greater than 0
+      and less than or equal to 100000.
+    category: validation/input constraints
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Require `amount > 0`.
+      - Require `amount <= 100000`.
+      - Reject request if either bound is violated.
+    candidate_evidence:
+      - Request payloads near lower and upper bounds.
+      - Create-payment responses.
+      - Persisted payment presence or absence.
+    reason_it_is_in_scope: >
+      Clear numeric validation with strong positive and negative boundary cases.
+
+  - requirement_id: R022
+    text: >
+      The `currency` field for a payment request must be one of `USD`, `EUR`, or
+      `GBP`; any other value must be rejected.
+    category: validation/input constraints
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Accept `USD`.
+      - Accept `EUR` and `GBP`.
+      - Reject any currency value outside the allowed set.
+    candidate_evidence:
+      - Request payloads with allowed and disallowed currencies.
+      - Validation response code and message.
+      - Stored payment records for accepted cases.
+    reason_it_is_in_scope: >
+      Enumeration constraint with easy generation of compliant and violating test
+      variants.
+
+  - requirement_id: R023
+    text: >
+      Every `POST /payments` request must include an idempotency key between 8 and
+      64 characters long.
+    category: validation/input constraints
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Require presence of idempotency key.
+      - Require key length of at least 8 characters.
+      - Require key length of at most 64 characters.
+    candidate_evidence:
+      - Request headers.
+      - Validation error responses.
+      - Successful create response for valid key.
+    reason_it_is_in_scope: >
+      Header validation rule with two numeric bounds and direct request evidence.
+
+  - requirement_id: R024
+    text: >
+      A scheduled payment date must not be earlier than the request date and must
+      not be more than 30 calendar days after the request date.
+    category: validation/input constraints
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Reject scheduled date before request date.
+      - Reject scheduled date more than 30 calendar days after request date.
+      - Accept scheduled date within the allowed window.
+    candidate_evidence:
+      - Request timestamps and scheduled dates.
+      - Validation responses.
+      - Stored scheduled payment record for accepted case.
+    reason_it_is_in_scope: >
+      Temporal validation with two boundary checks and deterministic inputs.
+
+  - requirement_id: R025
+    text: >
+      A rejection decision must include a comment between 10 and 500 characters;
+      approval decisions must not require that comment.
+    category: validation/input constraints
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Require comment when decision type is rejection.
+      - Enforce minimum length of 10 for rejection comment.
+      - Enforce maximum length of 500 for rejection comment.
+      - Do not require comment for approval decisions.
+    candidate_evidence:
+      - Decision request payloads.
+      - Validation responses for approval and rejection.
+      - Recorded decision outcomes.
+    reason_it_is_in_scope: >
+      Conditional validation rule with branch-sensitive requirement and numeric
+      bounds.
+
+  - requirement_id: R026
+    text: >
+      A beneficiary bank update request must include either an IBAN or both an
+      account number and routing number, but it must not include both forms at the
+      same time.
+    category: validation/input constraints
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Accept request containing IBAN only.
+      - Accept request containing account number plus routing number only.
+      - Reject request containing neither valid form.
+      - Reject request containing both forms simultaneously.
+    candidate_evidence:
+      - Update request payloads.
+      - Validation responses.
+      - Beneficiary record update result.
+    reason_it_is_in_scope: >
+      Exclusive-or validation pattern with multiple structured positive and negative
+      cases.
+
+  - requirement_id: R027
+    text: >
+      Attachment upload for a payment request must accept only `pdf` or `png`
+      files no larger than 5 MB.
+    category: validation/input constraints
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Accept file type `pdf`.
+      - Accept file type `png`.
+      - Reject any other file type.
+      - Reject file larger than 5 MB.
+    candidate_evidence:
+      - Upload request metadata.
+      - Validation response for allowed and disallowed uploads.
+      - Attachment persistence result.
+    reason_it_is_in_scope: >
+      Multi-attribute input constraint with content-type and size boundaries.
+
+  - requirement_id: R028
+    text: >
+      A batch payout request must contain between 1 and 100 items, and all
+      `client_reference` values within the batch must be unique.
+    category: validation/input constraints
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Require at least 1 batch item.
+      - Require at most 100 batch items.
+      - Ensure all `client_reference` values are unique within the batch.
+    candidate_evidence:
+      - Batch request payload size.
+      - Duplicate reference detection result.
+      - Create-batch response and persisted batch state.
+    reason_it_is_in_scope: >
+      Collection validation with cardinality and uniqueness checks.
+
+  - requirement_id: R029
+    text: >
+      A callback URL for asynchronous payment updates must use `https` and its
+      hostname must be on the tenant allowlist.
+    category: validation/input constraints
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Require URL scheme `https`.
+      - Require callback hostname to be allowlisted for the tenant.
+      - Reject callback configuration otherwise.
+    candidate_evidence:
+      - Callback configuration payload.
+      - Tenant allowlist record.
+      - Validation response.
+    reason_it_is_in_scope: >
+      Security-relevant input validation with string parsing and allowlist lookup.
+
+  - requirement_id: R030
+    text: >
+      A refund request amount must not exceed the captured amount minus all prior
+      approved refunds for that payment.
+    category: validation/input constraints
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Read captured amount for the payment.
+      - Sum prior approved refunds.
+      - Reject refund request if requested amount exceeds remaining refundable
+        balance.
+    candidate_evidence:
+      - Payment captured amount record.
+      - Prior refund records.
+      - Refund response and persisted refund state.
+    reason_it_is_in_scope: >
+      Numeric invariant over related records with clear positive and negative test
+      variants.
+
+  - requirement_id: R031
+    text: >
+      A payment may move from `DRAFT` to `SUBMITTED` only if it has at least one
+      line item and the beneficiary record is verified.
+    category: state transitions/business invariants
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Check current payment status is `DRAFT`.
+      - Require at least one line item.
+      - Require verified beneficiary record.
+      - Allow transition to `SUBMITTED` only when all conditions hold.
+    candidate_evidence:
+      - Payment status and line-item records.
+      - Beneficiary verification flag.
+      - Transition response and updated payment state.
+    reason_it_is_in_scope: >
+      Classic state-transition invariant with multiple preconditions and explicit
+      next state.
+
+  - requirement_id: R032
+    text: >
+      A `SUBMITTED` payment may transition to `APPROVED` only after the required
+      approver count for that payment type has been reached.
+    category: state transitions/business invariants
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Check payment is currently `SUBMITTED`.
+      - Read required approver count for the payment type.
+      - Confirm recorded approvals meet or exceed that count.
+      - Block transition to `APPROVED` otherwise.
+    candidate_evidence:
+      - Payment state record.
+      - Payment-type approval policy.
+      - Approval history and transition response.
+    reason_it_is_in_scope: >
+      State invariant tied to policy-derived threshold and approval history.
+
+  - requirement_id: R033
+    text: >
+      Once a payment reaches `EXECUTED`, no mutable field except
+      `reconciliation_note` may be changed.
+    category: state transitions/business invariants
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Detect payment is in `EXECUTED` state.
+      - Permit updates to `reconciliation_note`.
+      - Reject updates to any other mutable field.
+    candidate_evidence:
+      - Payment state before update attempt.
+      - Update payload showing targeted fields.
+      - Response and post-update record.
+    reason_it_is_in_scope: >
+      Explicit post-terminal immutability rule with one narrow exception.
+
+  - requirement_id: R034
+    text: >
+      Rejecting a payment must set status to `REJECTED` and clear any scheduled
+      execution timestamp.
+    category: state transitions/business invariants
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Set payment status to `REJECTED` on rejection.
+      - Clear scheduled execution timestamp on rejection.
+    candidate_evidence:
+      - Payment record before and after rejection.
+      - Rejection decision event.
+      - Scheduled execution field value.
+    reason_it_is_in_scope: >
+      Direct state-effect requirement with two observable postconditions.
+
+  - requirement_id: R035
+    text: >
+      A second execution request for a payment already in `EXECUTED` must not
+      create another ledger entry.
+    category: state transitions/business invariants
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Detect payment already has state `EXECUTED`.
+      - Reject or ignore second execution request.
+      - Prevent creation of a duplicate ledger entry.
+    candidate_evidence:
+      - Payment status before duplicate execution attempt.
+      - Execution response or job log.
+      - Ledger entries linked to payment ID.
+    reason_it_is_in_scope: >
+      Idempotent state-protection rule with explicit forbidden persistence effect.
+
+  - requirement_id: R036
+    text: >
+      A payment may be canceled only from `DRAFT` or `SUBMITTED`; a cancel request
+      for `APPROVED` or `EXECUTED` must return `409` and leave status unchanged.
+    category: state transitions/business invariants
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Allow cancel from `DRAFT`.
+      - Allow cancel from `SUBMITTED`.
+      - Return `409` for cancel from `APPROVED` or `EXECUTED`.
+      - Preserve status unchanged on rejected cancel.
+    candidate_evidence:
+      - Payment status and cancel request.
+      - Cancel response codes.
+      - Payment state before and after request.
+    reason_it_is_in_scope: >
+      State machine rule with positive and negative branches plus explicit response.
+
+  - requirement_id: R037
+    text: >
+      If a delegation window expires while a delegated approval task is still
+      pending, that delegated task must become invalid and an expiration event must
+      be emitted.
+    category: state transitions/business invariants
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Detect pending delegated approval past delegation expiry.
+      - Mark delegated task invalid.
+      - Emit delegation-expired event.
+    candidate_evidence:
+      - Delegated task record with expiry time.
+      - Task state after expiry processing.
+      - Expiration event log.
+    reason_it_is_in_scope: >
+      Time-based state transition with explicit event side effect and clear pending
+      task behavior.
+
+  - requirement_id: R038
+    text: >
+      Opening a chargeback on a captured payment must set `dispute_status` to
+      `OPEN` and must block creation of further refunds until the dispute is
+      resolved.
+    category: state transitions/business invariants
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Set `dispute_status` to `OPEN` when chargeback is opened.
+      - Block new refund creation while dispute remains open.
+    candidate_evidence:
+      - Payment dispute status.
+      - Chargeback event.
+      - Refund-create response during open dispute.
+    reason_it_is_in_scope: >
+      Business invariant with explicit state mutation and downstream operation ban.
+
+  - requirement_id: R039
+    text: >
+      A payout notification record may transition from `PENDING` to `DELIVERED`
+      only once for a given provider event ID.
+    category: state transitions/business invariants
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Allow `PENDING` to `DELIVERED` transition for first matching provider event.
+      - Prevent repeated `DELIVERED` transition for the same provider event ID.
+    candidate_evidence:
+      - Notification record state history.
+      - Provider event ID on delivery event.
+      - Duplicate delivery handling response.
+    reason_it_is_in_scope: >
+      Single-event state-transition invariant suitable for duplicate-event variants.
+
+  - requirement_id: R040
+    text: >
+      A partially refunded payment must remain in `CAPTURED` status until the sum
+      of approved refunds equals the captured amount; only then may status become
+      `REFUNDED`.
+    category: state transitions/business invariants
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Keep status `CAPTURED` when approved refunds total less than captured amount.
+      - Permit status `REFUNDED` only when approved refunds exactly equal captured
+        amount.
+    candidate_evidence:
+      - Payment captured amount.
+      - Approved refund totals over time.
+      - Payment status history.
+    reason_it_is_in_scope: >
+      Aggregate business invariant with numeric threshold driving state transition.
+
+  - requirement_id: R041
+    text: >
+      Repeating a create-payment request with the same idempotency key and the same
+      request body must return the original payment ID and must not create a second
+      payment record.
+    category: reliability/idempotency
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Match repeat request on same idempotency key.
+      - Confirm request body is identical.
+      - Return original payment ID.
+      - Prevent creation of duplicate payment record.
+    candidate_evidence:
+      - Request headers and bodies.
+      - Response payloads across repeated calls.
+      - Payment table row count for that key.
+    reason_it_is_in_scope: >
+      Strong idempotency rule with identity and persistence guarantees.
+
+  - requirement_id: R042
+    text: >
+      Reusing an idempotency key with a different request body must return `409`
+      and must not create or modify any payment record.
+    category: reliability/idempotency
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Detect reused idempotency key with non-identical body.
+      - Return `409`.
+      - Prevent payment creation or modification.
+    candidate_evidence:
+      - Original and repeated request bodies.
+      - Conflict response code.
+      - Payment persistence state before and after second request.
+    reason_it_is_in_scope: >
+      Negative idempotency branch with explicit response and non-mutation outcome.
+
+  - requirement_id: R043
+    text: >
+      Retrying the same approval command after a client timeout must not record a
+      duplicate approval action for the same approver and payment.
+    category: reliability/idempotency
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Recognize repeated approval command for same approver and payment.
+      - Prevent duplicate approval action record.
+      - Preserve single effective approval outcome.
+    candidate_evidence:
+      - Approval command IDs or replay markers.
+      - Approval history table.
+      - Response or retry handling log.
+    reason_it_is_in_scope: >
+      Retry-safe approval rule with explicit duplicate suppression requirement.
+
+  - requirement_id: R044
+    text: >
+      The ledger-posting consumer must ignore a duplicate provider message ID and
+      must append a `duplicate_ignored` event.
+    category: reliability/idempotency
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Detect duplicate provider message ID.
+      - Suppress duplicate ledger posting.
+      - Append `duplicate_ignored` event.
+    candidate_evidence:
+      - Consumer input messages.
+      - Ledger posting records.
+      - Event log showing duplicate handling.
+    reason_it_is_in_scope: >
+      Message-level idempotency with both non-action and required observability.
+
+  - requirement_id: R045
+    text: >
+      Webhook delivery retries may occur on `5xx` responses up to three attempts,
+      and retries must stop immediately after the first successful delivery.
+    category: reliability/idempotency
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Retry on `5xx` delivery response.
+      - Limit total attempts to three.
+      - Stop retrying after first success.
+    candidate_evidence:
+      - Delivery attempt log with response codes.
+      - Retry scheduler state.
+      - Final delivery outcome record.
+    reason_it_is_in_scope: >
+      Controlled retry policy with bounded count and stop condition.
+
+  - requirement_id: R046
+    text: >
+      Restarting an export job after a worker crash must resume under the same
+      job ID and must not duplicate output rows already written.
+    category: reliability/idempotency
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Preserve same job ID across crash recovery.
+      - Resume job after crash.
+      - Prevent duplicate output rows already written before restart.
+    candidate_evidence:
+      - Job metadata before and after restart.
+      - Crash and recovery logs.
+      - Exported row set with duplicate check.
+    reason_it_is_in_scope: >
+      Recovery invariant with durable identifier and output-dedup requirement.
+
+  - requirement_id: R047
+    text: >
+      If a payout executor lock remains stale for more than five minutes, exactly
+      one successor worker may acquire the lock and continue the job.
+    category: reliability/idempotency
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Detect stale executor lock older than five minutes.
+      - Allow one successor worker to acquire the lock.
+      - Prevent multiple workers from continuing the same job.
+    candidate_evidence:
+      - Lock record timestamp.
+      - Worker acquisition log.
+      - Job execution trace after takeover.
+    reason_it_is_in_scope: >
+      Concurrency and recovery rule with precise time threshold and exclusivity.
+
+  - requirement_id: R048
+    text: >
+      A notification identified by `notification_id` must not be sent more than
+      once within a 24-hour window.
+    category: reliability/idempotency
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Detect repeat send attempt for same `notification_id` within 24 hours.
+      - Prevent second send during that window.
+    candidate_evidence:
+      - Notification send history with timestamps.
+      - Notification delivery responses.
+      - Deduplication decision log.
+    reason_it_is_in_scope: >
+      Time-window idempotency rule with simple positive and violating scenarios.
+
+  - requirement_id: R049
+    text: >
+      Importing a reconciliation file whose checksum matches a previously
+      successful import must mark the new attempt as duplicate and must not apply
+      the file contents a second time.
+    category: reliability/idempotency
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Compare incoming checksum to successful prior imports.
+      - Mark repeated import attempt as duplicate.
+      - Prevent second application of file contents.
+    candidate_evidence:
+      - Import attempt records with checksums.
+      - Duplicate-marking response.
+      - Reconciliation state before and after repeat import.
+    reason_it_is_in_scope: >
+      Content-based idempotency with explicit duplicate labeling and non-apply rule.
+
+  - requirement_id: R050
+    text: >
+      Payment references generated on the same business day must be unique within
+      the tenant.
+    category: reliability/idempotency
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Generate payment reference for each created payment.
+      - Ensure references are unique within tenant for the same business day.
+    candidate_evidence:
+      - Created payment records with tenant ID, date, and reference.
+      - Duplicate-reference detection result.
+    reason_it_is_in_scope: >
+      Deterministic uniqueness invariant that is straightforward to evaluate over
+      generated records.
+
+  - requirement_id: R051
+    text: >
+      Every API response from the payment service must include a `correlation_id`
+      header, and the same ID must appear in the corresponding request log entry.
+    category: observability/audit
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Add `correlation_id` header to every API response.
+      - Write the same correlation ID to the request log entry.
+    candidate_evidence:
+      - HTTP response headers.
+      - Request logs.
+      - Correlation ID match check.
+    reason_it_is_in_scope: >
+      Observability requirement with cross-artifact consistency and universal scope.
+
+  - requirement_id: R052
+    text: >
+      A failed provider call must increment a metric labeled with provider name and
+      operation name.
+    category: observability/audit
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Detect failed provider call.
+      - Increment failure metric.
+      - Label metric with provider name and operation name.
+    candidate_evidence:
+      - Provider-call failure logs.
+      - Metrics scrape output.
+      - Metric label set.
+    reason_it_is_in_scope: >
+      Metric-emission rule with conditional trigger and required labels.
+
+  - requirement_id: R053
+    text: >
+      The system must record approval latency as the elapsed time between payment
+      submission and the first terminal approval or rejection decision.
+    category: observability/audit
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Record payment submission timestamp.
+      - Identify first terminal approval or rejection decision timestamp.
+      - Compute and emit elapsed approval latency.
+    candidate_evidence:
+      - Submission event timestamp.
+      - Decision event timestamp.
+      - Metrics or audit record containing latency value.
+    reason_it_is_in_scope: >
+      Derived observability metric with clear input timestamps and terminal-event
+      semantics.
+
+  - requirement_id: R054
+    text: >
+      Every execution job must emit a structured start event and a structured end
+      event containing job ID, result, and timestamp.
+    category: observability/audit
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Emit structured start event for each execution job.
+      - Emit structured end event for each execution job.
+      - Include job ID, result, and timestamp in each event.
+    candidate_evidence:
+      - Job event stream.
+      - Event schema validation.
+      - Job execution records.
+    reason_it_is_in_scope: >
+      Multi-event observability rule with deterministic field presence checks.
+
+  - requirement_id: R055
+    text: >
+      If a guardrail blocks a request, the emitted violation record must include
+      the originating `requirement_id`.
+    category: observability/audit
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Detect request blocked by guardrail.
+      - Emit violation record for the block.
+      - Include originating `requirement_id` in that record.
+    candidate_evidence:
+      - Guardrail decision output.
+      - Violation record payload.
+      - Requirement mapping table.
+    reason_it_is_in_scope: >
+      Traceability-oriented observability rule directly relevant to attribution
+      accuracy evaluation.
+
+  - requirement_id: R056
+    text: >
+      Each payment status transition event must contain payment ID, old status, new
+      status, actor ID, and source subsystem.
+    category: observability/audit
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Emit event for each payment status transition.
+      - Include payment ID, old status, and new status.
+      - Include actor ID and source subsystem.
+    candidate_evidence:
+      - Status transition event payloads.
+      - Payment state changes.
+      - Event schema validation.
+    reason_it_is_in_scope: >
+      Structured event completeness rule with multiple required fields and direct
+      traceability to transitions.
+
+  - requirement_id: R057
+    text: >
+      When the provider retry circuit opens, the system must emit one alert event
+      per open interval and must not emit duplicate alerts until the circuit has
+      closed again.
+    category: observability/audit
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Detect transition to circuit-open state.
+      - Emit one alert event for that open interval.
+      - Suppress duplicate alert events until circuit closes and reopens.
+    candidate_evidence:
+      - Circuit state-change log.
+      - Alert event stream.
+      - Interval grouping by circuit close/open boundaries.
+    reason_it_is_in_scope: >
+      Observability rule with event deduplication and state-sensitive alerting.
+
+  - requirement_id: R058
+    text: >
+      A manual override action must include a non-empty reason and must append an
+      audit record referencing the affected entity ID.
+    category: observability/audit
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Require non-empty reason for manual override.
+      - Append audit record for manual override.
+      - Include affected entity ID in audit record.
+    candidate_evidence:
+      - Override request payload.
+      - Audit record contents.
+      - Override response.
+    reason_it_is_in_scope: >
+      Simple but useful mix of validation and audit side effect on privileged path.
+
+  - requirement_id: R059
+    text: >
+      Detecting a reconciliation mismatch must increment a mismatch metric and must
+      create a review case linked to the payment batch.
+    category: observability/audit
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Detect reconciliation mismatch.
+      - Increment mismatch metric.
+      - Create review case linked to payment batch.
+    candidate_evidence:
+      - Reconciliation comparison output.
+      - Metrics scrape or event.
+      - Review case record with batch link.
+    reason_it_is_in_scope: >
+      Business-observability rule with one required metric and one required follow-up
+      artifact.
+
+  - requirement_id: R060
+    text: >
+      Completion of a data export job must emit an event containing requester ID,
+      row count, duration in milliseconds, and success flag.
+    category: observability/audit
+    source_type: NEW_SYNTHETIC
+    source_reference: null
+    candidate_obligations:
+      - Emit export-completed event when job finishes.
+      - Include requester ID and row count.
+      - Include duration in milliseconds and success flag.
+    candidate_evidence:
+      - Export completion event.
+      - Job metadata.
+      - Event schema validation.
+    reason_it_is_in_scope: >
+      Structured completion-observability requirement with four fixed fields and
+      clear event evidence.

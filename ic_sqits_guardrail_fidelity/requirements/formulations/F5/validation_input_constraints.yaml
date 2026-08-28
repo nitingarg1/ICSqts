@@ -1,0 +1,24 @@
+metadata:
+  date: 2026-08-28
+  status: DRAFT_FOR_HUMAN_F5_REVIEW
+  formulation_family: F5
+  category: validation/input constraints
+  source_requirements_file: requirements/requirements_v1.yaml
+
+formulations:
+  - requirement_id: R024
+    f0_text: >
+      A scheduled payment date must not be earlier than the request date and must
+      not be more than 30 calendar days after the request date.
+    f5_text: >
+      With r = request date and s = scheduled payment date, admissibility requires
+      r <= s <= r + 30 calendar days.
+
+  - requirement_id: R026
+    f0_text: >
+      A beneficiary bank update request must include either an IBAN or both an
+      account number and routing number, but it must not include both forms at the
+      same time.
+    f5_text: >
+      A beneficiary-bank update request must satisfy present(IBAN) XOR
+      (present(account-number) AND present(routing-number)).

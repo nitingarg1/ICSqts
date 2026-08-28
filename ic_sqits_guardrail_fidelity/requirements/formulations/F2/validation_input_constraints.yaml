@@ -1,0 +1,123 @@
+metadata:
+  date: 2026-08-28
+  status: DRAFT_FOR_HUMAN_EQUIVALENCE_REVIEW
+  formulation_family: F2
+  category: validation/input constraints
+  source_requirements_file: requirements/requirements_v1.yaml
+
+formulations:
+  - requirement_id: R021
+    f0_text: >
+      A payment-create request must be rejected unless `amount` is greater than 0
+      and less than or equal to 100000.
+    f2_text: >
+      Unless `amount` is greater than 0 and less than or equal to 100000, a
+      payment-create request must be rejected.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: lower bound is greater than 0
+        f2_location: "`amount` is greater than 0"
+      - f0_obligation: upper bound is less than or equal to 100000
+        f2_location: less than or equal to 100000
+      - f0_obligation: request rejected unless both bounds hold
+        f2_location: Unless ... a payment-create request must be rejected
+
+  - requirement_id: R024
+    f0_text: >
+      A scheduled payment date must not be earlier than the request date and must
+      not be more than 30 calendar days after the request date.
+    f2_text: >
+      A scheduled payment date must be on or after the request date, with 30
+      calendar days after the request date as its latest permitted date.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: scheduled date must not be earlier than request date
+        f2_location: must be on or after the request date
+      - f0_obligation: scheduled date must not be more than 30 calendar days after request date
+        f2_location: 30 calendar days after the request date as its latest permitted date
+
+  - requirement_id: R025
+    f0_text: >
+      A rejection decision must include a comment between 10 and 500 characters;
+      approval decisions must not require that comment.
+    f2_text: >
+      A comment between 10 and 500 characters must accompany a rejection
+      decision; approval decisions must not require that comment.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: approval decisions must not require comment
+        f2_location: approval decisions must not require that comment
+      - f0_obligation: rejection decision must include comment
+        f2_location: A comment ... must accompany a rejection decision
+      - f0_obligation: comment length is between 10 and 500 characters
+        f2_location: between 10 and 500 characters
+
+  - requirement_id: R026
+    f0_text: >
+      A beneficiary bank update request must include either an IBAN or both an
+      account number and routing number, but it must not include both forms at the
+      same time.
+    f2_text: >
+      A beneficiary bank update request must not include both forms at the same
+      time; instead, it must include either an IBAN or both an account number and
+      routing number.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: both forms cannot appear at same time
+        f2_location: must not include both forms at the same time
+      - f0_obligation: one allowed form is IBAN
+        f2_location: include either an IBAN
+      - f0_obligation: alternative allowed form is both account number and routing number
+        f2_location: or both an account number and routing number
+
+  - requirement_id: R027
+    f0_text: >
+      Attachment upload for a payment request must accept only `pdf` or `png`
+      files no larger than 5 MB.
+    f2_text: >
+      Attachment upload must, for a payment request, accept only files that are
+      `pdf` or `png` and no larger than 5 MB.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: accepted file types are only `pdf` or `png`
+        f2_location: accept only files that are `pdf` or `png`
+      - f0_obligation: accepted files are no larger than 5 MB
+        f2_location: no larger than 5 MB
+      - f0_obligation: rule applies to attachment upload for payment request
+        f2_location: Attachment upload must, for a payment request
+
+  - requirement_id: R028
+    f0_text: >
+      A batch payout request must contain between 1 and 100 items, and all
+      `client_reference` values within the batch must be unique.
+    f2_text: >
+      All `client_reference` values within a batch payout request must be unique,
+      and the request must contain between 1 and 100 items.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: "`client_reference` values must be unique within batch"
+        f2_location: All `client_reference` values within a batch payout request must be unique
+      - f0_obligation: item count is between 1 and 100
+        f2_location: the request must contain between 1 and 100 items
+
+  - requirement_id: R029
+    f0_text: >
+      A callback URL for asynchronous payment updates must use `https` and its
+      hostname must be on the tenant allowlist.
+    f2_text: >
+      For asynchronous payment updates, a callback URL must have its hostname on
+      the tenant allowlist and must use `https`.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: scope is callback URL for asynchronous payment updates
+        f2_location: For asynchronous payment updates, a callback URL
+      - f0_obligation: hostname must be on tenant allowlist
+        f2_location: must have its hostname on the tenant allowlist
+      - f0_obligation: URL must use `https`
+        f2_location: and must use `https`
+
+  - requirement_id: R030
+    f0_text: >
+      A refund request amount must not exceed the captured amount minus all prior
+      approved refunds for that payment.
+    f2_text: >
+      The captured amount minus all prior approved refunds for that payment is the
+      most a refund request amount may be.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: ceiling is captured amount minus all prior approved refunds
+        f2_location: The captured amount minus all prior approved refunds for that payment
+      - f0_obligation: refund request amount must not exceed that ceiling
+        f2_location: is the most a refund request amount may be

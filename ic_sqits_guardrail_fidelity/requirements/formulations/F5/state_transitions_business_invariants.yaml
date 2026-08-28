@@ -1,0 +1,34 @@
+metadata:
+  date: 2026-08-28
+  status: DRAFT_FOR_HUMAN_F5_REVIEW
+  formulation_family: F5
+  category: state transitions/business invariants
+  source_requirements_file: requirements/requirements_v1.yaml
+
+formulations:
+  - requirement_id: R033
+    f0_text: >
+      Once a payment reaches `EXECUTED`, no mutable field except
+      `reconciliation_note` may be changed.
+    f5_text: >
+      status(p) = `EXECUTED` implies every mutable field of p, including
+      `reconciliation_note`, is invariant under update.
+
+  - requirement_id: R036
+    f0_text: >
+      A payment may be canceled only from `DRAFT` or `SUBMITTED`; a cancel request
+      for `APPROVED` or `EXECUTED` must return `409` and leave status unchanged.
+    f5_text: >
+      Cancellation of p may occur only when status(p) is in {`DRAFT`,
+      `SUBMITTED`}; if status(p) is in {`APPROVED`, `EXECUTED`}, the response is
+      `409` and status_after(p) = status_before(p).
+
+  - requirement_id: R040
+    f0_text: >
+      A partially refunded payment must remain in `CAPTURED` status until the sum
+      of approved refunds equals the captured amount; only then may status become
+      `REFUNDED`.
+    f5_text: >
+      For payment p, while 0 < sum(approved refunds(p)) < captured_amount(p),
+      status(p) = `CAPTURED`; status(p) may become `REFUNDED` only if that sum is
+      at least captured_amount(p).

@@ -1,0 +1,135 @@
+metadata:
+  date: 2026-08-28
+  status: DRAFT_FOR_HUMAN_EQUIVALENCE_REVIEW
+  formulation_family: F1
+  category: data protection/logging
+  source_requirements_file: requirements/requirements_v1.yaml
+
+formulations:
+  - requirement_id: R011
+    f0_text: >
+      Application logs must never contain a full account number; if an account
+      number is logged, only the last four digits may remain visible.
+    f1_text: >
+      A full account number must never appear in application logs; whenever an
+      account number is logged, no more than the last four digits may remain
+      visible.
+    semantic_diff_checklist:
+      - obligation: full account number must never appear in logs
+        where_it_appears_in_f1: A full account number must never appear in application logs
+      - obligation: if logged, visibility is limited to last four digits
+        where_it_appears_in_f1: no more than the last four digits may remain visible
+
+  - requirement_id: R012
+    f0_text: >
+      Every payment status change must append an audit event containing payment ID,
+      old status, new status, actor ID, and event timestamp.
+    f1_text: >
+      Each payment status change must append an audit event that includes payment
+      ID, prior status, new status, actor ID, and event timestamp.
+    semantic_diff_checklist:
+      - obligation: every payment status change appends audit event
+        where_it_appears_in_f1: Each payment status change must append an audit event
+      - obligation: event includes payment ID
+        where_it_appears_in_f1: includes payment ID
+      - obligation: event includes old and new status
+        where_it_appears_in_f1: prior status, new status
+      - obligation: event includes actor ID and timestamp
+        where_it_appears_in_f1: actor ID, and event timestamp
+
+  - requirement_id: R013
+    f0_text: >
+      Secret values from environment variables or secret-manager lookups must not
+      be written to application logs even when an exception occurs.
+    f1_text: >
+      Secret values obtained from environment variables or secret-manager lookups
+      must not be written to application logs, including when an exception occurs.
+    semantic_diff_checklist:
+      - obligation: secret values from environment variables must not be logged
+        where_it_appears_in_f1: Secret values obtained from environment variables
+      - obligation: secret values from secret-manager lookups must not be logged
+        where_it_appears_in_f1: or secret-manager lookups must not be written to application logs
+      - obligation: exception cases are included
+        where_it_appears_in_f1: including when an exception occurs
+
+  - requirement_id: R014
+    f0_text: >
+      A denied approval attempt caused by insufficient permission must create a
+      security audit event containing actor ID, payment ID, reason code, and
+      timestamp.
+    f1_text: >
+      If an approval attempt is denied because permission is insufficient, it must
+      create a security audit event containing actor ID, payment ID, reason code,
+      and timestamp.
+    semantic_diff_checklist:
+      - obligation: trigger is approval denial for insufficient permission
+        where_it_appears_in_f1: denied because permission is insufficient
+      - obligation: security audit event must be created
+        where_it_appears_in_f1: it must create a security audit event
+      - obligation: event includes actor ID, payment ID, reason code, timestamp
+        where_it_appears_in_f1: containing actor ID, payment ID, reason code, and timestamp
+
+  - requirement_id: R016
+    f0_text: >
+      A document-download token must expire 15 minutes after issuance; requests
+      using an expired token must return `410` and must append a token-expired
+      audit event.
+    f1_text: >
+      A document-download token expires 15 minutes after issuance; any request that
+      uses an expired token must return `410` and append a token-expired audit
+      event.
+    semantic_diff_checklist:
+      - obligation: token expires 15 minutes after issuance
+        where_it_appears_in_f1: A document-download token expires 15 minutes after issuance
+      - obligation: expired-token request returns `410`
+        where_it_appears_in_f1: uses an expired token must return `410`
+      - obligation: expired-token request appends token-expired audit event
+        where_it_appears_in_f1: and append a token-expired audit event
+
+  - requirement_id: R018
+    f0_text: >
+      Every reconciliation report download must append an audit record containing
+      requester ID, applied filters, row count, and generation timestamp.
+    f1_text: >
+      Each reconciliation report download must append an audit record that contains
+      requester ID, applied filters, row count, and generation timestamp.
+    semantic_diff_checklist:
+      - obligation: every reconciliation report download appends audit record
+        where_it_appears_in_f1: Each reconciliation report download must append an audit record
+      - obligation: audit record includes requester ID
+        where_it_appears_in_f1: requester ID
+      - obligation: audit record includes applied filters
+        where_it_appears_in_f1: applied filters
+      - obligation: audit record includes row count and generation timestamp
+        where_it_appears_in_f1: row count, and generation timestamp
+
+  - requirement_id: R019
+    f0_text: >
+      Search logs for customer-email lookups must store only a salted hash of the
+      search term and must never store the raw email string.
+    f1_text: >
+      For customer-email lookups, search logs must store only a salted hash of the
+      search term and must never store the raw email string.
+    semantic_diff_checklist:
+      - obligation: scope is customer-email lookups
+        where_it_appears_in_f1: For customer-email lookups
+      - obligation: only salted hash of search term may be stored
+        where_it_appears_in_f1: must store only a salted hash of the search term
+      - obligation: raw email string must never be stored
+        where_it_appears_in_f1: must never store the raw email string
+
+  - requirement_id: R020
+    f0_text: >
+      Both successful and denied reads of the payment-provider configuration must
+      append an audit event containing actor ID, outcome, and configuration name.
+    f1_text: >
+      Reading the payment-provider configuration, whether the read is successful or
+      denied, must append an audit event containing actor ID, outcome, and
+      configuration name.
+    semantic_diff_checklist:
+      - obligation: successful reads append audit event
+        where_it_appears_in_f1: whether the read is successful
+      - obligation: denied reads append audit event
+        where_it_appears_in_f1: or denied
+      - obligation: event includes actor ID, outcome, configuration name
+        where_it_appears_in_f1: containing actor ID, outcome, and configuration name

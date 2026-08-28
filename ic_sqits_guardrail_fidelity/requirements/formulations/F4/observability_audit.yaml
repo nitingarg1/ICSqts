@@ -1,0 +1,79 @@
+metadata:
+  date: 2026-08-28
+  status: DRAFT_FOR_HUMAN_UNDERSPECIFICATION_REVIEW
+  formulation_family: F4
+  category: observability/audit
+  source_requirements_file: requirements/requirements_v1.yaml
+
+formulations:
+  - requirement_id: R051
+    f0_text: >
+      Every API response from the payment service must include a `correlation_id`
+      header, and the same ID must appear in the corresponding request log entry.
+    f4_text: >
+      Every API response from the payment service must include a `correlation_id`
+      header.
+    removed_semantic_detail: same ID must appear in the corresponding request log entry
+
+  - requirement_id: R053
+    f0_text: >
+      The system must record approval latency as the elapsed time between payment
+      submission and the first terminal approval or rejection decision.
+    f4_text: >
+      The system must record approval latency as the elapsed time between payment
+      submission and the approval or rejection decision.
+    removed_semantic_detail: first terminal decision qualifier
+
+  - requirement_id: R054
+    f0_text: >
+      Every execution job must emit a structured start event and a structured end
+      event containing job ID, result, and timestamp.
+    f4_text: >
+      Every execution job must emit a structured end event containing job ID,
+      result, and timestamp.
+    removed_semantic_detail: structured start event requirement
+
+  - requirement_id: R055
+    f0_text: >
+      If a guardrail blocks a request, the emitted violation record must include
+      the originating `requirement_id`.
+    f4_text: >
+      The emitted violation record must include the originating `requirement_id`.
+    removed_semantic_detail: trigger that a guardrail blocks a request
+
+  - requirement_id: R057
+    f0_text: >
+      When the provider retry circuit opens, the system must emit one alert event
+      per open interval and must not emit duplicate alerts until the circuit has
+      closed again.
+    f4_text: >
+      When the provider retry circuit opens, the system must emit one alert event
+      per open interval.
+    removed_semantic_detail: duplicate-alert prohibition until circuit closes again
+
+  - requirement_id: R058
+    f0_text: >
+      A manual override action must include a non-empty reason and must append an
+      audit record referencing the affected entity ID.
+    f4_text: >
+      A manual override action must append an audit record referencing the
+      affected entity ID.
+    removed_semantic_detail: non-empty reason requirement
+
+  - requirement_id: R059
+    f0_text: >
+      Detecting a reconciliation mismatch must increment a mismatch metric and must
+      create a review case linked to the payment batch.
+    f4_text: >
+      Detecting a reconciliation mismatch must increment a mismatch metric and must
+      create a review case.
+    removed_semantic_detail: review case must be linked to the payment batch
+
+  - requirement_id: R060
+    f0_text: >
+      Completion of a data export job must emit an event containing requester ID,
+      row count, duration in milliseconds, and success flag.
+    f4_text: >
+      Completion of a data export job must emit an event containing requester ID,
+      row count, and duration in milliseconds.
+    removed_semantic_detail: success flag field

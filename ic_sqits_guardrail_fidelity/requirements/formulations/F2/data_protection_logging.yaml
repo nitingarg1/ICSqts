@@ -1,0 +1,127 @@
+metadata:
+  date: 2026-08-28
+  status: DRAFT_FOR_HUMAN_EQUIVALENCE_REVIEW
+  formulation_family: F2
+  category: data protection/logging
+  source_requirements_file: requirements/requirements_v1.yaml
+
+formulations:
+  - requirement_id: R011
+    f0_text: >
+      Application logs must never contain a full account number; if an account
+      number is logged, only the last four digits may remain visible.
+    f2_text: >
+      If an account number is logged, only the last four digits may remain visible,
+      and application logs must never contain a full account number.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: full account number never in logs
+        f2_location: application logs must never contain a full account number
+      - f0_obligation: if logged, only last four digits visible
+        f2_location: If an account number is logged, only the last four digits may remain visible
+
+  - requirement_id: R012
+    f0_text: >
+      Every payment status change must append an audit event containing payment ID,
+      old status, new status, actor ID, and event timestamp.
+    f2_text: >
+      An audit event containing payment ID, old status, new status, actor ID, and
+      event timestamp must be appended for every payment status change.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: every payment status change appends audit event
+        f2_location: must be appended for every payment status change
+      - f0_obligation: event includes payment ID, old status, new status, actor ID, timestamp
+        f2_location: An audit event containing payment ID, old status, new status, actor ID, and event timestamp
+
+  - requirement_id: R013
+    f0_text: >
+      Secret values from environment variables or secret-manager lookups must not
+      be written to application logs even when an exception occurs.
+    f2_text: >
+      Even when an exception occurs, secret values from environment variables or
+      secret-manager lookups must not be written to application logs.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: exception does not relax rule
+        f2_location: Even when an exception occurs
+      - f0_obligation: secret values from environment variables must not be logged
+        f2_location: secret values from environment variables
+      - f0_obligation: secret values from secret-manager lookups must not be logged
+        f2_location: or secret-manager lookups must not be written to application logs
+
+  - requirement_id: R014
+    f0_text: >
+      A denied approval attempt caused by insufficient permission must create a
+      security audit event containing actor ID, payment ID, reason code, and
+      timestamp.
+    f2_text: >
+      A security audit event containing actor ID, payment ID, reason code, and
+      timestamp must be created when an approval attempt is denied because
+      permission is insufficient.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: trigger is denial due to insufficient permission
+        f2_location: when an approval attempt is denied because permission is insufficient
+      - f0_obligation: security audit event created
+        f2_location: must be created
+      - f0_obligation: event includes actor ID, payment ID, reason code, timestamp
+        f2_location: A security audit event containing actor ID, payment ID, reason code, and timestamp
+
+  - requirement_id: R016
+    f0_text: >
+      A document-download token must expire 15 minutes after issuance; requests
+      using an expired token must return `410` and must append a token-expired
+      audit event.
+    f2_text: >
+      Fifteen minutes after issuance, a document-download token must be expired;
+      requests using that expired token must append a token-expired audit event and
+      must return `410`.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: token expires 15 minutes after issuance
+        f2_location: Fifteen minutes after issuance, a document-download token must be expired
+      - f0_obligation: expired-token requests append token-expired audit event
+        f2_location: must append a token-expired audit event
+      - f0_obligation: expired-token requests return `410`
+        f2_location: must return `410`
+
+  - requirement_id: R018
+    f0_text: >
+      Every reconciliation report download must append an audit record containing
+      requester ID, applied filters, row count, and generation timestamp.
+    f2_text: >
+      An audit record containing requester ID, applied filters, row count, and
+      generation timestamp must be appended for every reconciliation report
+      download.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: every reconciliation report download appends audit record
+        f2_location: must be appended for every reconciliation report download
+      - f0_obligation: audit record includes requester ID, applied filters, row count, generation timestamp
+        f2_location: An audit record containing requester ID, applied filters, row count, and generation timestamp
+
+  - requirement_id: R019
+    f0_text: >
+      Search logs for customer-email lookups must store only a salted hash of the
+      search term and must never store the raw email string.
+    f2_text: >
+      For customer-email lookups, the raw email string must never be stored in
+      search logs, and only a salted hash of the search term may be stored.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: scope is customer-email lookups
+        f2_location: For customer-email lookups
+      - f0_obligation: raw email string never stored
+        f2_location: the raw email string must never be stored in search logs
+      - f0_obligation: only salted hash of search term stored
+        f2_location: only a salted hash of the search term may be stored
+
+  - requirement_id: R020
+    f0_text: >
+      Both successful and denied reads of the payment-provider configuration must
+      append an audit event containing actor ID, outcome, and configuration name.
+    f2_text: >
+      An audit event containing actor ID, outcome, and configuration name must be
+      appended for both successful and denied reads of the payment-provider
+      configuration.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: successful reads append audit event
+        f2_location: for both successful ... reads
+      - f0_obligation: denied reads append audit event
+        f2_location: and denied reads of the payment-provider configuration
+      - f0_obligation: event includes actor ID, outcome, configuration name
+        f2_location: An audit event containing actor ID, outcome, and configuration name

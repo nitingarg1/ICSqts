@@ -1,0 +1,32 @@
+metadata:
+  date: 2026-08-28
+  status: DRAFT_FOR_HUMAN_F5_REVIEW
+  formulation_family: F5
+  category: reliability/idempotency
+  source_requirements_file: requirements/requirements_v1.yaml
+
+formulations:
+  - requirement_id: R042
+    f0_text: >
+      Reusing an idempotency key with a different request body must return `409`
+      and must not create or modify any payment record.
+    f5_text: >
+      For requests r1 and r2, key(r1) = key(r2) AND body(r1) != body(r2) implies
+      response(r2) = `409` AND no payment record is created or modified by r2.
+
+  - requirement_id: R045
+    f0_text: >
+      Webhook delivery retries may occur on `5xx` responses up to three attempts,
+      and retries must stop immediately after the first successful delivery.
+    f5_text: >
+      A webhook delivery may be attempted at most three times; each attempt after
+      the first may occur only if the preceding attempt returned `5xx`, and no
+      attempt may occur after the first successful delivery.
+
+  - requirement_id: R047
+    f0_text: >
+      If a payout executor lock remains stale for more than five minutes, exactly
+      one successor worker may acquire the lock and continue the job.
+    f5_text: >
+      Once stale_duration(lock) >= five minutes, no more than one successor worker
+      may acquire the lock and continue the job.

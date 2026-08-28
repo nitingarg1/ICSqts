@@ -1,0 +1,84 @@
+metadata:
+  date: 2026-08-28
+  status: DRAFT_FOR_HUMAN_UNDERSPECIFICATION_REVIEW
+  formulation_family: F4
+  category: authorization/security
+  source_requirements_file: requirements/requirements_v1.yaml
+
+formulations:
+  - requirement_id: R001
+    f0_text: >
+      A payment request may be approved only by a user with the `approver` role,
+      and the user who submitted the request must not approve that same request.
+    f4_text: >
+      A payment request must not be approved by the user who submitted that same
+      request.
+    removed_semantic_detail: approver role requirement
+
+  - requirement_id: R002
+    f0_text: >
+      A payment greater than 10000 USD may be released only after two distinct
+      approvers have approved it, and at least one approver must hold the
+      `finance_manager` role.
+    f4_text: >
+      A payment greater than 10000 USD may be released only after two distinct
+      approvers have approved it.
+    removed_semantic_detail: "at least one approver must hold the `finance_manager` role"
+
+  - requirement_id: R003
+    f0_text: >
+      A payment may be voided only by its creator or by an `admin` user before
+      settlement, and a successful void must set status to `VOIDED` and append a
+      void audit event.
+    f4_text: >
+      A payment may be voided only by its creator or by an `admin` user before
+      settlement, and a successful void must set status to `VOIDED`.
+    removed_semantic_detail: void audit event requirement
+
+  - requirement_id: R004
+    f0_text: >
+      If an approval request is made with an inactive session token, the system
+      must return `401`, must not record an approval, and must not change payment
+      state.
+    f4_text: >
+      If an approval request is made with an inactive session token, the system
+      must not record an approval and must not change payment state.
+    removed_semantic_detail: "required `401` response"
+
+  - requirement_id: R005
+    f0_text: >
+      A user with the `support_readonly` role may view payment summaries but must
+      not see full account numbers, routing numbers, or approval comments marked
+      confidential.
+    f4_text: >
+      A user with the `support_readonly` role may view payment summaries but must
+      not see full account numbers or routing numbers.
+    removed_semantic_detail: confidential approval comments prohibition
+
+  - requirement_id: R007
+    f0_text: >
+      An approval delegate may act for the original approver only during the
+      configured delegation window, and the delegate must not create a further
+      delegation from that temporary authority.
+    f4_text: >
+      An approval delegate may act for the original approver only during the
+      configured delegation window.
+    removed_semantic_detail: prohibition on creating a further delegation
+
+  - requirement_id: R008
+    f0_text: >
+      A settled payment may be reversed only by a user with the `treasury` role,
+      and the reversal request must reference an existing incident ticket.
+    f4_text: >
+      A settled payment may be reversed only by a user with the `treasury` role.
+    removed_semantic_detail: incident ticket reference requirement
+
+  - requirement_id: R010
+    f0_text: >
+      A service account may create an internal transfer only when its mTLS client
+      subject is on the approved allowlist; otherwise the request must be denied
+      and no transfer record may be created.
+    f4_text: >
+      A service account may create an internal transfer only when its mTLS client
+      subject is on the approved allowlist; otherwise the request must be denied.
+    removed_semantic_detail: no transfer record may be created on denied request

@@ -1,0 +1,252 @@
+metadata:
+  date: 2026-08-27
+  status: FINAL_HUMAN_REVIEWED
+  category: validation/input constraints
+  source_requirements_file: requirements/requirements_v1.yaml
+
+checklists:
+  - requirement_id: R021
+    review_status: OK
+    requirement_text: >
+      A payment-create request must be rejected unless `amount` is greater than 0
+      and less than or equal to 100000.
+    obligations:
+      - obligation_id: R021_O1
+        requirement_id: R021
+        actor: payment-create request
+        precondition: create-payment request is submitted
+        action: provide `amount` greater than 0
+        expected_response_or_event: request with `amount <= 0` is rejected
+        required_state_effect: none required by text on rejection
+        forbidden_state_effect: successful create with `amount <= 0`
+        exception: none stated
+        evidence_needed: request payload; validation response; payment creation result
+        why_this_obligation_is_required_by_the_text: Text requires `amount` to be greater than 0.
+      - obligation_id: R021_O2
+        requirement_id: R021
+        actor: payment-create request
+        precondition: create-payment request is submitted
+        action: provide `amount` less than or equal to 100000
+        expected_response_or_event: request with `amount > 100000` is rejected
+        required_state_effect: none required by text on rejection
+        forbidden_state_effect: successful create with `amount > 100000`
+        exception: none stated
+        evidence_needed: request payload; validation response; payment creation result
+        why_this_obligation_is_required_by_the_text: Text requires `amount` to be less than or equal to 100000.
+
+  - requirement_id: R024
+    review_status: FIX_TOO_STRONG
+    requirement_text: >
+      A scheduled payment date must not be earlier than the request date and must
+      not be more than 30 calendar days after the request date.
+    obligations:
+      - obligation_id: R024_O1
+        requirement_id: R024
+        actor: scheduled payment request
+        precondition: request includes scheduled payment date
+        action: avoid scheduled date earlier than request date
+        expected_response_or_event: scheduled date is not earlier than request date
+        required_state_effect: none stated
+        forbidden_state_effect: none stated
+        exception: none stated
+        evidence_needed: request date; scheduled date
+        why_this_obligation_is_required_by_the_text: Text says scheduled payment date must not be earlier than request date.
+      - obligation_id: R024_O2
+        requirement_id: R024
+        actor: scheduled payment request
+        precondition: request includes scheduled payment date
+        action: avoid scheduled date more than 30 calendar days after request date
+        expected_response_or_event: scheduled date is no more than 30 calendar days after request date
+        required_state_effect: none stated
+        forbidden_state_effect: none stated
+        exception: none stated
+        evidence_needed: request date; scheduled date
+        why_this_obligation_is_required_by_the_text: Text caps scheduled date at 30 calendar days after request date.
+
+  - requirement_id: R025
+    review_status: AMBIGUOUS
+    ambiguity: Whether "between 10 and 500 characters" includes both endpoints is not explicit.
+    requirement_text: >
+      A rejection decision must include a comment between 10 and 500 characters;
+      approval decisions must not require that comment.
+    obligations:
+      - obligation_id: R025_O1
+        requirement_id: R025
+        actor: rejection decision request
+        precondition: decision type is rejection
+        action: include a comment
+        expected_response_or_event: rejection decision includes a comment
+        required_state_effect: none stated
+        forbidden_state_effect: none stated
+        exception: approval decisions need not include that comment
+        evidence_needed: rejection decision payload
+        why_this_obligation_is_required_by_the_text: Text says rejection decision must include a comment.
+      - obligation_id: R025_O2
+        requirement_id: R025
+        actor: rejection decision comment
+        precondition: decision type is rejection and comment is present
+        action: have length between 10 and 500 characters; endpoint inclusivity is AMBIGUOUS
+        expected_response_or_event: comment length satisfies stated 10-to-500-character range
+        required_state_effect: none stated
+        forbidden_state_effect: none stated
+        exception: approval decisions need not include that comment
+        evidence_needed: rejection decision payload; measured comment length
+        why_this_obligation_is_required_by_the_text: Text fixes comment length between 10 and 500 characters.
+      - obligation_id: R025_O3
+        requirement_id: R025
+        actor: approval decision request
+        precondition: decision type is approval
+        action: not require a comment
+        expected_response_or_event: absence of that comment is not itself a required-field violation for approval
+        required_state_effect: none required by text
+        forbidden_state_effect: forcing approval to include comment as mandatory field
+        exception: none stated
+        evidence_needed: approval decision payload without comment; validation outcome
+        why_this_obligation_is_required_by_the_text: Text explicitly says approval decisions must not require that comment.
+
+  - requirement_id: R026
+    review_status: FIX_TOO_STRONG
+    requirement_text: >
+      A beneficiary bank update request must include either an IBAN or both an
+      account number and routing number, but it must not include both forms at the
+      same time.
+    obligations:
+      - obligation_id: R026_O1
+        requirement_id: R026
+        actor: beneficiary bank update request
+        precondition: update request is submitted
+        action: provide either an IBAN or the pair of account number and routing number
+        expected_response_or_event: request contains one required identifier form
+        required_state_effect: none stated
+        forbidden_state_effect: none stated
+        exception: mutual-exclusion rule handled separately
+        evidence_needed: update payload; validation response
+        why_this_obligation_is_required_by_the_text: Text requires one of the two accepted identifier forms.
+      - obligation_id: R026_O2
+        requirement_id: R026
+        actor: beneficiary bank update request
+        precondition: request includes bank identifiers
+        action: avoid including both IBAN and account-plus-routing form simultaneously
+        expected_response_or_event: request does not contain both identifier forms simultaneously
+        required_state_effect: none stated
+        forbidden_state_effect: none stated
+        exception: none stated
+        evidence_needed: update payload; validation response
+        why_this_obligation_is_required_by_the_text: Text explicitly says request must not include both forms at the same time.
+
+  - requirement_id: R027
+    review_status: AMBIGUOUS
+    ambiguity: File-type detection method and decimal versus binary meaning of 5 MB are not explicit.
+    requirement_text: >
+      Attachment upload for a payment request must accept only `pdf` or `png`
+      files no larger than 5 MB.
+    obligations:
+      - obligation_id: R027_O1
+        requirement_id: R027
+        actor: attachment upload request
+        precondition: file is submitted for upload
+        action: use file type `pdf` or `png`
+        expected_response_or_event: file outside `pdf` or `png` is not accepted
+        required_state_effect: none stated
+        forbidden_state_effect: accepting file type outside `pdf` or `png`
+        exception: none stated
+        evidence_needed: submitted file; observed file-type determination; acceptance result
+        why_this_obligation_is_required_by_the_text: Text says attachment upload must accept only `pdf` or `png` files.
+      - obligation_id: R027_O2
+        requirement_id: R027
+        actor: attachment upload request
+        precondition: file is submitted for upload
+        action: keep file size no larger than 5 MB
+        expected_response_or_event: file larger than 5 MB is not accepted
+        required_state_effect: none stated
+        forbidden_state_effect: accepting file larger than 5 MB
+        exception: none stated
+        evidence_needed: submitted file; observed file size; acceptance result
+        why_this_obligation_is_required_by_the_text: Text sets maximum file size at 5 MB.
+
+  - requirement_id: R028
+    review_status: FIX_TOO_STRONG
+    requirement_text: >
+      A batch payout request must contain between 1 and 100 items, and all
+      `client_reference` values within the batch must be unique.
+    obligations:
+      - obligation_id: R028_O1
+        requirement_id: R028
+        actor: batch payout request
+        precondition: batch request is submitted
+        action: contain at least 1 item
+        expected_response_or_event: batch contains at least 1 item
+        required_state_effect: none stated
+        forbidden_state_effect: none stated
+        exception: none stated
+        evidence_needed: request payload size; validation response
+        why_this_obligation_is_required_by_the_text: Text requires batch to contain between 1 and 100 items.
+      - obligation_id: R028_O2
+        requirement_id: R028
+        actor: batch payout request
+        precondition: batch request is submitted
+        action: contain no more than 100 items
+        expected_response_or_event: batch contains no more than 100 items
+        required_state_effect: none stated
+        forbidden_state_effect: none stated
+        exception: none stated
+        evidence_needed: request payload size; validation response
+        why_this_obligation_is_required_by_the_text: Text caps batch size at 100 items.
+      - obligation_id: R028_O3
+        requirement_id: R028
+        actor: batch payout request
+        precondition: batch request contains items
+        action: keep all `client_reference` values unique within the batch
+        expected_response_or_event: all `client_reference` values within batch are unique
+        required_state_effect: none stated
+        forbidden_state_effect: none stated
+        exception: none stated
+        evidence_needed: batch payload; duplicate detection; validation response
+        why_this_obligation_is_required_by_the_text: Text explicitly requires all `client_reference` values within batch to be unique.
+
+  - requirement_id: R029
+    review_status: FIX_TOO_STRONG
+    requirement_text: >
+      A callback URL for asynchronous payment updates must use `https` and its
+      hostname must be on the tenant allowlist.
+    obligations:
+      - obligation_id: R029_O1
+        requirement_id: R029
+        actor: callback URL configuration request
+        precondition: callback URL is supplied
+        action: use `https` scheme
+        expected_response_or_event: callback URL uses `https`
+        required_state_effect: none stated
+        forbidden_state_effect: none stated
+        exception: none stated
+        evidence_needed: callback URL payload; validation response
+        why_this_obligation_is_required_by_the_text: Text says callback URL must use `https`.
+      - obligation_id: R029_O2
+        requirement_id: R029
+        actor: callback URL configuration request
+        precondition: callback URL is supplied
+        action: use hostname on the tenant allowlist
+        expected_response_or_event: callback URL hostname is on applicable tenant allowlist
+        required_state_effect: none stated
+        forbidden_state_effect: none stated
+        exception: none stated
+        evidence_needed: callback hostname; tenant allowlist record; validation response
+        why_this_obligation_is_required_by_the_text: Text requires hostname to be on the tenant allowlist.
+
+  - requirement_id: R030
+    review_status: FIX_TOO_STRONG
+    requirement_text: >
+      A refund request amount must not exceed the captured amount minus all prior
+      approved refunds for that payment.
+    obligations:
+      - obligation_id: R030_O1
+        requirement_id: R030
+        actor: refund request
+        precondition: refund amount is requested for a payment
+        action: ensure requested amount does not exceed captured amount minus all prior approved refunds for that payment
+        expected_response_or_event: requested amount is at most remaining refundable amount
+        required_state_effect: none stated
+        forbidden_state_effect: none stated
+        exception: none stated
+        evidence_needed: requested refund amount; captured amount; all prior approved refunds for that payment
+        why_this_obligation_is_required_by_the_text: Text defines maximum request amount as captured amount minus all prior approved refunds for that payment.

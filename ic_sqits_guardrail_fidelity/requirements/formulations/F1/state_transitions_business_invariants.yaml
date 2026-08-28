@@ -1,0 +1,126 @@
+metadata:
+  date: 2026-08-28
+  status: DRAFT_FOR_HUMAN_EQUIVALENCE_REVIEW
+  formulation_family: F1
+  category: state transitions/business invariants
+  source_requirements_file: requirements/requirements_v1.yaml
+
+formulations:
+  - requirement_id: R031
+    f0_text: >
+      A payment may move from `DRAFT` to `SUBMITTED` only if it has at least one
+      line item and the beneficiary record is verified.
+    f1_text: >
+      A payment may transition from `DRAFT` to `SUBMITTED` only when it has at
+      least one line item and the beneficiary record is verified.
+    semantic_diff_checklist:
+      - obligation: transition is from `DRAFT` to `SUBMITTED`
+        where_it_appears_in_f1: transition from `DRAFT` to `SUBMITTED`
+      - obligation: at least one line item required
+        where_it_appears_in_f1: it has at least one line item
+      - obligation: beneficiary record must be verified
+        where_it_appears_in_f1: the beneficiary record is verified
+
+  - requirement_id: R032
+    f0_text: >
+      A `SUBMITTED` payment may transition to `APPROVED` only after the required
+      approver count for that payment type has been reached.
+    f1_text: >
+      A `SUBMITTED` payment may move to `APPROVED` only after the required
+      approver count for that payment type is reached.
+    semantic_diff_checklist:
+      - obligation: starting state is `SUBMITTED`
+        where_it_appears_in_f1: A `SUBMITTED` payment
+      - obligation: target state is `APPROVED`
+        where_it_appears_in_f1: move to `APPROVED`
+      - obligation: required approver count for payment type must be reached first
+        where_it_appears_in_f1: only after the required approver count for that payment type is reached
+
+  - requirement_id: R033
+    f0_text: >
+      Once a payment reaches `EXECUTED`, no mutable field except
+      `reconciliation_note` may be changed.
+    f1_text: >
+      Once a payment reaches `EXECUTED`, no mutable field other than
+      `reconciliation_note` may be changed.
+    semantic_diff_checklist:
+      - obligation: rule begins once payment reaches `EXECUTED`
+        where_it_appears_in_f1: Once a payment reaches `EXECUTED`
+      - obligation: no mutable field may be changed except `reconciliation_note`
+        where_it_appears_in_f1: no mutable field other than `reconciliation_note` may be changed
+
+  - requirement_id: R034
+    f0_text: >
+      Rejecting a payment must set status to `REJECTED` and clear any scheduled
+      execution timestamp.
+    f1_text: >
+      Rejecting a payment must set its status to `REJECTED` and must clear any
+      scheduled execution timestamp.
+    semantic_diff_checklist:
+      - obligation: rejection sets status to `REJECTED`
+        where_it_appears_in_f1: must set its status to `REJECTED`
+      - obligation: rejection clears scheduled execution timestamp
+        where_it_appears_in_f1: must clear any scheduled execution timestamp
+
+  - requirement_id: R036
+    f0_text: >
+      A payment may be canceled only from `DRAFT` or `SUBMITTED`; a cancel request
+      for `APPROVED` or `EXECUTED` must return `409` and leave status unchanged.
+    f1_text: >
+      A payment may be canceled only while it is in `DRAFT` or `SUBMITTED`; a
+      cancel request for `APPROVED` or `EXECUTED` must return `409` and leave the
+      status unchanged.
+    semantic_diff_checklist:
+      - obligation: cancel allowed only from `DRAFT` or `SUBMITTED`
+        where_it_appears_in_f1: may be canceled only while it is in `DRAFT` or `SUBMITTED`
+      - obligation: cancel request for `APPROVED` or `EXECUTED` returns `409`
+        where_it_appears_in_f1: cancel request for `APPROVED` or `EXECUTED` must return `409`
+      - obligation: rejected cancel leaves status unchanged
+        where_it_appears_in_f1: leave the status unchanged
+
+  - requirement_id: R037
+    f0_text: >
+      If a delegation window expires while a delegated approval task is still
+      pending, that delegated task must become invalid and an expiration event must
+      be emitted.
+    f1_text: >
+      If a delegated approval task is still pending when the delegation window
+      expires, that delegated task must become invalid and an expiration event must
+      be emitted.
+    semantic_diff_checklist:
+      - obligation: trigger is pending delegated task at delegation-window expiry
+        where_it_appears_in_f1: still pending when the delegation window expires
+      - obligation: delegated task must become invalid
+        where_it_appears_in_f1: that delegated task must become invalid
+      - obligation: expiration event must be emitted
+        where_it_appears_in_f1: an expiration event must be emitted
+
+  - requirement_id: R038
+    f0_text: >
+      Opening a chargeback on a captured payment must set `dispute_status` to
+      `OPEN` and must block creation of further refunds until the dispute is
+      resolved.
+    f1_text: >
+      Opening a chargeback on a captured payment must set `dispute_status` to
+      `OPEN` and must block any further refund creation until the dispute is
+      resolved.
+    semantic_diff_checklist:
+      - obligation: opening chargeback on captured payment sets `dispute_status` to `OPEN`
+        where_it_appears_in_f1: must set `dispute_status` to `OPEN`
+      - obligation: further refunds blocked until dispute resolved
+        where_it_appears_in_f1: must block any further refund creation until the dispute is resolved
+
+  - requirement_id: R040
+    f0_text: >
+      A partially refunded payment must remain in `CAPTURED` status until the sum
+      of approved refunds equals the captured amount; only then may status become
+      `REFUNDED`.
+    f1_text: >
+      A partially refunded payment must stay in `CAPTURED` status until the total
+      of approved refunds equals the captured amount; only then may the status
+      become `REFUNDED`.
+    semantic_diff_checklist:
+      - obligation: partially refunded payment remains `CAPTURED` until equality point
+        where_it_appears_in_f1: must stay in `CAPTURED` status until the total of approved refunds equals the captured amount
+      - obligation: status may become `REFUNDED` only then
+        where_it_appears_in_f1: only then may the status become `REFUNDED`

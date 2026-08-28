@@ -1,0 +1,241 @@
+metadata:
+  date: 2026-08-27
+  status: FINAL_HUMAN_REVIEWED
+  category: observability/audit
+  source_requirements_file: requirements/requirements_v1.yaml
+
+checklists:
+  - requirement_id: R051
+    review_status: OK
+    requirement_text: >
+      Every API response from the payment service must include a `correlation_id`
+      header, and the same ID must appear in the corresponding request log entry.
+    obligations:
+      - obligation_id: R051_O1
+        requirement_id: R051
+        actor: payment service response logic
+        precondition: API response is returned from payment service
+        action: include a `correlation_id` header
+        expected_response_or_event: response contains `correlation_id` header
+        required_state_effect: none required by text
+        forbidden_state_effect: API response without `correlation_id` header
+        exception: none stated
+        evidence_needed: HTTP response headers
+        why_this_obligation_is_required_by_the_text: Text says every API response must include a `correlation_id` header.
+      - obligation_id: R051_O2
+        requirement_id: R051
+        actor: request logging logic
+        precondition: API response includes `correlation_id` header
+        action: write the same ID into corresponding request log entry
+        expected_response_or_event: request log contains matching `correlation_id`
+        required_state_effect: request log entry records same ID
+        forbidden_state_effect: log entry missing correlation ID or using different value
+        exception: none stated
+        evidence_needed: response header; request log entry; correlation match check
+        why_this_obligation_is_required_by_the_text: Text explicitly requires same ID to appear in corresponding request log entry.
+
+  - requirement_id: R053
+    review_status: FIX_TOO_STRONG
+    requirement_text: >
+      The system must record approval latency as the elapsed time between payment
+      submission and the first terminal approval or rejection decision.
+    obligations:
+      - obligation_id: R053_O1
+        requirement_id: R053
+        actor: approval latency measurement logic
+        precondition: payment submission and first terminal approval or rejection decision have occurred
+        action: compute elapsed time from submission to first terminal decision
+        expected_response_or_event: approval latency value reflects that interval
+        required_state_effect: latency value recorded
+        forbidden_state_effect: latency measured from wrong start or end event
+        exception: none stated
+        evidence_needed: submission timestamp; first terminal decision timestamp; recorded latency metric or audit field
+        why_this_obligation_is_required_by_the_text: Text defines approval latency as elapsed time between submission and first terminal approval or rejection decision.
+
+  - requirement_id: R054
+    review_status: AMBIGUOUS
+    ambiguity: It is unclear whether job ID, result, and timestamp apply only to end event or to both start and end events.
+    requirement_text: >
+      Every execution job must emit a structured start event and a structured end
+      event containing job ID, result, and timestamp.
+    obligations:
+      - obligation_id: R054_O1
+        requirement_id: R054
+        actor: execution job lifecycle logic
+        precondition: execution job begins
+        action: emit a structured start event
+        expected_response_or_event: start event appears for the job
+        required_state_effect: structured start event emitted
+        forbidden_state_effect: execution job starting without start event
+        exception: none stated
+        evidence_needed: job event stream; job execution records
+        why_this_obligation_is_required_by_the_text: Text requires every execution job to emit a structured start event.
+      - obligation_id: R054_O2
+        requirement_id: R054
+        actor: execution job lifecycle logic
+        precondition: execution job ends
+        action: emit a structured end event
+        expected_response_or_event: end event appears for the job
+        required_state_effect: structured end event emitted
+        forbidden_state_effect: execution job ending without end event
+        exception: none stated
+        evidence_needed: job event stream; job execution records
+        why_this_obligation_is_required_by_the_text: Text requires every execution job to emit a structured end event.
+      - obligation_id: R054_O3
+        requirement_id: R054
+        actor: structured event or events; AMBIGUOUS which event scope receives named fields
+        precondition: start or end event is emitted for an execution job
+        action: include job ID, result, and timestamp; applicable event scope is AMBIGUOUS
+        expected_response_or_event: applicable event payload contains all named fields; scope is AMBIGUOUS
+        required_state_effect: none beyond event completeness; scope is AMBIGUOUS
+        forbidden_state_effect: omission of job ID, result, or timestamp from event to which clause applies; scope is AMBIGUOUS
+        exception: none stated
+        evidence_needed: event payloads; schema validation
+        why_this_obligation_is_required_by_the_text: Text names job ID, result, and timestamp but grammatical attachment to one or both events is AMBIGUOUS.
+
+  - requirement_id: R055
+    review_status: AMBIGUOUS
+    ambiguity: It is unclear whether text requires violation-record emission or only constrains a record when emitted.
+    requirement_text: >
+      If a guardrail blocks a request, the emitted violation record must include
+      the originating `requirement_id`.
+    obligations:
+      - obligation_id: R055_O1
+        requirement_id: R055
+        actor: guardrail violation recording logic
+        precondition: guardrail blocks a request
+        action: emit a violation record; whether emission itself is mandatory is AMBIGUOUS
+        expected_response_or_event: violation record exists if emitted; emission requirement is AMBIGUOUS
+        required_state_effect: AMBIGUOUS whether violation record emission is required
+        forbidden_state_effect: AMBIGUOUS whether blocked request without violation record violates text
+        exception: none stated
+        evidence_needed: guardrail decision output; violation record payload
+        why_this_obligation_is_required_by_the_text: Text presumes emitted violation record when guardrail blocks a request.
+      - obligation_id: R055_O2
+        requirement_id: R055
+        actor: violation record
+        precondition: guardrail blocks a request and a violation record is emitted
+        action: include originating `requirement_id`
+        expected_response_or_event: violation record contains `requirement_id`
+        required_state_effect: none beyond record completeness
+        forbidden_state_effect: violation record missing originating `requirement_id`
+        exception: none stated
+        evidence_needed: violation record payload; requirement mapping table
+        why_this_obligation_is_required_by_the_text: Text explicitly requires the emitted violation record to include originating `requirement_id`.
+
+  - requirement_id: R057
+    review_status: FIX_TOO_STRONG
+    requirement_text: >
+      When the provider retry circuit opens, the system must emit one alert event
+      per open interval and must not emit duplicate alerts until the circuit has
+      closed again.
+    obligations:
+      - obligation_id: R057_O1
+        requirement_id: R057
+        actor: circuit state monitoring logic
+        precondition: provider retry circuit opens
+        action: emit one alert event for that open interval
+        expected_response_or_event: alert event appears when circuit opens
+        required_state_effect: alert event emitted for open interval
+        forbidden_state_effect: no alert for open interval
+        exception: none stated
+        evidence_needed: circuit state-change log; alert event stream
+        why_this_obligation_is_required_by_the_text: Text says system must emit one alert event per open interval.
+      - obligation_id: R057_O2
+        requirement_id: R057
+        actor: circuit state monitoring logic
+        precondition: circuit remains open after alert already emitted for the current open interval
+        action: do not emit another alert during same open interval
+        expected_response_or_event: no additional alert events during same open interval
+        required_state_effect: duplicate alerts suppressed
+        forbidden_state_effect: duplicate alert events before circuit closes again
+        exception: none stated
+        evidence_needed: alert event stream; circuit close/open boundary records
+        why_this_obligation_is_required_by_the_text: Text explicitly says duplicate alerts must not be emitted until circuit has closed again.
+
+  - requirement_id: R058
+    review_status: FIX_TOO_STRONG
+    requirement_text: >
+      A manual override action must include a non-empty reason and must append an
+      audit record referencing the affected entity ID.
+    obligations:
+      - obligation_id: R058_O1
+        requirement_id: R058
+        actor: manual override request
+        precondition: manual override action is submitted
+        action: include a non-empty reason
+        expected_response_or_event: manual override action contains a non-empty reason
+        required_state_effect: none stated
+        forbidden_state_effect: manual override action with an empty reason
+        exception: none stated
+        evidence_needed: manual override action payload showing reason
+        why_this_obligation_is_required_by_the_text: Text says manual override action must include a non-empty reason.
+      - obligation_id: R058_O2
+        requirement_id: R058
+        actor: manual override workflow
+        precondition: manual override action occurs
+        action: append an audit record referencing affected entity ID
+        expected_response_or_event: audit trail contains override record with entity reference
+        required_state_effect: audit record appended
+        forbidden_state_effect: manual override without audit record or without entity reference
+        exception: none stated
+        evidence_needed: audit record contents; affected entity ID; override response
+        why_this_obligation_is_required_by_the_text: Text explicitly requires audit record referencing affected entity ID.
+
+  - requirement_id: R059
+    review_status: OK
+    requirement_text: >
+      Detecting a reconciliation mismatch must increment a mismatch metric and must
+      create a review case linked to the payment batch.
+    obligations:
+      - obligation_id: R059_O1
+        requirement_id: R059
+        actor: reconciliation workflow
+        precondition: reconciliation mismatch is detected
+        action: increment mismatch metric
+        expected_response_or_event: mismatch metric increases
+        required_state_effect: mismatch metric incremented
+        forbidden_state_effect: detected mismatch without metric increment
+        exception: none stated
+        evidence_needed: reconciliation output; metrics scrape or event
+        why_this_obligation_is_required_by_the_text: Text explicitly says detecting mismatch must increment a mismatch metric.
+      - obligation_id: R059_O2
+        requirement_id: R059
+        actor: reconciliation workflow
+        precondition: reconciliation mismatch is detected
+        action: create a review case linked to the payment batch
+        expected_response_or_event: review case exists and references payment batch
+        required_state_effect: review case created with batch linkage
+        forbidden_state_effect: detected mismatch without linked review case
+        exception: none stated
+        evidence_needed: review case record; batch link; reconciliation output
+        why_this_obligation_is_required_by_the_text: Text explicitly requires creation of a review case linked to the payment batch.
+
+  - requirement_id: R060
+    review_status: OK
+    requirement_text: >
+      Completion of a data export job must emit an event containing requester ID,
+      row count, duration in milliseconds, and success flag.
+    obligations:
+      - obligation_id: R060_O1
+        requirement_id: R060
+        actor: data export job completion logic
+        precondition: data export job completes
+        action: emit a completion event
+        expected_response_or_event: export completion event exists
+        required_state_effect: completion event emitted
+        forbidden_state_effect: completed export job without completion event
+        exception: none stated
+        evidence_needed: export completion event; job metadata
+        why_this_obligation_is_required_by_the_text: Text says completion of data export job must emit an event.
+      - obligation_id: R060_O2
+        requirement_id: R060
+        actor: export completion event
+        precondition: completion event is emitted
+        action: include requester ID, row count, duration in milliseconds, and success flag
+        expected_response_or_event: event payload contains all named fields
+        required_state_effect: none beyond event completeness
+        forbidden_state_effect: omission of any required field from completion event
+        exception: none stated
+        evidence_needed: event payload; schema validation
+        why_this_obligation_is_required_by_the_text: Text explicitly lists requester ID, row count, duration in milliseconds, and success flag as event fields.

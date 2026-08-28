@@ -1,0 +1,92 @@
+metadata:
+  date: 2026-08-28
+  status: DRAFT_FOR_HUMAN_CLARIFICATION_REVIEW
+  formulation_family: F3
+  category: observability/audit
+  source_requirements_file: requirements/requirements_v1.yaml
+
+formulations:
+  - requirement_id: R051
+    f0_text: >
+      Every API response from the payment service must include a `correlation_id`
+      header, and the same ID must appear in the corresponding request log entry.
+    f3_text: >
+      For every API response emitted by the payment service, the response must
+      include a `correlation_id` header. The same `correlation_id` value must also
+      appear in the corresponding request log entry.
+    clarification_note: >
+      Makes the cross-artifact field match explicit.
+
+  - requirement_id: R053
+    f0_text: >
+      The system must record approval latency as the elapsed time between payment
+      submission and the first terminal approval or rejection decision.
+    f3_text: >
+      The system must record approval latency as the elapsed time starting at
+      payment submission and ending at the first terminal approval decision or the
+      first terminal rejection decision.
+    clarification_note: >
+      Makes the metric start point and alternative terminal end points explicit.
+
+  - requirement_id: R054
+    f0_text: >
+      Every execution job must emit a structured start event and a structured end
+      event containing job ID, result, and timestamp.
+    f3_text: CANNOT_CLARIFY_WITHOUT_ASSUMPTION
+    clarification_note: >
+      Clarifying whether job ID, result, and timestamp apply only to the end event
+      or to both events would require an assumption not entailed by F0.
+
+  - requirement_id: R055
+    f0_text: >
+      If a guardrail blocks a request, the emitted violation record must include
+      the originating `requirement_id`.
+    f3_text: CANNOT_CLARIFY_WITHOUT_ASSUMPTION
+    clarification_note: >
+      Clarifying whether F0 requires a violation record to be emitted in every
+      blocked-request case would require an assumption not entailed by F0.
+
+  - requirement_id: R057
+    f0_text: >
+      When the provider retry circuit opens, the system must emit one alert event
+      per open interval and must not emit duplicate alerts until the circuit has
+      closed again.
+    f3_text: >
+      Each time the provider retry circuit enters an open interval, the system
+      must emit one alert event for that interval. Until the circuit closes again,
+      the system must not emit duplicate alerts for the same open interval.
+    clarification_note: >
+      Makes the interval unit and duplicate-suppression window explicit.
+
+  - requirement_id: R058
+    f0_text: >
+      A manual override action must include a non-empty reason and must append an
+      audit record referencing the affected entity ID.
+    f3_text: >
+      When a manual override action is performed, the action payload must include
+      a non-empty reason, and the system must append an audit record that
+      references the affected entity ID.
+    clarification_note: >
+      Makes the action trigger, required input, and audit consequence explicit.
+
+  - requirement_id: R059
+    f0_text: >
+      Detecting a reconciliation mismatch must increment a mismatch metric and must
+      create a review case linked to the payment batch.
+    f3_text: >
+      When a reconciliation mismatch is detected, the system must increment a
+      mismatch metric and must create a review case linked to the affected payment
+      batch.
+    clarification_note: >
+      Makes the detection trigger and both required downstream effects explicit.
+
+  - requirement_id: R060
+    f0_text: >
+      Completion of a data export job must emit an event containing requester ID,
+      row count, duration in milliseconds, and success flag.
+    f3_text: >
+      When a data export job completes, the system must emit an event. That event
+      must contain requester ID, row count, duration in milliseconds, and success
+      flag.
+    clarification_note: >
+      Makes the completion trigger and required event payload explicit.

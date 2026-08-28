@@ -1,0 +1,125 @@
+metadata:
+  date: 2026-08-28
+  status: DRAFT_FOR_HUMAN_EQUIVALENCE_REVIEW
+  formulation_family: F1
+  category: observability/audit
+  source_requirements_file: requirements/requirements_v1.yaml
+
+formulations:
+  - requirement_id: R051
+    f0_text: >
+      Every API response from the payment service must include a `correlation_id`
+      header, and the same ID must appear in the corresponding request log entry.
+    f1_text: >
+      Every API response from the payment service must include a `correlation_id`
+      header, and that same ID must appear in the corresponding request log entry.
+    semantic_diff_checklist:
+      - obligation: every API response includes `correlation_id` header
+        where_it_appears_in_f1: Every API response from the payment service must include a `correlation_id` header
+      - obligation: same ID appears in corresponding request log entry
+        where_it_appears_in_f1: that same ID must appear in the corresponding request log entry
+
+  - requirement_id: R053
+    f0_text: >
+      The system must record approval latency as the elapsed time between payment
+      submission and the first terminal approval or rejection decision.
+    f1_text: >
+      The system must record approval latency as the elapsed time from payment
+      submission to the first terminal approval or rejection decision.
+    semantic_diff_checklist:
+      - obligation: metric is approval latency
+        where_it_appears_in_f1: The system must record approval latency
+      - obligation: latency is elapsed time from submission to first terminal approval or rejection decision
+        where_it_appears_in_f1: elapsed time from payment submission to the first terminal approval or rejection decision
+
+  - requirement_id: R054
+    f0_text: >
+      Every execution job must emit a structured start event and a structured end
+      event containing job ID, result, and timestamp.
+    f1_text: >
+      Every execution job must emit a structured start event and a structured end
+      event containing job ID, result, and timestamp.
+    semantic_diff_checklist:
+      - obligation: emit structured start event
+        where_it_appears_in_f1: structured start event
+      - obligation: emit structured end event
+        where_it_appears_in_f1: structured end event
+      - obligation: ambiguity about whether job ID, result, and timestamp attach only to end event or to both events is preserved
+        where_it_appears_in_f1: containing job ID, result, and timestamp
+
+  - requirement_id: R055
+    f0_text: >
+      If a guardrail blocks a request, the emitted violation record must include
+      the originating `requirement_id`.
+    f1_text: >
+      If a guardrail blocks a request, the violation record it emits must include
+      the originating `requirement_id`.
+    semantic_diff_checklist:
+      - obligation: trigger is request blocked by guardrail
+        where_it_appears_in_f1: If a guardrail blocks a request
+      - obligation: emitted violation record must include originating `requirement_id`
+        where_it_appears_in_f1: violation record it emits must include the originating `requirement_id`
+
+  - requirement_id: R057
+    f0_text: >
+      When the provider retry circuit opens, the system must emit one alert event
+      per open interval and must not emit duplicate alerts until the circuit has
+      closed again.
+    f1_text: >
+      When the provider retry circuit opens, the system must emit one alert event
+      for each open interval and must not emit duplicate alerts until the circuit
+      closes again.
+    semantic_diff_checklist:
+      - obligation: trigger is provider retry circuit opening
+        where_it_appears_in_f1: When the provider retry circuit opens
+      - obligation: one alert event per open interval
+        where_it_appears_in_f1: emit one alert event for each open interval
+      - obligation: no duplicate alerts until circuit closes again
+        where_it_appears_in_f1: must not emit duplicate alerts until the circuit closes again
+
+  - requirement_id: R058
+    f0_text: >
+      A manual override action must include a non-empty reason and must append an
+      audit record referencing the affected entity ID.
+    f1_text: >
+      A manual override action must include a non-empty reason and must append an
+      audit record that references the affected entity ID.
+    semantic_diff_checklist:
+      - obligation: manual override includes non-empty reason
+        where_it_appears_in_f1: must include a non-empty reason
+      - obligation: manual override appends audit record
+        where_it_appears_in_f1: must append an audit record
+      - obligation: audit record references affected entity ID
+        where_it_appears_in_f1: that references the affected entity ID
+
+  - requirement_id: R059
+    f0_text: >
+      Detecting a reconciliation mismatch must increment a mismatch metric and must
+      create a review case linked to the payment batch.
+    f1_text: >
+      Detecting a reconciliation mismatch must increment a mismatch metric and must
+      create a review case that is linked to the payment batch.
+    semantic_diff_checklist:
+      - obligation: reconciliation mismatch increments mismatch metric
+        where_it_appears_in_f1: must increment a mismatch metric
+      - obligation: review case created and linked to payment batch
+        where_it_appears_in_f1: must create a review case that is linked to the payment batch
+
+  - requirement_id: R060
+    f0_text: >
+      Completion of a data export job must emit an event containing requester ID,
+      row count, duration in milliseconds, and success flag.
+    f1_text: >
+      Completing a data export job must emit an event containing requester ID, row
+      count, duration in milliseconds, and success flag.
+    semantic_diff_checklist:
+      - obligation: completion of data export job emits event
+        where_it_appears_in_f1: Completing a data export job must emit an event
+      - obligation: event includes requester ID
+        where_it_appears_in_f1: requester ID
+      - obligation: event includes row count
+        where_it_appears_in_f1: row count
+      - obligation: event includes duration in milliseconds
+        where_it_appears_in_f1: duration in milliseconds
+      - obligation: event includes success flag
+        where_it_appears_in_f1: success flag

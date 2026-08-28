@@ -1,0 +1,310 @@
+metadata:
+  date: 2026-08-27
+  status: FINAL_HUMAN_REVIEWED
+  category: authorization/security
+  source_requirements_file: requirements/requirements_v1.yaml
+
+checklists:
+  - requirement_id: R001
+    review_status: FIX_TOO_STRONG
+    requirement_text: >
+      A payment request may be approved only by a user with the `approver` role,
+      and the user who submitted the request must not approve that same request.
+    obligations:
+      - obligation_id: R001_O1
+        requirement_id: R001
+        actor: user requesting approval
+        precondition: approval request is submitted for an existing payment request
+        action: hold the `approver` role at approval time
+        expected_response_or_event: approval must not occur for a non-approver
+        required_state_effect: none required by text on rejection
+        forbidden_state_effect: no approval may be recorded for a non-approver
+        exception: none stated
+        evidence_needed: request actor role; approval response; approval record or audit entry
+        why_this_obligation_is_required_by_the_text: Text says approval may occur only by a user with the `approver` role.
+      - obligation_id: R001_O2
+        requirement_id: R001
+        actor: user requesting approval
+        precondition: approval request is submitted by the payment submitter
+        action: be blocked from approving that same payment request
+        expected_response_or_event: the original submitter must not approve the same request
+        required_state_effect: none required by text on rejection
+        forbidden_state_effect: no approval by the original submitter may be recorded for that same request
+        exception: none stated
+        evidence_needed: submitter identity; acting user identity; response; approval record or audit entry
+        why_this_obligation_is_required_by_the_text: Text explicitly forbids the submitting user from approving the same request.
+
+  - requirement_id: R002
+    review_status: FIX_TOO_STRONG
+    requirement_text: >
+      A payment greater than 10000 USD may be released only after two distinct
+      approvers have approved it, and at least one approver must hold the
+      `finance_manager` role.
+    obligations:
+      - obligation_id: R002_O1
+        requirement_id: R002
+        actor: payment release workflow
+        precondition: payment amount is greater than 10000 USD
+        action: allow release only after at least two approvers have approved the payment
+        expected_response_or_event: release before two approvals must be blocked
+        required_state_effect: none required by text
+        forbidden_state_effect: no release when fewer than two approvals exist
+        exception: none stated
+        evidence_needed: payment amount; approval history; release response or execution log
+        why_this_obligation_is_required_by_the_text: Text conditions release on two approvals for payments above the threshold.
+      - obligation_id: R002_O2
+        requirement_id: R002
+        actor: payment release workflow
+        precondition: payment amount is greater than 10000 USD and release is attempted
+        action: confirm that at least two distinct approvers have approved the payment
+        expected_response_or_event: duplicate approver identities do not satisfy release prerequisite
+        required_state_effect: none beyond prerequisite satisfaction
+        forbidden_state_effect: no release if required approvals are not from distinct approvers
+        exception: none stated
+        evidence_needed: approver identities in approval history; release attempt outcome
+        why_this_obligation_is_required_by_the_text: Text requires two distinct approvers.
+      - obligation_id: R002_O3
+        requirement_id: R002
+        actor: payment release workflow
+        precondition: payment amount is greater than 10000 USD and release is attempted
+        action: confirm that at least one approver holds the `finance_manager` role
+        expected_response_or_event: release without a `finance_manager` approver must be blocked
+        required_state_effect: none beyond prerequisite satisfaction
+        forbidden_state_effect: no release when approvals lack a `finance_manager`
+        exception: none stated
+        evidence_needed: approver roles in approval history; release outcome
+        why_this_obligation_is_required_by_the_text: Text explicitly requires at least one approver with `finance_manager` role.
+
+  - requirement_id: R003
+    review_status: FIX_TOO_STRONG
+    requirement_text: >
+      A payment may be voided only by its creator or by an `admin` user before
+      settlement, and a successful void must set status to `VOIDED` and append a
+      void audit event.
+    obligations:
+      - obligation_id: R003_O1
+        requirement_id: R003
+        actor: user requesting void
+        precondition: void request is submitted for a payment
+        action: be either the payment creator or an `admin`
+        expected_response_or_event: void must not succeed for an actor who is neither creator nor `admin`
+        required_state_effect: none required by text on rejection
+        forbidden_state_effect: no void success for non-creator non-admin actor
+        exception: none stated
+        evidence_needed: actor identity and role; payment creator identity; void response
+        why_this_obligation_is_required_by_the_text: Text limits void permission to creator or `admin`.
+      - obligation_id: R003_O2
+        requirement_id: R003
+        actor: payment service
+        precondition: void request is submitted
+        action: allow void only before settlement
+        expected_response_or_event: void must not succeed after settlement
+        required_state_effect: none required by text on rejection
+        forbidden_state_effect: no successful void after settlement
+        exception: none stated
+        evidence_needed: settlement status; void response; payment state timeline
+        why_this_obligation_is_required_by_the_text: Text says void is permitted only before settlement.
+      - obligation_id: R003_O3
+        requirement_id: R003
+        actor: payment service
+        precondition: authorized pre-settlement void succeeds
+        action: set payment status to `VOIDED`
+        expected_response_or_event: payment record reflects `VOIDED`
+        required_state_effect: payment status becomes `VOIDED`
+        forbidden_state_effect: payment must not remain in prior active status after successful void
+        exception: none stated
+        evidence_needed: payment state before and after void request
+        why_this_obligation_is_required_by_the_text: Text explicitly requires successful void to set status to `VOIDED`.
+      - obligation_id: R003_O4
+        requirement_id: R003
+        actor: payment service
+        precondition: authorized pre-settlement void succeeds
+        action: append a void audit event
+        expected_response_or_event: audit stream contains void event
+        required_state_effect: void audit event is appended
+        forbidden_state_effect: successful void without audit event
+        exception: none stated
+        evidence_needed: audit stream entry linked to void action
+        why_this_obligation_is_required_by_the_text: Text explicitly requires a void audit event on successful void.
+
+  - requirement_id: R004
+    review_status: OK
+    requirement_text: >
+      If an approval request is made with an inactive session token, the system
+      must return `401`, must not record an approval, and must not change payment
+      state.
+    obligations:
+      - obligation_id: R004_O1
+        requirement_id: R004
+        actor: payment service
+        precondition: approval request arrives with an inactive session token
+        action: return `401`
+        expected_response_or_event: HTTP response code is `401`
+        required_state_effect: none required by text
+        forbidden_state_effect: returning success or non-401 approval response
+        exception: none stated
+        evidence_needed: session token status; HTTP response code
+        why_this_obligation_is_required_by_the_text: Text explicitly requires `401` for inactive-session approval requests.
+      - obligation_id: R004_O2
+        requirement_id: R004
+        actor: payment service
+        precondition: approval request arrives with an inactive session token
+        action: refuse to record an approval
+        expected_response_or_event: no approval record is created
+        required_state_effect: none required by text
+        forbidden_state_effect: creation of any approval record
+        exception: none stated
+        evidence_needed: approval table or event log; request outcome
+        why_this_obligation_is_required_by_the_text: Text says system must not record an approval.
+      - obligation_id: R004_O3
+        requirement_id: R004
+        actor: payment service
+        precondition: approval request arrives with an inactive session token
+        action: preserve payment state unchanged
+        expected_response_or_event: payment state after request matches state before request
+        required_state_effect: no state change
+        forbidden_state_effect: any payment state transition caused by the request
+        exception: none stated
+        evidence_needed: payment state before request; payment state after request
+        why_this_obligation_is_required_by_the_text: Text explicitly says payment state must not change.
+
+  - requirement_id: R005
+    review_status: FIX_TOO_STRONG
+    requirement_text: >
+      A user with the `support_readonly` role may view payment summaries but must
+      not see full account numbers, routing numbers, or approval comments marked
+      confidential.
+    obligations:
+      - obligation_id: R005_O1
+        requirement_id: R005
+        actor: user with `support_readonly` role
+        precondition: request asks for payment summary view
+        action: be allowed to view payment summaries
+        expected_response_or_event: summary request succeeds for authorized support_readonly actor
+        required_state_effect: none required by text
+        forbidden_state_effect: denial of summary view solely because actor is support_readonly
+        exception: none stated
+        evidence_needed: actor role; summary response
+        why_this_obligation_is_required_by_the_text: Text says support_readonly may view payment summaries.
+      - obligation_id: R005_O2
+        requirement_id: R005
+        actor: payment summary response
+        precondition: summary is shown to `support_readonly` actor
+        action: prevent full account numbers from being visible
+        expected_response_or_event: full account numbers are not visible in response
+        required_state_effect: none required by text
+        forbidden_state_effect: exposure of full account numbers
+        exception: none stated
+        evidence_needed: response payload or rendered fields
+        why_this_obligation_is_required_by_the_text: Text says support_readonly must not see full account numbers.
+      - obligation_id: R005_O3
+        requirement_id: R005
+        actor: payment summary response
+        precondition: summary is shown to `support_readonly` actor
+        action: prevent routing numbers from being visible
+        expected_response_or_event: routing numbers are not visible in response
+        required_state_effect: none required by text
+        forbidden_state_effect: exposure of routing numbers
+        exception: none stated
+        evidence_needed: response payload or rendered fields
+        why_this_obligation_is_required_by_the_text: Text says support_readonly must not see routing numbers.
+      - obligation_id: R005_O4
+        requirement_id: R005
+        actor: payment summary response
+        precondition: summary is shown to `support_readonly` actor
+        action: prevent approval comments marked confidential from being visible
+        expected_response_or_event: confidential approval comments are not visible
+        required_state_effect: none required by text
+        forbidden_state_effect: exposure of confidential approval comments
+        exception: none stated
+        evidence_needed: response payload; confidentiality marking on comments
+        why_this_obligation_is_required_by_the_text: Text explicitly forbids showing confidential approval comments.
+
+  - requirement_id: R007
+    review_status: FIX_MISSING
+    requirement_text: >
+      An approval delegate may act for the original approver only during the
+      configured delegation window, and the delegate must not create a further
+      delegation from that temporary authority.
+    obligations:
+      - obligation_id: R007_O1
+        requirement_id: R007
+        actor: delegate user
+        precondition: delegate attempts to act for the original approver
+        action: act only during configured delegation window
+        expected_response_or_event: delegate must not successfully act for original approver outside configured window
+        required_state_effect: none required by text on rejection
+        forbidden_state_effect: any action by delegate for original approver outside configured delegation window
+        exception: none stated
+        evidence_needed: delegation window record; action timestamp; delegated action response or action record
+        why_this_obligation_is_required_by_the_text: Text says delegate may act only during the configured delegation window.
+      - obligation_id: R007_O2
+        requirement_id: R007
+        actor: delegate user
+        precondition: delegate has temporary delegated authority
+        action: not create a further delegation from that authority
+        expected_response_or_event: no further delegation may be created from temporary authority
+        required_state_effect: none required by text
+        forbidden_state_effect: creation of further delegation from temporary authority
+        exception: none stated
+        evidence_needed: delegation-create response; delegation records; actor identity
+        why_this_obligation_is_required_by_the_text: Text explicitly forbids further delegation from temporary authority.
+
+  - requirement_id: R008
+    review_status: FIX_TOO_STRONG
+    requirement_text: >
+      A settled payment may be reversed only by a user with the `treasury` role,
+      and the reversal request must reference an existing incident ticket.
+    obligations:
+      - obligation_id: R008_O1
+        requirement_id: R008
+        actor: user requesting reversal
+        precondition: target payment is settled and reversal is requested
+        action: hold the `treasury` role
+        expected_response_or_event: settled payment must not be reversed by a non-`treasury` user
+        required_state_effect: none required by text on rejection
+        forbidden_state_effect: successful reversal by non-treasury actor
+        exception: none stated
+        evidence_needed: payment settlement status; actor role; reversal response
+        why_this_obligation_is_required_by_the_text: Text says settled payment may be reversed only by user with `treasury` role.
+      - obligation_id: R008_O2
+        requirement_id: R008
+        actor: reversal request
+        precondition: target payment is settled and reversal is requested
+        action: reference an existing incident ticket
+        expected_response_or_event: reversal must not occur without reference to an existing incident ticket
+        required_state_effect: none required by text on rejection
+        forbidden_state_effect: reversal without reference to an existing incident ticket
+        exception: none stated
+        evidence_needed: reversal request payload; incident ticket lookup result; reversal response
+        why_this_obligation_is_required_by_the_text: Text explicitly requires reversal request to reference an existing incident ticket.
+
+  - requirement_id: R010
+    review_status: FIX_MISSING
+    requirement_text: >
+      A service account may create an internal transfer only when its mTLS client
+      subject is on the approved allowlist; otherwise the request must be denied
+      and no transfer record may be created.
+    obligations:
+      - obligation_id: R010_O1
+        requirement_id: R010
+        actor: service account
+        precondition: service account requests creation of an internal transfer
+        action: have an mTLS client subject that is on the approved allowlist
+        expected_response_or_event: request without allowlisted subject must be denied
+        required_state_effect: none required by text on denial
+        forbidden_state_effect: transfer creation for absent or non-allowlisted subject
+        exception: none stated
+        evidence_needed: mTLS subject in request context; allowlist lookup; response
+        why_this_obligation_is_required_by_the_text: Text conditions transfer creation on allowlisted mTLS client subject.
+      - obligation_id: R010_O2
+        requirement_id: R010
+        actor: payment service
+        precondition: internal transfer request is denied because subject is absent or not allowlisted
+        action: avoid creating a transfer record
+        expected_response_or_event: no transfer record exists after denial
+        required_state_effect: none required by text on denial
+        forbidden_state_effect: creation of transfer record for denied request
+        exception: none stated
+        evidence_needed: transfer creation response; persistence log or transfer table
+        why_this_obligation_is_required_by_the_text: Text says denied request must not create a transfer record.

@@ -1,0 +1,98 @@
+metadata:
+  date: 2026-08-28
+  status: DRAFT_FOR_HUMAN_CLARIFICATION_REVIEW
+  formulation_family: F3
+  category: reliability/idempotency
+  source_requirements_file: requirements/requirements_v1.yaml
+
+formulations:
+  - requirement_id: R041
+    f0_text: >
+      Repeating a create-payment request with the same idempotency key and the same
+      request body must return the original payment ID and must not create a second
+      payment record.
+    f3_text: >
+      If a create-payment request is repeated with the same idempotency key and the
+      same request body, the system must return the original payment ID and must
+      not create a second payment record.
+    clarification_note: >
+      Makes the repeat-request trigger and both required effects explicit.
+
+  - requirement_id: R042
+    f0_text: >
+      Reusing an idempotency key with a different request body must return `409`
+      and must not create or modify any payment record.
+    f3_text: >
+      If an idempotency key is reused with a different request body, the system
+      must return `409` and must neither create nor modify any payment record.
+    clarification_note: >
+      Makes the mismatch trigger, response, and blocked persistence changes
+      explicit.
+
+  - requirement_id: R043
+    f0_text: >
+      Retrying the same approval command after a client timeout must not record a
+      duplicate approval action for the same approver and payment.
+    f3_text: >
+      If the same approval command is retried after a client timeout for the same
+      approver and payment, the system must not record a duplicate approval
+      action.
+    clarification_note: >
+      Makes the retry trigger and duplicate-recording prohibition explicit.
+
+  - requirement_id: R044
+    f0_text: >
+      The ledger-posting consumer must ignore a duplicate provider message ID and
+      must append a `duplicate_ignored` event.
+    f3_text: >
+      When the ledger-posting consumer receives a duplicate provider message ID,
+      it must ignore that duplicate message ID and must append a
+      `duplicate_ignored` event.
+    clarification_note: >
+      Makes the receiving trigger, actor, and required event consequence explicit.
+
+  - requirement_id: R045
+    f0_text: >
+      Webhook delivery retries may occur on `5xx` responses up to three attempts,
+      and retries must stop immediately after the first successful delivery.
+    f3_text: >
+      On a `5xx` webhook-delivery response, retries are permitted for no more than
+      three attempts. After the first successful delivery, retries must stop
+      immediately.
+    clarification_note: >
+      Makes the retry trigger, attempt cap, and stop condition explicit.
+
+  - requirement_id: R046
+    f0_text: >
+      Restarting an export job after a worker crash must resume under the same
+      job ID and must not duplicate output rows already written.
+    f3_text: >
+      If an export job is restarted after a worker crash, the restarted job must
+      resume under the same job ID and must not duplicate output rows that were
+      already written before the crash.
+    clarification_note: >
+      Makes the crash-restart trigger, identity continuity, and deduplication
+      effect explicit.
+
+  - requirement_id: R047
+    f0_text: >
+      If a payout executor lock remains stale for more than five minutes, exactly
+      one successor worker may acquire the lock and continue the job.
+    f3_text: >
+      If a payout executor lock remains stale for more than five minutes, exactly
+      one successor worker is permitted to acquire that lock and continue the job.
+    clarification_note: >
+      Makes the exclusivity of the allowed successor acquisition explicit.
+
+  - requirement_id: R049
+    f0_text: >
+      Importing a reconciliation file whose checksum matches a previously
+      successful import must mark the new attempt as duplicate and must not apply
+      the file contents a second time.
+    f3_text: >
+      If a reconciliation file is imported and its checksum matches a previously
+      successful import, the new import attempt must be marked as duplicate and
+      the file contents must not be applied a second time.
+    clarification_note: >
+      Makes the checksum-match trigger and both required duplicate-handling
+      effects explicit.

@@ -1,0 +1,119 @@
+metadata:
+  date: 2026-08-28
+  status: DRAFT_FOR_HUMAN_EQUIVALENCE_REVIEW
+  formulation_family: F2
+  category: observability/audit
+  source_requirements_file: requirements/requirements_v1.yaml
+
+formulations:
+  - requirement_id: R051
+    f0_text: >
+      Every API response from the payment service must include a `correlation_id`
+      header, and the same ID must appear in the corresponding request log entry.
+    f2_text: >
+      The same ID must appear in the corresponding request log entry, and every API
+      response from the payment service must include a `correlation_id` header.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: same ID appears in corresponding request log entry
+        f2_location: The same ID must appear in the corresponding request log entry
+      - f0_obligation: every API response includes `correlation_id` header
+        f2_location: every API response from the payment service must include a `correlation_id` header
+
+  - requirement_id: R053
+    f0_text: >
+      The system must record approval latency as the elapsed time between payment
+      submission and the first terminal approval or rejection decision.
+    f2_text: >
+      The elapsed time between payment submission and the first terminal approval
+      or rejection decision must be recorded by the system as approval latency.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: interval is between payment submission and first terminal approval or rejection decision
+        f2_location: The elapsed time between payment submission and the first terminal approval or rejection decision
+      - f0_obligation: system records that interval as approval latency
+        f2_location: must be recorded by the system as approval latency
+
+  - requirement_id: R054
+    f0_text: >
+      Every execution job must emit a structured start event and a structured end
+      event containing job ID, result, and timestamp.
+    f2_text: >
+      A structured start event and a structured end event containing job ID,
+      result, and timestamp must be emitted for every execution job.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: emit structured start event
+        f2_location: A structured start event ... must be emitted
+      - f0_obligation: emit structured end event
+        f2_location: a structured end event ... must be emitted
+      - f0_obligation: ambiguity about whether job ID, result, and timestamp attach only to end event or to both events is preserved
+        f2_location: a structured end event containing job ID, result, and timestamp
+
+  - requirement_id: R055
+    f0_text: >
+      If a guardrail blocks a request, the emitted violation record must include
+      the originating `requirement_id`.
+    f2_text: >
+      When a request is blocked by a guardrail, the originating `requirement_id`
+      must be included in the emitted violation record.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: trigger is guardrail blocking request
+        f2_location: When a request is blocked by a guardrail
+      - f0_obligation: emitted violation record includes originating `requirement_id`
+        f2_location: the originating `requirement_id` must be included in the emitted violation record
+
+  - requirement_id: R057
+    f0_text: >
+      When the provider retry circuit opens, the system must emit one alert event
+      per open interval and must not emit duplicate alerts until the circuit has
+      closed again.
+    f2_text: >
+      The system must not emit duplicate alerts until the provider retry circuit
+      has closed again, and when that circuit opens it must emit one alert event
+      per open interval.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: duplicate alerts blocked until circuit closes again
+        f2_location: must not emit duplicate alerts until the provider retry circuit has closed again
+      - f0_obligation: trigger is circuit opening
+        f2_location: when that circuit opens
+      - f0_obligation: one alert event per open interval
+        f2_location: it must emit one alert event per open interval
+
+  - requirement_id: R058
+    f0_text: >
+      A manual override action must include a non-empty reason and must append an
+      audit record referencing the affected entity ID.
+    f2_text: >
+      A manual override action must append an audit record referencing the affected
+      entity ID and must include a non-empty reason.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: audit record appended
+        f2_location: must append an audit record referencing the affected entity ID
+      - f0_obligation: audit record references affected entity ID
+        f2_location: referencing the affected entity ID
+      - f0_obligation: non-empty reason included
+        f2_location: must include a non-empty reason
+
+  - requirement_id: R059
+    f0_text: >
+      Detecting a reconciliation mismatch must increment a mismatch metric and must
+      create a review case linked to the payment batch.
+    f2_text: >
+      Detecting a reconciliation mismatch must create a review case linked to the
+      payment batch and must increment a mismatch metric.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: review case linked to payment batch created
+        f2_location: must create a review case linked to the payment batch
+      - f0_obligation: mismatch metric incremented
+        f2_location: must increment a mismatch metric
+
+  - requirement_id: R060
+    f0_text: >
+      Completion of a data export job must emit an event containing requester ID,
+      row count, duration in milliseconds, and success flag.
+    f2_text: >
+      An event containing requester ID, row count, duration in milliseconds, and
+      success flag must be emitted when a data export job completes.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: event emitted on completion of data export job
+        f2_location: must be emitted when a data export job completes
+      - f0_obligation: event includes requester ID, row count, duration in milliseconds, success flag
+        f2_location: An event containing requester ID, row count, duration in milliseconds, and success flag

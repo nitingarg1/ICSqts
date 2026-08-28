@@ -1,0 +1,262 @@
+metadata:
+  date: 2026-08-27
+  status: FINAL_HUMAN_REVIEWED
+  category: data protection/logging
+  source_requirements_file: requirements/requirements_v1.yaml
+
+checklists:
+  - requirement_id: R011
+    review_status: FIX_MISSING
+    requirement_text: >
+      Application logs must never contain a full account number; if an account
+      number is logged, only the last four digits may remain visible.
+    obligations:
+      - obligation_id: R011_O1
+        requirement_id: R011
+        actor: application logger
+        precondition: log output includes account number content
+        action: prevent full account number from appearing
+        expected_response_or_event: log output contains no full account number
+        required_state_effect: none required by text
+        forbidden_state_effect: exposure of full account number in logs
+        exception: none stated
+        evidence_needed: structured log entries; account-number fixtures; log content comparison
+        why_this_obligation_is_required_by_the_text: Text says logs must never contain a full account number.
+      - obligation_id: R011_O2
+        requirement_id: R011
+        actor: application logger
+        precondition: an account number is logged
+        action: retain at most the last four digits
+        expected_response_or_event: log output reveals at most last four digits of account number
+        required_state_effect: none required by text
+        forbidden_state_effect: visibility of more than the last four digits when account number is logged
+        exception: none stated
+        evidence_needed: masked log entries; field-level masking output
+        why_this_obligation_is_required_by_the_text: Text explicitly limits visible portion to last four digits.
+
+  - requirement_id: R012
+    review_status: FIX_TOO_STRONG
+    requirement_text: >
+      Every payment status change must append an audit event containing payment ID,
+      old status, new status, actor ID, and event timestamp.
+    obligations:
+      - obligation_id: R012_O1
+        requirement_id: R012
+        actor: payment status-change handling
+        precondition: payment status changes
+        action: append an audit event
+        expected_response_or_event: an audit event is appended for status change
+        required_state_effect: audit event appended
+        forbidden_state_effect: status change without audit event
+        exception: none stated
+        evidence_needed: payment state transition history; audit event stream
+        why_this_obligation_is_required_by_the_text: Text requires every payment status change to append an audit event.
+      - obligation_id: R012_O2
+        requirement_id: R012
+        actor: appended audit event
+        precondition: payment status change audit event is emitted
+        action: include payment ID, old status, new status, actor ID, and event timestamp
+        expected_response_or_event: event schema contains all required fields
+        required_state_effect: none beyond event completeness
+        forbidden_state_effect: omission of any named field from the event
+        exception: none stated
+        evidence_needed: audit event payload; schema validation
+        why_this_obligation_is_required_by_the_text: Text explicitly lists required audit event fields.
+
+  - requirement_id: R013
+    review_status: FIX_MISSING
+    requirement_text: >
+      Secret values from environment variables or secret-manager lookups must not
+      be written to application logs even when an exception occurs.
+    obligations:
+      - obligation_id: R013_O1
+        requirement_id: R013
+        actor: application logger
+        precondition: a non-exception application log is produced
+        action: prevent secret values from environment variables or secret-manager lookups from being written to log
+        expected_response_or_event: normal logs contain no secret value content
+        required_state_effect: none required by text
+        forbidden_state_effect: logging secret values during normal execution
+        exception: none stated
+        evidence_needed: normal execution logs; known secret fixture values
+        why_this_obligation_is_required_by_the_text: Text forbids writing secret values to application logs.
+      - obligation_id: R013_O2
+        requirement_id: R013
+        actor: application logger
+        precondition: an exception-related application log is produced
+        action: prevent secret values from environment variables or secret-manager lookups from being written to log
+        expected_response_or_event: exception logs contain no secret value content
+        required_state_effect: none required by text
+        forbidden_state_effect: secret leakage through exception logs
+        exception: exception occurrence does not relax the rule
+        evidence_needed: exception logs; known secret fixture values
+        why_this_obligation_is_required_by_the_text: Text explicitly extends the non-logging rule to exception cases.
+
+  - requirement_id: R014
+    review_status: FIX_TOO_STRONG
+    requirement_text: >
+      A denied approval attempt caused by insufficient permission must create a
+      security audit event containing actor ID, payment ID, reason code, and
+      timestamp.
+    obligations:
+      - obligation_id: R014_O1
+        requirement_id: R014
+        actor: denied-approval handling
+        precondition: approval attempt is denied because of insufficient permission
+        action: create a security audit event
+        expected_response_or_event: a security audit event is created for denial
+        required_state_effect: security audit event created
+        forbidden_state_effect: permission-based denial without audit event
+        exception: none stated
+        evidence_needed: evidence of denial caused by insufficient permission; security audit event payload
+        why_this_obligation_is_required_by_the_text: Text says such denied approval attempt must create a security audit event.
+      - obligation_id: R014_O2
+        requirement_id: R014
+        actor: security audit event
+        precondition: event for permission-based denial is created
+        action: include actor ID, payment ID, reason code, and timestamp
+        expected_response_or_event: event payload contains all named fields
+        required_state_effect: none beyond event completeness
+        forbidden_state_effect: omission of any required field
+        exception: none stated
+        evidence_needed: event payload; schema validation
+        why_this_obligation_is_required_by_the_text: Text explicitly lists the required audit fields.
+
+  - requirement_id: R016
+    review_status: FIX_MISSING
+    requirement_text: >
+      A document-download token must expire 15 minutes after issuance; requests
+      using an expired token must return `410` and must append a token-expired
+      audit event.
+    obligations:
+      - obligation_id: R016_O1
+        requirement_id: R016
+        actor: document-download token handling
+        precondition: 15 minutes or more have elapsed since token issuance
+        action: treat token as expired
+        expected_response_or_event: expired token is no longer accepted for download
+        required_state_effect: none required by text
+        forbidden_state_effect: successful download using expired token
+        exception: none stated
+        evidence_needed: token issuance timestamp; access attempt timestamp; download outcome
+        why_this_obligation_is_required_by_the_text: Text says token must expire 15 minutes after issuance.
+      - obligation_id: R016_O2
+        requirement_id: R016
+        actor: document-download request handling
+        precondition: request uses an expired document-download token
+        action: return `410`
+        expected_response_or_event: HTTP response code is `410`
+        required_state_effect: none required by text
+        forbidden_state_effect: returning success or non-410 response for expired token
+        exception: none stated
+        evidence_needed: response code; token-expiry determination
+        why_this_obligation_is_required_by_the_text: Text explicitly requires `410` for expired-token requests.
+      - obligation_id: R016_O3
+        requirement_id: R016
+        actor: document-download request handling
+        precondition: request uses an expired document-download token
+        action: append a token-expired audit event
+        expected_response_or_event: a token-expired audit event is appended
+        required_state_effect: token-expired audit event appended
+        forbidden_state_effect: request using expired token without appended token-expired audit event
+        exception: none stated
+        evidence_needed: expired-token request; corresponding appended token-expired audit event
+        why_this_obligation_is_required_by_the_text: Text explicitly requires a token-expired audit event.
+
+  - requirement_id: R018
+    review_status: FIX_TOO_STRONG
+    requirement_text: >
+      Every reconciliation report download must append an audit record containing
+      requester ID, applied filters, row count, and generation timestamp.
+    obligations:
+      - obligation_id: R018_O1
+        requirement_id: R018
+        actor: reconciliation report download handling
+        precondition: reconciliation report is downloaded
+        action: append an audit record for the download
+        expected_response_or_event: an audit record is appended for reconciliation report download
+        required_state_effect: audit record appended
+        forbidden_state_effect: report download without audit record
+        exception: none stated
+        evidence_needed: reconciliation report download evidence; appended audit record
+        why_this_obligation_is_required_by_the_text: Text says every reconciliation report download must append an audit record.
+      - obligation_id: R018_O2
+        requirement_id: R018
+        actor: reconciliation report download audit record
+        precondition: audit record for download is emitted
+        action: include requester ID, applied filters, row count, and generation timestamp
+        expected_response_or_event: audit record payload contains all required fields
+        required_state_effect: none beyond event completeness
+        forbidden_state_effect: omission of any named field
+        exception: none stated
+        evidence_needed: audit record payload; report metadata; request payload
+        why_this_obligation_is_required_by_the_text: Text explicitly lists the fields that must appear in the audit record.
+
+  - requirement_id: R019
+    review_status: OK
+    requirement_text: >
+      Search logs for customer-email lookups must store only a salted hash of the
+      search term and must never store the raw email string.
+    obligations:
+      - obligation_id: R019_O1
+        requirement_id: R019
+        actor: search logging logic
+        precondition: customer-email lookup search term is logged
+        action: store only a salted hash of the search term
+        expected_response_or_event: logged search term is represented as salted hash
+        required_state_effect: none required by text
+        forbidden_state_effect: logging raw search term instead of salted hash
+        exception: none stated
+        evidence_needed: search logs; hashing output for test term
+        why_this_obligation_is_required_by_the_text: Text says logs must store only a salted hash of the search term.
+      - obligation_id: R019_O2
+        requirement_id: R019
+        actor: search logging logic
+        precondition: customer-email lookup search term is logged
+        action: avoid storing the raw email string
+        expected_response_or_event: raw email string does not appear in search logs
+        required_state_effect: none required by text
+        forbidden_state_effect: presence of raw email string in logs
+        exception: none stated
+        evidence_needed: search log entries; raw email fixture value
+        why_this_obligation_is_required_by_the_text: Text explicitly forbids storing the raw email string.
+
+  - requirement_id: R020
+    review_status: FIX_TOO_STRONG
+    requirement_text: >
+      Both successful and denied reads of the payment-provider configuration must
+      append an audit event containing actor ID, outcome, and configuration name.
+    obligations:
+      - obligation_id: R020_O1
+        requirement_id: R020
+        actor: payment-provider configuration read handling
+        precondition: payment-provider configuration read succeeds
+        action: append an audit event for the successful read
+        expected_response_or_event: successful read produces audit event
+        required_state_effect: audit event appended
+        forbidden_state_effect: successful read without audit event
+        exception: none stated
+        evidence_needed: successful read response; audit event log
+        why_this_obligation_is_required_by_the_text: Text requires successful reads to append an audit event.
+      - obligation_id: R020_O2
+        requirement_id: R020
+        actor: payment-provider configuration read handling
+        precondition: payment-provider configuration read is denied
+        action: append an audit event for the denied read
+        expected_response_or_event: denied read produces audit event
+        required_state_effect: audit event appended
+        forbidden_state_effect: denied read without audit event
+        exception: none stated
+        evidence_needed: denied read response; audit event log
+        why_this_obligation_is_required_by_the_text: Text also requires denied reads to append an audit event.
+      - obligation_id: R020_O3
+        requirement_id: R020
+        actor: configuration-read audit event
+        precondition: audit event for configuration read is emitted
+        action: include actor ID, outcome, and configuration name
+        expected_response_or_event: event payload contains all named fields
+        required_state_effect: none beyond event completeness
+        forbidden_state_effect: omission of any required field
+        exception: none stated
+        evidence_needed: event payload; schema validation
+        why_this_obligation_is_required_by_the_text: Text explicitly lists actor ID, outcome, and configuration name as required fields.

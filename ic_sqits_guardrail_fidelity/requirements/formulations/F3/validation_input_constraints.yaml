@@ -1,0 +1,92 @@
+metadata:
+  date: 2026-08-28
+  status: DRAFT_FOR_HUMAN_CLARIFICATION_REVIEW
+  formulation_family: F3
+  category: validation/input constraints
+  source_requirements_file: requirements/requirements_v1.yaml
+
+formulations:
+  - requirement_id: R021
+    f0_text: >
+      A payment-create request must be rejected unless `amount` is greater than 0
+      and less than or equal to 100000.
+    f3_text: >
+      The system must reject a payment-create request if `amount` is less than or
+      equal to 0 or greater than 100000.
+    clarification_note: >
+      Makes the rejection trigger as explicit machine-checkable failure cases.
+
+  - requirement_id: R024
+    f0_text: >
+      A scheduled payment date must not be earlier than the request date and must
+      not be more than 30 calendar days after the request date.
+    f3_text: >
+      A scheduled payment date must be on or after the request date and on or
+      before the date that is 30 calendar days after the request date.
+    clarification_note: >
+      Makes the two date-bound comparisons explicit while preserving inclusive
+      limits already supported by the source wording.
+
+  - requirement_id: R025
+    f0_text: >
+      A rejection decision must include a comment between 10 and 500 characters;
+      approval decisions must not require that comment.
+    f3_text: CANNOT_CLARIFY_WITHOUT_ASSUMPTION
+    clarification_note: >
+      Clarifying whether "between 10 and 500 characters" is endpoint-inclusive
+      would require an assumption not entailed by F0.
+
+  - requirement_id: R026
+    f0_text: >
+      A beneficiary bank update request must include either an IBAN or both an
+      account number and routing number, but it must not include both forms at the
+      same time.
+    f3_text: >
+      A beneficiary bank update request is valid only if it includes exactly one of
+      these identifier forms: an IBAN, or both an account number and a routing
+      number. A request that includes both forms at the same time is not valid.
+    clarification_note: >
+      Makes the exclusive choice and invalid mixed-form case explicit.
+
+  - requirement_id: R027
+    f0_text: >
+      Attachment upload for a payment request must accept only `pdf` or `png`
+      files no larger than 5 MB.
+    f3_text: >
+      For attachment upload on a payment request, acceptance is permitted only for
+      files that are `pdf` or `png` and no larger than 5 MB. Files outside those
+      limits must not be accepted.
+    clarification_note: >
+      Makes the acceptance gate and rejection implication explicit without
+      resolving source ambiguity about file-type detection or 5 MB interpretation.
+
+  - requirement_id: R028
+    f0_text: >
+      A batch payout request must contain between 1 and 100 items, and all
+      `client_reference` values within the batch must be unique.
+    f3_text: CANNOT_CLARIFY_WITHOUT_ASSUMPTION
+    clarification_note: >
+      Clarifying whether the item-count range endpoints are inclusive would require
+      an assumption not entailed by F0.
+
+  - requirement_id: R029
+    f0_text: >
+      A callback URL for asynchronous payment updates must use `https` and its
+      hostname must be on the tenant allowlist.
+    f3_text: >
+      For asynchronous payment updates, a callback URL is valid only if it uses
+      `https` and its hostname appears on the tenant allowlist.
+    clarification_note: >
+      Makes the validation target and both machine-checkable URL constraints
+      explicit.
+
+  - requirement_id: R030
+    f0_text: >
+      A refund request amount must not exceed the captured amount minus all prior
+      approved refunds for that payment.
+    f3_text: >
+      For a refund request, the maximum permitted refund amount equals the captured
+      amount for that payment minus all prior approved refunds for that payment. A
+      refund request above that amount is not permitted.
+    clarification_note: >
+      Makes the calculated ceiling and blocked over-limit case explicit.

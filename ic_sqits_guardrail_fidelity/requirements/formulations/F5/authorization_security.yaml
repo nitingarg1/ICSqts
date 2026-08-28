@@ -1,0 +1,25 @@
+metadata:
+  date: 2026-08-28
+  status: DRAFT_FOR_HUMAN_F5_REVIEW
+  formulation_family: F5
+  category: authorization/security
+  source_requirements_file: requirements/requirements_v1.yaml
+
+formulations:
+  - requirement_id: R001
+    f0_text: >
+      A payment request may be approved only by a user with the `approver` role,
+      and the user who submitted the request must not approve that same request.
+    f5_text: >
+      Approval of payment request p by user u is permitted only if
+      (`approver` is among u's roles) AND (u is not p's submitter).
+
+  - requirement_id: R003
+    f0_text: >
+      A payment may be voided only by its creator or by an `admin` user before
+      settlement, and a successful void must set status to `VOIDED` and append a
+      void audit event.
+    f5_text: >
+      void(p, u) may succeed only if (u = creator(p) AND settlement has not
+      occurred) OR u has role `admin`; success implies status(p) := `VOIDED` AND
+      append(void audit event).

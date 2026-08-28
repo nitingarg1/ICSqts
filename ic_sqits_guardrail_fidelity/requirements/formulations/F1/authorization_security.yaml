@@ -1,0 +1,144 @@
+metadata:
+  date: 2026-08-28
+  status: DRAFT_FOR_HUMAN_EQUIVALENCE_REVIEW
+  formulation_family: F1
+  category: authorization/security
+  source_requirements_file: requirements/requirements_v1.yaml
+
+formulations:
+  - requirement_id: R001
+    f0_text: >
+      A payment request may be approved only by a user with the `approver` role,
+      and the user who submitted the request must not approve that same request.
+    f1_text: >
+      Only a user with the `approver` role may approve a payment request, and the
+      user who submitted that request may not approve it.
+    semantic_diff_checklist:
+      - obligation: approval requires `approver` role
+        where_it_appears_in_f1: Only a user with the `approver` role may approve a payment request.
+      - obligation: original submitter cannot approve same request
+        where_it_appears_in_f1: the user who submitted that request may not approve it.
+
+  - requirement_id: R002
+    f0_text: >
+      A payment greater than 10000 USD may be released only after two distinct
+      approvers have approved it, and at least one approver must hold the
+      `finance_manager` role.
+    f1_text: >
+      A payment above 10000 USD can be released only after approval by two
+      different approvers, with at least one of those approvers holding the
+      `finance_manager` role.
+    semantic_diff_checklist:
+      - obligation: threshold is greater than 10000 USD
+        where_it_appears_in_f1: A payment above 10000 USD
+      - obligation: release requires two distinct approvers
+        where_it_appears_in_f1: only after approval by two different approvers
+      - obligation: one approver must have `finance_manager` role
+        where_it_appears_in_f1: at least one of those approvers holding the `finance_manager` role
+
+  - requirement_id: R003
+    f0_text: >
+      A payment may be voided only by its creator or by an `admin` user before
+      settlement, and a successful void must set status to `VOIDED` and append a
+      void audit event.
+    f1_text: >
+      Before settlement, only the payment creator or an `admin` user may void the
+      payment, and a successful void must change the status to `VOIDED` and append
+      a void audit event.
+    semantic_diff_checklist:
+      - obligation: only creator or `admin` may void
+        where_it_appears_in_f1: only the payment creator or an `admin` user may void the payment
+      - obligation: void allowed only before settlement
+        where_it_appears_in_f1: Before settlement
+      - obligation: successful void sets status to `VOIDED`
+        where_it_appears_in_f1: a successful void must change the status to `VOIDED`
+      - obligation: successful void appends void audit event
+        where_it_appears_in_f1: and append a void audit event
+
+  - requirement_id: R004
+    f0_text: >
+      If an approval request is made with an inactive session token, the system
+      must return `401`, must not record an approval, and must not change payment
+      state.
+    f1_text: >
+      When an approval request uses an inactive session token, the system must
+      return `401`, record no approval, and leave payment state unchanged.
+    semantic_diff_checklist:
+      - obligation: inactive session token triggers rule
+        where_it_appears_in_f1: When an approval request uses an inactive session token
+      - obligation: response must be `401`
+        where_it_appears_in_f1: must return `401`
+      - obligation: no approval may be recorded
+        where_it_appears_in_f1: record no approval
+      - obligation: payment state must not change
+        where_it_appears_in_f1: leave payment state unchanged
+
+  - requirement_id: R005
+    f0_text: >
+      A user with the `support_readonly` role may view payment summaries but must
+      not see full account numbers, routing numbers, or approval comments marked
+      confidential.
+    f1_text: >
+      A user in the `support_readonly` role may view payment summaries, but that
+      user must not be shown full account numbers, routing numbers, or approval
+      comments marked confidential.
+    semantic_diff_checklist:
+      - obligation: "`support_readonly` may view payment summaries"
+        where_it_appears_in_f1: "may view payment summaries"
+      - obligation: full account numbers must not be visible
+        where_it_appears_in_f1: must not be shown full account numbers
+      - obligation: routing numbers must not be visible
+        where_it_appears_in_f1: routing numbers
+      - obligation: confidential approval comments must not be visible
+        where_it_appears_in_f1: approval comments marked confidential
+
+  - requirement_id: R007
+    f0_text: >
+      An approval delegate may act for the original approver only during the
+      configured delegation window, and the delegate must not create a further
+      delegation from that temporary authority.
+    f1_text: >
+      An approval delegate may act on behalf of the original approver only while
+      the configured delegation window is active, and that delegate must not create
+      another delegation from the temporary authority.
+    semantic_diff_checklist:
+      - obligation: delegate acts for original approver
+        where_it_appears_in_f1: act on behalf of the original approver
+      - obligation: action allowed only during configured delegation window
+        where_it_appears_in_f1: only while the configured delegation window is active
+      - obligation: no chained delegation from temporary authority
+        where_it_appears_in_f1: must not create another delegation from the temporary authority
+
+  - requirement_id: R008
+    f0_text: >
+      A settled payment may be reversed only by a user with the `treasury` role,
+      and the reversal request must reference an existing incident ticket.
+    f1_text: >
+      Only a user with the `treasury` role may reverse a settled payment, and the
+      reversal request must reference an existing incident ticket.
+    semantic_diff_checklist:
+      - obligation: payment must be settled for this reversal rule
+        where_it_appears_in_f1: reverse a settled payment
+      - obligation: only `treasury` role may reverse
+        where_it_appears_in_f1: Only a user with the `treasury` role may reverse
+      - obligation: request must reference existing incident ticket
+        where_it_appears_in_f1: reversal request must reference an existing incident ticket
+
+  - requirement_id: R010
+    f0_text: >
+      A service account may create an internal transfer only when its mTLS client
+      subject is on the approved allowlist; otherwise the request must be denied
+      and no transfer record may be created.
+    f1_text: >
+      A service account may create an internal transfer only if its mTLS client
+      subject appears on the approved allowlist; otherwise the request must be
+      denied and no transfer record may be created.
+    semantic_diff_checklist:
+      - obligation: internal transfer creation depends on mTLS client subject
+        where_it_appears_in_f1: only if its mTLS client subject appears on the approved allowlist
+      - obligation: subject must be on approved allowlist
+        where_it_appears_in_f1: appears on the approved allowlist
+      - obligation: request denied when condition fails
+        where_it_appears_in_f1: otherwise the request must be denied
+      - obligation: no transfer record on denied request
+        where_it_appears_in_f1: and no transfer record may be created

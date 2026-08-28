@@ -1,0 +1,74 @@
+metadata:
+  date: 2026-08-28
+  status: DRAFT_FOR_HUMAN_UNDERSPECIFICATION_REVIEW
+  formulation_family: F4
+  category: validation/input constraints
+  source_requirements_file: requirements/requirements_v1.yaml
+
+formulations:
+  - requirement_id: R021
+    f0_text: >
+      A payment-create request must be rejected unless `amount` is greater than 0
+      and less than or equal to 100000.
+    f4_text: >
+      A payment-create request must be rejected unless `amount` is greater than 0.
+    removed_semantic_detail: upper bound of less than or equal to 100000
+
+  - requirement_id: R024
+    f0_text: >
+      A scheduled payment date must not be earlier than the request date and must
+      not be more than 30 calendar days after the request date.
+    f4_text: >
+      A scheduled payment date must not be earlier than the request date.
+    removed_semantic_detail: upper bound of no more than 30 calendar days after request date
+
+  - requirement_id: R025
+    f0_text: >
+      A rejection decision must include a comment between 10 and 500 characters;
+      approval decisions must not require that comment.
+    f4_text: >
+      A rejection decision must include a comment between 10 and 500 characters.
+    removed_semantic_detail: approval decisions must not require that comment
+
+  - requirement_id: R026
+    f0_text: >
+      A beneficiary bank update request must include either an IBAN or both an
+      account number and routing number, but it must not include both forms at the
+      same time.
+    f4_text: >
+      A beneficiary bank update request must include either an IBAN or both an
+      account number and routing number.
+    removed_semantic_detail: prohibition on including both forms at the same time
+
+  - requirement_id: R027
+    f0_text: >
+      Attachment upload for a payment request must accept only `pdf` or `png`
+      files no larger than 5 MB.
+    f4_text: >
+      Attachment upload for a payment request must accept only `pdf` or `png`
+      files.
+    removed_semantic_detail: file size limit of no larger than 5 MB
+
+  - requirement_id: R028
+    f0_text: >
+      A batch payout request must contain between 1 and 100 items, and all
+      `client_reference` values within the batch must be unique.
+    f4_text: >
+      A batch payout request must contain between 1 and 100 items.
+    removed_semantic_detail: "uniqueness of `client_reference` values within the batch"
+
+  - requirement_id: R029
+    f0_text: >
+      A callback URL for asynchronous payment updates must use `https` and its
+      hostname must be on the tenant allowlist.
+    f4_text: >
+      A callback URL for asynchronous payment updates must use `https`.
+    removed_semantic_detail: hostname must be on the tenant allowlist
+
+  - requirement_id: R030
+    f0_text: >
+      A refund request amount must not exceed the captured amount minus all prior
+      approved refunds for that payment.
+    f4_text: >
+      A refund request amount must not exceed the captured amount for that payment.
+    removed_semantic_detail: subtraction of all prior approved refunds from the ceiling

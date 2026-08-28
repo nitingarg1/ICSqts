@@ -1,0 +1,123 @@
+metadata:
+  date: 2026-08-28
+  status: DRAFT_FOR_HUMAN_EQUIVALENCE_REVIEW
+  formulation_family: F2
+  category: state transitions/business invariants
+  source_requirements_file: requirements/requirements_v1.yaml
+
+formulations:
+  - requirement_id: R031
+    f0_text: >
+      A payment may move from `DRAFT` to `SUBMITTED` only if it has at least one
+      line item and the beneficiary record is verified.
+    f2_text: >
+      Only if it has at least one line item and the beneficiary record is
+      verified may a payment move from `DRAFT` to `SUBMITTED`.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: at least one line item required
+        f2_location: it has at least one line item
+      - f0_obligation: beneficiary record must be verified
+        f2_location: the beneficiary record is verified
+      - f0_obligation: transition is from `DRAFT` to `SUBMITTED`
+        f2_location: may a payment move from `DRAFT` to `SUBMITTED`
+
+  - requirement_id: R032
+    f0_text: >
+      A `SUBMITTED` payment may transition to `APPROVED` only after the required
+      approver count for that payment type has been reached.
+    f2_text: >
+      Only after the required approver count for that payment type has been
+      reached may a `SUBMITTED` payment transition to `APPROVED`.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: required approver count for payment type must be reached first
+        f2_location: Only after the required approver count for that payment type has been reached
+      - f0_obligation: transition is from `SUBMITTED` to `APPROVED`
+        f2_location: may a `SUBMITTED` payment transition to `APPROVED`
+
+  - requirement_id: R033
+    f0_text: >
+      Once a payment reaches `EXECUTED`, no mutable field except
+      `reconciliation_note` may be changed.
+    f2_text: >
+      Once a payment reaches `EXECUTED`, `reconciliation_note` is the only mutable
+      field that may be changed.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: rule begins once payment reaches `EXECUTED`
+        f2_location: Once a payment reaches `EXECUTED`
+      - f0_obligation: only `reconciliation_note` may be changed among mutable fields
+        f2_location: "`reconciliation_note` is the only mutable field that may be changed"
+
+  - requirement_id: R034
+    f0_text: >
+      Rejecting a payment must set status to `REJECTED` and clear any scheduled
+      execution timestamp.
+    f2_text: >
+      Rejecting a payment must clear any scheduled execution timestamp and set the
+      status to `REJECTED`.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: rejection clears scheduled execution timestamp
+        f2_location: must clear any scheduled execution timestamp
+      - f0_obligation: rejection sets status to `REJECTED`
+        f2_location: set the status to `REJECTED`
+
+  - requirement_id: R036
+    f0_text: >
+      A payment may be canceled only from `DRAFT` or `SUBMITTED`; a cancel request
+      for `APPROVED` or `EXECUTED` must return `409` and leave status unchanged.
+    f2_text: >
+      Only a payment in `DRAFT` or `SUBMITTED` may be canceled; for `APPROVED` or
+      `EXECUTED`, a cancel request must leave status unchanged and return `409`.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: cancel allowed only from `DRAFT` or `SUBMITTED`
+        f2_location: Only a payment in `DRAFT` or `SUBMITTED` may be canceled
+      - f0_obligation: cancel request for `APPROVED` or `EXECUTED` returns `409`
+        f2_location: for `APPROVED` or `EXECUTED`, a cancel request must ... return `409`
+      - f0_obligation: rejected cancel leaves status unchanged
+        f2_location: must leave status unchanged
+
+  - requirement_id: R037
+    f0_text: >
+      If a delegation window expires while a delegated approval task is still
+      pending, that delegated task must become invalid and an expiration event must
+      be emitted.
+    f2_text: >
+      An expiration event must be emitted, and the delegated approval task must
+      become invalid, if the delegation window expires while that task is still
+      pending.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: trigger is delegation-window expiry while delegated task still pending
+        f2_location: if the delegation window expires while that task is still pending
+      - f0_obligation: delegated task must become invalid
+        f2_location: the delegated approval task must become invalid
+      - f0_obligation: expiration event must be emitted
+        f2_location: An expiration event must be emitted
+
+  - requirement_id: R038
+    f0_text: >
+      Opening a chargeback on a captured payment must set `dispute_status` to
+      `OPEN` and must block creation of further refunds until the dispute is
+      resolved.
+    f2_text: >
+      Opening a chargeback on a captured payment must block creation of further
+      refunds until the dispute is resolved and must set `dispute_status` to
+      `OPEN`.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: further refunds blocked until dispute resolved
+        f2_location: must block creation of further refunds until the dispute is resolved
+      - f0_obligation: "`dispute_status` set to `OPEN`"
+        f2_location: must set `dispute_status` to `OPEN`
+
+  - requirement_id: R040
+    f0_text: >
+      A partially refunded payment must remain in `CAPTURED` status until the sum
+      of approved refunds equals the captured amount; only then may status become
+      `REFUNDED`.
+    f2_text: >
+      Only when the sum of approved refunds equals the captured amount may a
+      partially refunded payment become `REFUNDED`; until then it must remain in
+      `CAPTURED` status.
+    obligation_mapping_f0_to_f2:
+      - f0_obligation: status may become `REFUNDED` only at equality point
+        f2_location: Only when the sum of approved refunds equals the captured amount may a partially refunded payment become `REFUNDED`
+      - f0_obligation: until then payment remains in `CAPTURED`
+        f2_location: until then it must remain in `CAPTURED` status
