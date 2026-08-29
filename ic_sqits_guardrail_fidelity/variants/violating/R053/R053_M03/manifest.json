@@ -1,7 +1,7 @@
 {
   "mutation_id": "R053_M03",
   "requirement_id": "R053",
-  "target_obligation_id": "R053_O2",
+  "target_obligation_id": "R053_O1",
   "code_area": "_record_approval_latency_if_needed",
   "expected_behavioral_difference": "Latency is recorded on first approval attempt even when payment is not yet terminal",
   "possible_collateral_effects": "Could understate true approval completion time",

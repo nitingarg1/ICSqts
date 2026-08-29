@@ -1,7 +1,7 @@
 {
   "mutation_id": "R025_M01",
   "requirement_id": "R025",
-  "target_obligation_id": "R025_O4",
+  "target_obligation_id": "R025_O3",
   "code_area": "_approve_payment",
   "expected_behavioral_difference": "Approval path incorrectly requires comment and rejects comment-free valid approvals",
   "possible_collateral_effects": "Over-constrains compliant approval traffic",

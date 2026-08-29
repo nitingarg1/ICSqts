@@ -35,12 +35,12 @@ R021_M01,R021,R021_O1,ASSUMED_VALID_MUTATION,Create-payment validates amount pre
 R021_M02,R021,R021_O2,ASSUMED_VALID_MUTATION,Upper-bound check is removed so amounts over 100000 are accepted,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
 R024_M01,R024,R024_O1,ASSUMED_VALID_MUTATION,Scheduled date earlier than request date is accepted because lower-bound check is removed,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
 R024_M02,R024,R024_O2,ASSUMED_VALID_MUTATION,Scheduled date more than 30 calendar days ahead is accepted because upper-bound check is skipped,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
-R025_M01,R025,R025_O4,ASSUMED_VALID_MUTATION,Approval path incorrectly requires comment and rejects comment-free valid approvals,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R025_M01,R025,R025_O3,ASSUMED_VALID_MUTATION,Approval path incorrectly requires comment and rejects comment-free valid approvals,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
 R025_M02,R025,R025_O2,ASSUMED_VALID_MUTATION,Rejection comment minimum length check is removed so short comments are accepted,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
-R026_M01,R026,R026_O4,ASSUMED_VALID_MUTATION,Beneficiary update accepts both IBAN and account-plus-routing in same request,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R026_M01,R026,R026_O2,ASSUMED_VALID_MUTATION,Beneficiary update accepts both IBAN and account-plus-routing in same request,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
 R026_M02,R026,R026_O2,ASSUMED_VALID_MUTATION,Beneficiary update rejects valid account_number plus routing_number pair because implementation only accepts IBAN,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
-R027_M01,R027,R027_O3,ASSUMED_VALID_MUTATION,Attachment upload validates size but not content type so txt or other files are accepted,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
-R027_M02,R027,R027_O4,ASSUMED_VALID_MUTATION,Attachment size threshold is off by one or skipped so files larger than 5 MB are accepted,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R027_M01,R027,R027_O1,ASSUMED_VALID_MUTATION,Attachment upload validates size but not content type so txt or other files are accepted,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R027_M02,R027,R027_O2,ASSUMED_VALID_MUTATION,Attachment size threshold is off by one or skipped so files larger than 5 MB are accepted,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
 R028_M01,R028,R028_O1,ASSUMED_VALID_MUTATION,Batch payout accepts zero items because minimum-size validation is removed,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
 R028_M03,R028,R028_O3,ASSUMED_VALID_MUTATION,Duplicate client_reference values are accepted because uniqueness check is removed or normalized incorrectly,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
 R029_M01,R029,R029_O2,ASSUMED_VALID_MUTATION,Callback URL only checks scheme and accepts non-allowlisted hostname,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
@@ -51,7 +51,7 @@ R031_M01,R031,R031_O1,ASSUMED_VALID_MUTATION,DRAFT payment submits without line 
 R031_M02,R031,R031_O2,ASSUMED_VALID_MUTATION,DRAFT payment submits with unverified beneficiary because verification check is removed,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
 R032_M01,R032,R032_O1,ASSUMED_VALID_MUTATION,Payment transitions to APPROVED after first approval because required approver count is hardcoded to one,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
 R032_M03,R032,R032_O1,ASSUMED_VALID_MUTATION,Duplicate approvals from same user count toward threshold because distinct approver logic is missing,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
-R033_M01,R033,R033_O2,ASSUMED_VALID_MUTATION,Executed payment allows amount or beneficiary edits because mutable-field allowlist is removed,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R033_M01,R033,R033_O1,ASSUMED_VALID_MUTATION,Executed payment allows amount or beneficiary edits because mutable-field allowlist is removed,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
 R033_M02,R033,R033_O1,ASSUMED_VALID_MUTATION,Executed payment rejects reconciliation_note updates as well,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
 R034_M01,R034,R034_O2,ASSUMED_VALID_MUTATION,Reject path sets status REJECTED but leaves scheduled_execution_at unchanged,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
 R034_M02,R034,R034_O1,ASSUMED_VALID_MUTATION,Reject path clears schedule but does not change payment status to REJECTED,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
@@ -82,7 +82,7 @@ R049_M02,R049,R049_O2,ASSUMED_VALID_MUTATION,Repeated successful checksum is mar
 R051_M01,R051,R051_O1,ASSUMED_VALID_MUTATION,Error responses omit correlation_id header while success responses include it,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
 R051_M02,R051,R051_O2,ASSUMED_VALID_MUTATION,Request log entry gets a fresh correlation_id different from response header,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
 R053_M01,R053,R053_O1,ASSUMED_VALID_MUTATION,Latency is measured from payment creation time instead of submission time,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
-R053_M03,R053,R053_O2,ASSUMED_VALID_MUTATION,Latency is recorded on first approval attempt even when payment is not yet terminal,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R053_M03,R053,R053_O1,ASSUMED_VALID_MUTATION,Latency is recorded on first approval attempt even when payment is not yet terminal,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
 R054_M01,R054,R054_O1,ASSUMED_VALID_MUTATION,Execution job emits only end event and no start event,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
 R054_M03,R054,R054_O3,ASSUMED_VALID_MUTATION,End event carries wrong job_id or result copied from request default,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
 R055_M01,R055,R055_O1,ASSUMED_VALID_MUTATION,Guardrail violation record is emitted without requirement_id field,assumption_mode_user_instruction,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29

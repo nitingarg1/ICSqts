@@ -1,7 +1,7 @@
 {
   "mutation_id": "R027_M01",
   "requirement_id": "R027",
-  "target_obligation_id": "R027_O3",
+  "target_obligation_id": "R027_O1",
   "code_area": "_add_attachment",
   "expected_behavioral_difference": "Attachment upload validates size but not content type so txt or other files are accepted",
   "possible_collateral_effects": "Could allow arbitrary file classes into persistence",

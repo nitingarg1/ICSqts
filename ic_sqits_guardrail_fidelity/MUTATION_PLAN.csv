@@ -53,14 +53,14 @@ R021_M03,R021,R021_O1,_create_payment,Request returns 422 for invalid amount but
 R024_M01,R024,R024_O1,_create_payment,Scheduled date earlier than request date is accepted because lower-bound check is removed,Could allow backdated execution scenarios,medium,A
 R024_M02,R024,R024_O2,_create_payment,Scheduled date more than 30 calendar days ahead is accepted because upper-bound check is skipped,Boundary tests above 30 days would fail to detect rejection,medium,A
 R024_M03,R024,R024_O2,_create_payment,Implementation uses 31-day or business-day window instead of 30 calendar days,Defect is most visible near threshold dates,hard,Optional
-R025_M01,R025,R025_O4,_approve_payment,Approval path incorrectly requires comment and rejects comment-free valid approvals,Over-constrains compliant approval traffic,medium,A
+R025_M01,R025,R025_O3,_approve_payment,Approval path incorrectly requires comment and rejects comment-free valid approvals,Over-constrains compliant approval traffic,medium,A
 R025_M02,R025,R025_O2,_reject_payment,Rejection comment minimum length check is removed so short comments are accepted,Could reduce audit usefulness without affecting state change,easy,A
 R025_M03,R025,R025_O3,_reject_payment,Rejection comment maximum length check is skipped so oversized comments are accepted,May only surface with long payload tests,easy,Optional
-R026_M01,R026,R026_O4,_update_beneficiary,Beneficiary update accepts both IBAN and account-plus-routing in same request,Can create ambiguous stored bank details,medium,A
+R026_M01,R026,R026_O2,_update_beneficiary,Beneficiary update accepts both IBAN and account-plus-routing in same request,Can create ambiguous stored bank details,medium,A
 R026_M02,R026,R026_O2,_update_beneficiary,Beneficiary update rejects valid account_number plus routing_number pair because implementation only accepts IBAN,Over-restricts compliant alternative input form,medium,A
 R026_M03,R026,R026_O3,_update_beneficiary,Beneficiary update accepts request with neither valid form because any non-empty payload passes,May create unusable bank records,medium,Optional
-R027_M01,R027,R027_O3,_add_attachment,Attachment upload validates size but not content type so txt or other files are accepted,Could allow arbitrary file classes into persistence,medium,A
-R027_M02,R027,R027_O4,_add_attachment,Attachment size threshold is off by one or skipped so files larger than 5 MB are accepted,Collateral limited to oversize payloads,medium,A
+R027_M01,R027,R027_O1,_add_attachment,Attachment upload validates size but not content type so txt or other files are accepted,Could allow arbitrary file classes into persistence,medium,A
+R027_M02,R027,R027_O2,_add_attachment,Attachment size threshold is off by one or skipped so files larger than 5 MB are accepted,Collateral limited to oversize payloads,medium,A
 R027_M03,R027,R027_O3,_add_attachment,Implementation trusts filename extension and ignores declared content_type allowing disguised disallowed files,May interact with client-side naming behavior,hard,Optional
 R028_M01,R028,R028_O1,_create_batch,Batch payout accepts zero items because minimum-size validation is removed,Could create empty batches that still consume IDs,easy,A
 R028_M02,R028,R028_O2,_create_batch,Batch payout accepts more than 100 items because maximum-size guard is skipped,Large batches may create noisy downstream artifacts,easy,Optional
@@ -77,7 +77,7 @@ R031_M03,R031,R031_O1,_submit_payment,Non-DRAFT payment can enter SUBMITTED if l
 R032_M01,R032,R032_O1,_approve_payment,Payment transitions to APPROVED after first approval because required approver count is hardcoded to one,May hide missing policy thresholds entirely,medium,A
 R032_M02,R032,R032_O1,_approve_payment,Implementation reads approval policy from wrong payment_type and applies incorrect threshold,Defect depends on differing policy fixtures,hard,Optional
 R032_M03,R032,R032_O1,_approve_payment,Duplicate approvals from same user count toward threshold because distinct approver logic is missing,May overlap with replay/idempotency scenarios,medium,A
-R033_M01,R033,R033_O2,_patch_payment,Executed payment allows amount or beneficiary edits because mutable-field allowlist is removed,Could distort historical execution state,medium,A
+R033_M01,R033,R033_O1,_patch_payment,Executed payment allows amount or beneficiary edits because mutable-field allowlist is removed,Could distort historical execution state,medium,A
 R033_M02,R033,R033_O1,_patch_payment,Executed payment rejects reconciliation_note updates as well,Over-constrains one explicitly allowed field,easy,A
 R033_M03,R033,R033_O2,_patch_payment,Any patch containing reconciliation_note also allows unrelated field edits in same request,May violate immutability through mixed payloads,hard,Optional
 R034_M01,R034,R034_O2,_reject_payment,Reject path sets status REJECTED but leaves scheduled_execution_at unchanged,Collateral limited to scheduled payments,easy,A
@@ -124,7 +124,7 @@ R051_M02,R051,R051_O2,_log_request,Request log entry gets a fresh correlation_id
 R051_M03,R051,R051_O1,handle_request response builder,All responses use blank or constant correlation_id value instead of per-request ID,May preserve equality but lose uniqueness across requests,medium,Optional
 R053_M01,R053,R053_O1,_record_approval_latency_if_needed,Latency is measured from payment creation time instead of submission time,Defect affects interpretation more than control flow,medium,A
 R053_M02,R053,R053_O2,_record_approval_latency_if_needed,Metric is overwritten on second terminal decision rather than fixed at first terminal outcome,May distort retries or reject-after-approve scenarios,hard,Optional
-R053_M03,R053,R053_O2,_record_approval_latency_if_needed,Latency is recorded on first approval attempt even when payment is not yet terminal,Could understate true approval completion time,medium,A
+R053_M03,R053,R053_O1,_record_approval_latency_if_needed,Latency is recorded on first approval attempt even when payment is not yet terminal,Could understate true approval completion time,medium,A
 R054_M01,R054,R054_O1,_execution_job,Execution job emits only end event and no start event,Primary defect is missing lifecycle-open evidence,easy,A
 R054_M02,R054,R054_O3,_execution_job,Start event is emitted but missing result or timestamp fields,May still pass coarse event-count checks,medium,Optional
 R054_M03,R054,R054_O3,_execution_job,End event carries wrong job_id or result copied from request default,Collateral mostly in schema/content validation,medium,A

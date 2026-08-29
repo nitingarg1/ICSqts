@@ -1,7 +1,7 @@
 {
   "mutation_id": "R027_M02",
   "requirement_id": "R027",
-  "target_obligation_id": "R027_O4",
+  "target_obligation_id": "R027_O2",
   "code_area": "_add_attachment",
   "expected_behavioral_difference": "Attachment size threshold is off by one or skipped so files larger than 5 MB are accepted",
   "possible_collateral_effects": "Collateral limited to oversize payloads",

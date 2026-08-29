@@ -1,7 +1,7 @@
 {
   "mutation_id": "R026_M01",
   "requirement_id": "R026",
-  "target_obligation_id": "R026_O4",
+  "target_obligation_id": "R026_O2",
   "code_area": "_update_beneficiary",
   "expected_behavioral_difference": "Beneficiary update accepts both IBAN and account-plus-routing in same request",
   "possible_collateral_effects": "Can create ambiguous stored bank details",

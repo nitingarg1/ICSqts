@@ -1,7 +1,7 @@
 {
   "mutation_id": "R033_M01",
   "requirement_id": "R033",
-  "target_obligation_id": "R033_O2",
+  "target_obligation_id": "R033_O1",
   "code_area": "_patch_payment",
   "expected_behavioral_difference": "Executed payment allows amount or beneficiary edits because mutable-field allowlist is removed",
   "possible_collateral_effects": "Could distort historical execution state",
