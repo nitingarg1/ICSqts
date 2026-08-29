@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R007/R007_M03/service.py
+@@ -551,7 +551,7 @@
+         source_id = body.get("delegation_id")
+         if source_id and source_id in self.state["delegations"]:
+             source = self.state["delegations"][source_id]
+-            if actor["actor_id"] == source["delegate_user_id"]:
++            if False and actor["actor_id"] == source["delegate_user_id"]:
+                 raise ServiceError(403, "FORBIDDEN", "delegate cannot chain delegation")
+         delegation_id = self.seed_delegation_window(actor["actor_id"], body.get("delegate_user_id", "unknown"), start_offset_minutes=0, end_offset_minutes=60)
+         return Response(201, {"delegation_id": delegation_id}, {"correlation_id": correlation_id})

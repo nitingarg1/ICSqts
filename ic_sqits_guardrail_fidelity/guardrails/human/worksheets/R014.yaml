@@ -1,0 +1,59 @@
+worksheet_id: H_R014
+requirement_id: R014
+requirement_text: 'A denied approval attempt caused by insufficient permission must
+  create a security audit event containing actor ID, payment ID, reason code, and
+  timestamp.
+
+  '
+category: data protection/logging
+source_checklist_path: requirements/obligation_checklists/FINAL/data_protection_logging.yaml
+formulation_ids_for_reference:
+- R014_F0
+- R014_F1
+- R014_F2
+obligations:
+- obligation_id: R014_O1
+  requirement_id: R014
+  actor: denied-approval handling
+  precondition: approval attempt is denied because of insufficient permission
+  action: create a security audit event
+  expected_response_or_event: a security audit event is created for denial
+  required_state_effect: security audit event created
+  forbidden_state_effect: permission-based denial without audit event
+  exception: none stated
+  evidence_needed: evidence of denial caused by insufficient permission; security
+    audit event payload
+  why_this_obligation_is_required_by_the_text: Text says such denied approval attempt
+    must create a security audit event.
+- obligation_id: R014_O2
+  requirement_id: R014
+  actor: security audit event
+  precondition: event for permission-based denial is created
+  action: include actor ID, payment ID, reason code, and timestamp
+  expected_response_or_event: event payload contains all named fields
+  required_state_effect: none beyond event completeness
+  forbidden_state_effect: omission of any required field
+  exception: none stated
+  evidence_needed: event payload; schema validation
+  why_this_obligation_is_required_by_the_text: Text explicitly lists the required
+    audit fields.
+required_evidence:
+- Denied approval response.
+- Security audit log entry.
+- Event schema fields.
+valid_alternative_ids:
+- R014_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

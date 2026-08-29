@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R020_M01",
+  "requirement_id": "R020",
+  "target_obligation_id": "R020_O1",
+  "code_area": "_get_provider_config",
+  "expected_behavioral_difference": "Only successful configuration reads append audit events while denied reads are silent",
+  "possible_collateral_effects": "Primary defect on negative path observability",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "audit only successful provider-config reads",
+      "search": "        self._append_audit({\"event_type\": \"provider_config_read\", \"actor_id\": actor[\"actor_id\"], \"outcome\": outcome, \"config_name\": config_name})\n",
+      "replace": "        if outcome == \"allowed\":\n            self._append_audit({\"event_type\": \"provider_config_read\", \"actor_id\": actor[\"actor_id\"], \"outcome\": outcome, \"config_name\": config_name})\n"
+    }
+  ]
+}

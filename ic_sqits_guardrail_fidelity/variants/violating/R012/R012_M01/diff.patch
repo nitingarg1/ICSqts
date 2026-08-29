@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R012/R012_M01/service.py
+@@ -853,7 +853,7 @@
+         old_status = payment["status"]
+         payment["status"] = new_status
+         payment["updated_at"] = self._now_iso()
+-        self._append_audit({"event_type": "payment_status_changed", "payment_id": payment["payment_id"], "old_status": old_status, "new_status": new_status, "actor_id": actor_id, "timestamp": self._now_iso()})
++        pass  # mutation R012_M01: status-change audit omitted
+ 
+     def _record_approval_latency_if_needed(self, payment: dict[str, Any], actor_id: str) -> None:
+         if payment.get("terminal_decision_recorded"):

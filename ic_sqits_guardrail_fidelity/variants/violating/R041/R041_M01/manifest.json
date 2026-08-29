@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R041_M01",
+  "requirement_id": "R041",
+  "target_obligation_id": "R041_O1",
+  "code_area": "_create_payment",
+  "expected_behavioral_difference": "Replay with same idempotency key and same body generates new payment_id because stored-key lookup is skipped",
+  "possible_collateral_effects": "Also creates duplicate payment record",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "skip idempotency key lookup",
+      "search": "        existing = self.state[\"idempotency_keys\"].get(idem_key)\n        if existing is not None:\n            if existing[\"body_hash\"] != body_hash:\n                raise ServiceError(409, \"IDEMPOTENCY_CONFLICT\", \"idempotency key reused with different body\")\n            payment = self.state[\"payments\"][existing[\"payment_id\"]]\n            return Response(200, {\"payment_id\": payment[\"payment_id\"], \"status\": payment[\"status\"]}, {\"correlation_id\": correlation_id})\n",
+      "replace": "        existing = None\n"
+    }
+  ]
+}

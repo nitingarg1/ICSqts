@@ -1,0 +1,145 @@
+mutation_id,requirement_id,target_obligation_id,code_area,expected_behavioral_difference,possible_collateral_effects,difficulty,Approval-Status
+R001_M01,R001,R001_O1,_approve_payment,Non-approver can approve payment because role gate is removed,May also let support or requester actors advance approval counts,medium,A
+R001_M02,R001,R001_O2,_approve_payment,Original submitter can approve own payment because self-approval comparison uses wrong field,Primarily affects payments created by same actor,medium,A
+R001_M03,R001,R001_O1,_approve_payment,Request returns denial but approval action is still recorded before error is raised,Collateral audit and state mutation may also violate denial-side expectations,hard,Reject
+R002_M01,R002,R002_O1,_release_payment,High-value payment can be released after only one approval because distinct-approver count is bypassed,May mask missing second approver defect in downstream tests,medium,A
+R002_M02,R002,R002_O1,_release_payment,Two approvals from same user satisfy release gate because distinctness check is removed,Collateral limited to repeated-approver scenarios,medium,Optional
+R002_M03,R002,R002_O1,_release_payment,Finance-manager prerequisite is skipped so two non-manager approvers can release high-value payment,May not affect low-value payments outside threshold,medium,A
+R003_M01,R003,R003_O1,_void_payment,Non-creator non-admin actor can void payment because actor authorization check is removed,Could expose more payments to later invalid state transitions,medium,A
+R003_M02,R003,R003_O2,_void_payment,Settled payment can still be voided because pre-settlement guard is skipped,May overlap with refund or reversal scenarios on captured payments,medium,Optional
+R003_M03,R003,R003_O4,_void_payment,Successful void sets status but does not append payment_voided audit event,Primary defect is observability loss on otherwise valid void,medium,A
+R004_M01,R004,R004_O1,_approve_payment,Inactive session token is treated as active so approval succeeds instead of returning 401,Also changes payment state and approval records,medium,A
+R004_M02,R004,R004_O2,_approve_payment,Service returns 401 for inactive token but still appends approval record before exiting,Collateral includes possible approval-count drift,hard,A
+R004_M03,R004,R004_O3,_approve_payment,Service returns 401 but still transitions payment status because state change happens before session check,Can also create misleading audit history,hard,Reject
+R005_M01,R005,R005_O2,_payment_summary,Support summary exposes full account number because masking helper is bypassed,May also leak same value into response logging,medium,A
+R005_M02,R005,R005_O3,_payment_summary,Support summary still shows routing number because role-based field suppression is removed,Collateral limited to support_readonly requests,easy,Optional
+R005_M03,R005,R005_O4,_payment_summary,Confidential approval comments are returned to support_readonly users because comment filter is skipped,Could also affect other low-privilege summary consumers,medium,A
+R007_M01,R007,R007_O1,_approve_payment,Delegate can approve after delegation window expiry because end-time validation is skipped,May also allow use of stale delegated tasks,medium,A
+R007_M02,R007,R007_O1,_approve_payment,Any actor can reuse a valid delegation_id because delegate identity is not matched to delegation record,Collateral can broaden who may act under one delegation,hard,Optional
+R007_M03,R007,R007_O2,_create_delegation,Delegate can create a chained delegation from temporary authority because chained-delegation block is removed,May spawn invalid downstream delegated actions,medium,A
+R008_M01,R008,R008_O1,_reverse_payment,Non-treasury actor can reverse settled payment because treasury-role check is removed,Could let admin or requester bypass incident workflow,medium,A
+R008_M02,R008,R008_O1,_reverse_payment,Reversal succeeds without an existing incident ticket because incident lookup is skipped,Primarily affects auditability of reversal scenarios,medium,A
+R008_M03,R008,R008_O1,_reverse_payment,Unsettled payment can be reversed because settled-state precondition is not enforced,May overlap with pre-execution cancel or void paths,medium,Optional
+R010_M01,R010,R010_O1,_create_internal_transfer,Service account creates internal transfer without approved mTLS subject because allowlist check is removed,Can expose unauthorized transfer records,medium,A
+R010_M02,R010,R010_O1,_create_internal_transfer,Authorization checks wrong field and trusts service-account name instead of mTLS subject,Defect appears only when service account and subject disagree,medium,A
+R010_M03,R010,R010_O2,_create_internal_transfer,Request is denied but transfer record is still persisted before response is returned,Collateral may affect counts of internal transfers,hard,Reject
+R011_M01,R011,R011_O1,_append_log,Structured logs capture full account number because redaction is skipped for payment fields,May create multiple log leaks per request,medium,A
+R011_M02,R011,R011_O1,_sanitize_string,Masking leaves more than last four digits visible because helper truncates incorrectly,Leak severity depends on account-number length,medium,Optional
+R011_M03,R011,R011_O1,handle_request exception path,Unexpected exception logging writes unsanitized payload containing full account number,Also threatens secret-safety scenarios on error paths,hard,A
+R012_M01,R012,R012_O1,_change_payment_status,One payment transition updates state without appending audit event because helper call is removed,Collateral limited to chosen transition path,medium,A
+R012_M02,R012,R012_O2,_change_payment_status,Audit event is emitted with wrong actor_id because actor source comes from payment creator instead of acting user,Could misattribute downstream forensic analysis,medium,A
+R012_M03,R012,R012_O2,_change_payment_status,Audit event omits old_status or timestamp field while still recording state change,Schema consumers may fail on incomplete events,medium,Optional
+R013_M01,R013,R013_O1,_append_log,Normal execution log includes raw secret fixture value because config payload is logged before sanitization,Leak occurs on non-error path,medium,A
+R013_M02,R013,R013_O2,handle_request exception path,Exception logger emits raw exception string containing secret fixture,Can co-occur with unrelated 500-path defects,hard,A
+R013_M03,R013,R013_O1,_sanitize,Secret-manager-like fields are exempted from sanitizer and pass through unchanged,May leak multiple secret-bearing keys across logs,medium,Optional
+R014_M01,R014,R014_O1,_audit_permission_denial,Insufficient-permission approval denial returns 403 but no security audit event is appended,Primary defect is missing denial observability,medium,A
+R014_M02,R014,R014_O1,_audit_permission_denial,Security audit event is emitted with wrong event type or generic code instead of approval_denied_security,Collateral may break event filters,medium,A
+R014_M03,R014,R014_O1,_audit_permission_denial,Security audit event records wrong actor_id or payment_id on denied approval,Can mislead manual validation without changing 403 response,medium,Optional
+R016_M01,R016,R016_O1,_download_document,Token remains valid at or beyond 15 minutes because expiry comparator is off by one,Boundary-only defect may hide in coarse tests,medium,A
+R016_M02,R016,R016_O2,_download_document,Expired token request returns 403 or 404 instead of 410,Primary defect is wrong denial semantics,easy,Optional
+R016_M03,R016,R016_O3,_download_document,Expired token is denied but no document_token_expired audit event is appended,Collateral limited to expired-access observability,medium,A
+R018_M01,R018,R018_O1,_download_reconciliation_report,Reconciliation report download succeeds without appending audit record,Main effect is missing auditability of download,medium,A
+R018_M02,R018,R018_O2,_download_reconciliation_report,Audit record omits applied_filters or row_count while download still succeeds,Could break downstream report provenance checks,medium,Optional
+R018_M03,R018,R018_O2,_download_reconciliation_report,Audit record uses wrong requester identity such as report owner or default admin instead of acting user,Collateral mostly affects actor-trace assertions,medium,A
+R019_M01,R019,R019_O2,_search_customer_email,Search log stores raw email string instead of hashed value,Direct privacy leak in logs,easy,A
+R019_M02,R019,R019_O1,_search_customer_email,Service hashes email without required salt so log value is deterministic across environments,Privacy weakness may not change API behavior,medium,A
+R019_M03,R019,R019_O2,_search_customer_email,Service stores both email_hash and raw email in log entry,Collateral combines compliant and non-compliant evidence in same record,medium,Optional
+R020_M01,R020,R020_O1,_get_provider_config,Only successful configuration reads append audit events while denied reads are silent,Primary defect on negative path observability,medium,A
+R020_M02,R020,R020_O2,_get_provider_config,Denied read is audited but outcome field is always set to allowed,Can distort success-vs-denial analysis,medium,A
+R020_M03,R020,R020_O2,_get_provider_config,Audit event omits configuration name on allowed and denied reads,Collateral limited to event completeness,easy,Optional
+R021_M01,R021,R021_O1,_create_payment,Create-payment validates amount presence only and allows zero or negative values,May permit impossible downstream states,medium,A
+R021_M02,R021,R021_O2,_create_payment,Upper-bound check is removed so amounts over 100000 are accepted,Large-amount scenarios may collide with release-threshold tests,easy,A
+R021_M03,R021,R021_O1,_create_payment,Request returns 422 for invalid amount but draft payment is still persisted before error,Collateral includes state pollution despite correct response,hard,Optional
+R024_M01,R024,R024_O1,_create_payment,Scheduled date earlier than request date is accepted because lower-bound check is removed,Could allow backdated execution scenarios,medium,A
+R024_M02,R024,R024_O2,_create_payment,Scheduled date more than 30 calendar days ahead is accepted because upper-bound check is skipped,Boundary tests above 30 days would fail to detect rejection,medium,A
+R024_M03,R024,R024_O2,_create_payment,Implementation uses 31-day or business-day window instead of 30 calendar days,Defect is most visible near threshold dates,hard,Optional
+R025_M01,R025,R025_O4,_approve_payment,Approval path incorrectly requires comment and rejects comment-free valid approvals,Over-constrains compliant approval traffic,medium,A
+R025_M02,R025,R025_O2,_reject_payment,Rejection comment minimum length check is removed so short comments are accepted,Could reduce audit usefulness without affecting state change,easy,A
+R025_M03,R025,R025_O3,_reject_payment,Rejection comment maximum length check is skipped so oversized comments are accepted,May only surface with long payload tests,easy,Optional
+R026_M01,R026,R026_O4,_update_beneficiary,Beneficiary update accepts both IBAN and account-plus-routing in same request,Can create ambiguous stored bank details,medium,A
+R026_M02,R026,R026_O2,_update_beneficiary,Beneficiary update rejects valid account_number plus routing_number pair because implementation only accepts IBAN,Over-restricts compliant alternative input form,medium,A
+R026_M03,R026,R026_O3,_update_beneficiary,Beneficiary update accepts request with neither valid form because any non-empty payload passes,May create unusable bank records,medium,Optional
+R027_M01,R027,R027_O3,_add_attachment,Attachment upload validates size but not content type so txt or other files are accepted,Could allow arbitrary file classes into persistence,medium,A
+R027_M02,R027,R027_O4,_add_attachment,Attachment size threshold is off by one or skipped so files larger than 5 MB are accepted,Collateral limited to oversize payloads,medium,A
+R027_M03,R027,R027_O3,_add_attachment,Implementation trusts filename extension and ignores declared content_type allowing disguised disallowed files,May interact with client-side naming behavior,hard,Optional
+R028_M01,R028,R028_O1,_create_batch,Batch payout accepts zero items because minimum-size validation is removed,Could create empty batches that still consume IDs,easy,A
+R028_M02,R028,R028_O2,_create_batch,Batch payout accepts more than 100 items because maximum-size guard is skipped,Large batches may create noisy downstream artifacts,easy,Optional
+R028_M03,R028,R028_O3,_create_batch,Duplicate client_reference values are accepted because uniqueness check is removed or normalized incorrectly,May interfere with reconciliation cases later,medium,A
+R029_M01,R029,R029_O2,_set_callback_config,Callback URL only checks scheme and accepts non-allowlisted hostname,Could point async callbacks to attacker-controlled host,medium,A
+R029_M02,R029,R029_O1,_set_callback_config,Callback URL only checks allowlist and accepts http scheme,Weakens transport guarantee while preserving host gate,easy,A
+R029_M03,R029,R029_O2,_set_callback_config,Hostname parsing bug reads wrong component and treats crafted URL as allowlisted,Collateral may depend on URL edge-case syntax,hard,Optional
+R030_M01,R030,R030_O1,_create_refund,Refund validator compares request only to captured_amount and ignores prior approved refunds,Allows cumulative over-refund,medium,A
+R030_M02,R030,R030_O1,_create_refund,Refund validator sums denied or pending refunds as approved and rejects valid remaining balance,Over-constrains compliant refunds,medium,A
+R030_M03,R030,R030_O1,_create_refund,Refund validator rounds remaining refundable amount incorrectly and allows slightly more than permitted,Collateral visible mainly on fractional amounts,hard,Optional
+R031_M01,R031,R031_O1,_submit_payment,DRAFT payment submits without line items because line-item precondition is skipped,May cascade into approvals of incomplete payments,easy,A
+R031_M02,R031,R031_O2,_submit_payment,DRAFT payment submits with unverified beneficiary because verification check is removed,Could undermine downstream transfer realism,easy,A
+R031_M03,R031,R031_O1,_submit_payment,Non-DRAFT payment can enter SUBMITTED if line items and beneficiary checks pass because status gate is loosened,Collateral affects state-machine integrity beyond one transition,medium,Optional
+R032_M01,R032,R032_O1,_approve_payment,Payment transitions to APPROVED after first approval because required approver count is hardcoded to one,May hide missing policy thresholds entirely,medium,A
+R032_M02,R032,R032_O1,_approve_payment,Implementation reads approval policy from wrong payment_type and applies incorrect threshold,Defect depends on differing policy fixtures,hard,Optional
+R032_M03,R032,R032_O1,_approve_payment,Duplicate approvals from same user count toward threshold because distinct approver logic is missing,May overlap with replay/idempotency scenarios,medium,A
+R033_M01,R033,R033_O2,_patch_payment,Executed payment allows amount or beneficiary edits because mutable-field allowlist is removed,Could distort historical execution state,medium,A
+R033_M02,R033,R033_O1,_patch_payment,Executed payment rejects reconciliation_note updates as well,Over-constrains one explicitly allowed field,easy,A
+R033_M03,R033,R033_O2,_patch_payment,Any patch containing reconciliation_note also allows unrelated field edits in same request,May violate immutability through mixed payloads,hard,Optional
+R034_M01,R034,R034_O2,_reject_payment,Reject path sets status REJECTED but leaves scheduled_execution_at unchanged,Collateral limited to scheduled payments,easy,A
+R034_M02,R034,R034_O1,_reject_payment,Reject path clears schedule but does not change payment status to REJECTED,Could leave payment resubmittable or active,medium,A
+R034_M03,R034,R034_O1,_reject_payment,Reject path maps terminal state to CANCELED instead of REJECTED,Wrong state may affect metrics and audit grouping,medium,Optional
+R036_M01,R036,R036_O1,_cancel_payment,Approved payment can be canceled because allowed-state check includes APPROVED,May overlap with post-approval release tests,easy,A
+R036_M02,R036,R036_O2,_cancel_payment,Cancel request for APPROVED payment returns 409 but still mutates status to CANCELED,Collateral combines correct response with wrong state effect,hard,A
+R036_M03,R036,R036_O2,_cancel_payment,Executed payment is treated as cancelable for privileged actors,May disrupt post-execution invariants broadly,medium,Optional
+R037_M01,R037,R037_O1,_expire_delegated_tasks,Expired pending delegated task remains pending because expiry processor skips invalidation,Can let stale delegation continue to be used,medium,A
+R037_M02,R037,R037_O2,_expire_delegated_tasks,Expired pending delegated task becomes INVALID but no delegation_expired event is emitted,Primary defect is missing event evidence,medium,A
+R037_M03,R037,R037_O1,_expire_delegated_tasks,Expiry processor emits delegation_expired event but leaves delegated task status unchanged,Creates conflicting state and audit evidence,hard,Optional
+R038_M01,R038,R038_O1,_open_chargeback,Chargeback creation does not set dispute_status to OPEN,May allow later refunds that should have been blocked,easy,A
+R038_M02,R038,R038_O2,_create_refund,Refund path ignores dispute_status and still creates refunds during open chargeback,Could create both financial and state inconsistencies,medium,A
+R038_M03,R038,R038_O2,_open_chargeback,Chargeback briefly sets dispute OPEN but unrelated update clears it immediately,Hard-to-trace state regression may only show after secondary actions,hard,Optional
+R040_M01,R040,R040_O1,_create_refund,Any positive refund immediately transitions payment to REFUNDED instead of staying CAPTURED on partial total,Can mask under-refund totals in later checks,medium,A
+R040_M02,R040,R040_O2,_create_refund,Payment never transitions to REFUNDED even when approved refunds exactly equal captured amount,Over-restricts compliant full refund completion,medium,A
+R040_M03,R040,R040_O1,_create_refund,Status decision compares only current refund amount to captured_amount instead of cumulative approved_refund_total,Defect visible when multiple refunds sum to total,hard,Optional
+R041_M01,R041,R041_O1,_create_payment,Replay with same idempotency key and same body generates new payment_id because stored-key lookup is skipped,Also creates duplicate payment record,medium,A
+R041_M02,R041,R041_O2,_create_payment,Replay returns original payment_id but still persists a second payment record behind the scenes,Collateral limited to state duplication with superficially correct API response,hard,Optional
+R041_M03,R041,R041_O1,_create_payment,Implementation compares request bodies using unstable serialization and misses identical replay under reordered fields,Defect depends on body canonicalization edge cases,hard,A
+R042_M01,R042,R042_O1,_create_payment,Reused idempotency key with different body creates second payment instead of returning 409,State divergence grows with repeated key reuse,medium,A
+R042_M02,R042,R042_O1,_create_payment,Reused idempotency key with different body returns original payment_id as if replay were identical,Hides client misuse and suppresses intended conflict,medium,A
+R042_M03,R042,R042_O1,_create_payment,Conflict response 409 is returned but original idempotency record is overwritten with new body or payment reference,May break future replay behavior for same key,hard,Optional
+R043_M01,R043,R043_O1,_approve_payment,Retrying same approval command records duplicate approval action because command_id dedupe is removed,Can also advance approval threshold too early,medium,A
+R043_M02,R043,R043_O1,_approve_payment,Replay returns success but appends duplicate approval row before checking prior command,Collateral mostly in approval history and counts,hard,Optional
+R043_M03,R043,R043_O1,_approve_payment,Command replay dedupe state is cleared after success so later retry is treated as new approval,May only surface across crash or timeout simulations,hard,A
+R044_M01,R044,R044_O1,_provider_message,Duplicate provider message is processed again because receipt store lookup is skipped,Could create duplicate downstream ledger-side effects,medium,A
+R044_M02,R044,R044_O1,_provider_message,Duplicate provider message is ignored but duplicate_ignored event is not appended,Primary defect is missing observability on dedupe path,medium,A
+R044_M03,R044,R044_O1,_provider_message,Deduplication uses wrong key so true duplicates pass while unrelated messages may be suppressed,Collateral can invalidate multiple message scenarios,hard,Optional
+R045_M01,R045,R045_O1,_webhook_delivery,Webhook delivery retries on 4xx as well as 5xx because retry classifier is too broad,May create noisy over-retry behavior,medium,A
+R045_M02,R045,R045_O2,_webhook_delivery,Webhook delivery exceeds three attempts because max-attempt guard is removed,Could produce long retry traces and duplicate downstream effects,medium,Optional
+R045_M03,R045,R045_O3,_webhook_delivery,Webhook delivery continues retrying even after first 200 success,May generate extra successful callbacks beyond intended stop point,medium,A
+R046_M01,R046,R046_O1,_restart_export,Restarted export job allocates new job_id instead of reusing original identifier,Collateral affects downstream audit linkage,easy,A
+R046_M02,R046,R046_O2,_restart_export,Restarted export replays already written rows because written_set dedupe is removed,Can inflate export row counts,medium,A
+R046_M03,R046,R046_O2,_restart_export,Restart always resumes from row zero regardless of persisted progress,Duplicate rows and longer duration likely both appear,medium,Optional
+R047_M01,R047,R047_O1,_takeover_lock,Successor worker can acquire lock before stale period exceeds five minutes because threshold check is loosened,Could trigger premature takeover under normal operation,medium,A
+R047_M02,R047,R047_O2,_takeover_lock,Multiple successor workers can take over same stale lock because exclusivity state is not persisted,May cause duplicated job execution,medium,A
+R047_M03,R047,R047_O1,_takeover_lock,No successor worker can acquire even truly stale lock because takeover path always rejects,Over-constrains recovery behavior,easy,Optional
+R049_M01,R049,R049_O1,_reconciliation_import,Duplicate detection compares filename or import_id instead of checksum so repeated content is reapplied,Could create duplicate reconciliation effects,medium,A
+R049_M02,R049,R049_O2,_reconciliation_import,Repeated successful checksum is marked non-duplicate and file contents are applied a second time,Primary defect is reapplication of duplicate input,medium,A
+R049_M03,R049,R049_O2,_reconciliation_import,Attempt is marked duplicate but contents are still applied to state before response returns,Collateral gives mixed duplicate and applied evidence,hard,Optional
+R051_M01,R051,R051_O1,handle_request error response builder,Error responses omit correlation_id header while success responses include it,Defect visible mostly on negative-path executions,easy,A
+R051_M02,R051,R051_O2,_log_request,Request log entry gets a fresh correlation_id different from response header,Breaks cross-artifact traceability without changing API body,medium,A
+R051_M03,R051,R051_O1,handle_request response builder,All responses use blank or constant correlation_id value instead of per-request ID,May preserve equality but lose uniqueness across requests,medium,Optional
+R053_M01,R053,R053_O1,_record_approval_latency_if_needed,Latency is measured from payment creation time instead of submission time,Defect affects interpretation more than control flow,medium,A
+R053_M02,R053,R053_O2,_record_approval_latency_if_needed,Metric is overwritten on second terminal decision rather than fixed at first terminal outcome,May distort retries or reject-after-approve scenarios,hard,Optional
+R053_M03,R053,R053_O2,_record_approval_latency_if_needed,Latency is recorded on first approval attempt even when payment is not yet terminal,Could understate true approval completion time,medium,A
+R054_M01,R054,R054_O1,_execution_job,Execution job emits only end event and no start event,Primary defect is missing lifecycle-open evidence,easy,A
+R054_M02,R054,R054_O3,_execution_job,Start event is emitted but missing result or timestamp fields,May still pass coarse event-count checks,medium,Optional
+R054_M03,R054,R054_O3,_execution_job,End event carries wrong job_id or result copied from request default,Collateral mostly in schema/content validation,medium,A
+R055_M01,R055,R055_O1,_record_guardrail_block,Guardrail violation record is emitted without requirement_id field,Primary traceability target is lost,easy,A
+R055_M02,R055,R055_O1,_record_guardrail_block,Violation record stores guardrail_id value in requirement_id slot,May look populated while still being semantically wrong,medium,Optional
+R055_M03,R055,R055_O1,handle_request guardrail block path,Blocked request is only logged and no guardrail_violations record is persisted,Collateral also weakens later audits of blocked cases,medium,A
+R057_M01,R057,R057_O2,_open_circuit,Provider circuit emits alert on every open call even during same open interval,Can flood alert stream with duplicates,easy,A
+R057_M02,R057,R057_O1,_open_circuit/_close_circuit,Provider circuit fails to emit alert when reopened after close because prior-open flag is never reset,Defect visible only across close-reopen cycles,medium,A
+R057_M03,R057,R057_O1,_close_circuit,Alert is emitted on close transition instead of open transition,Misplaces interval semantics and may confuse alert grouping,medium,Optional
+R058_M01,R058,R058_O1,_manual_override,Manual override accepts empty reason because non-empty validation is removed,May reduce audit usefulness while still mutating state,easy,A
+R058_M02,R058,R058_O2,_manual_override,Audit event is appended but affected entity ID is omitted or null,Traceability loss on otherwise successful override,medium,A
+R058_M03,R058,R058_O2,_manual_override,Reason is validated but manual_override audit event is never appended,Collateral limited to observability,medium,Optional
+R059_M01,R059,R059_O1,_reconciliation_check,Detected mismatch creates review case but does not increment reconciliation_mismatch_count metric,Primary defect is missing metric evidence,easy,A
+R059_M02,R059,R059_O2,_reconciliation_check,Detected mismatch increments metric but review case is not created,Could leave downstream manual triage without artifact,easy,A
+R059_M03,R059,R059_O2,_reconciliation_check,Review case is created without correct batch_id linkage,May superficially satisfy creation counts while failing traceability,medium,Optional
+R060_M01,R060,R060_O1,_complete_export,Completed export job does not emit export_completed event,Primary defect is missing completion observability,easy,A
+R060_M02,R060,R060_O2,_complete_export,Completion event is emitted but omits duration_ms or success flag,Could still pass event-presence-only checks,medium,Optional
+R060_M03,R060,R060_O2,_complete_export,Completion event records worker identity instead of requester_id,Collateral mostly affects provenance and attribution,medium,A

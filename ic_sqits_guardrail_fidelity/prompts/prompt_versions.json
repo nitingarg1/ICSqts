@@ -1,0 +1,18 @@
+{
+  "status": "ASSUMPTION_BASED_DRAFT",
+  "L0": {
+    "version": "v1",
+    "path": "prompts/guardrail_generation/L0_PROMPT_v1.md",
+    "status": "ASSUMPTION_BASED_DRAFT"
+  },
+  "L1": {
+    "version": "v1",
+    "path": "prompts/structured_extraction/L1_PROMPT_v1.md",
+    "status": "ASSUMPTION_BASED_DRAFT"
+  },
+  "L2": {
+    "version": "v1",
+    "path": "prompts/L2_VALIDATION_SPEC.md",
+    "status": "ASSUMPTION_BASED_DRAFT"
+  }
+}

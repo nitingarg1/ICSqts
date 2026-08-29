@@ -1,0 +1,12 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R027/R027_M02/service.py
+@@ -643,8 +643,7 @@
+         self._payment(payment_id)
+         if body.get("content_type") not in {"pdf", "png"}:
+             raise ServiceError(422, "VALIDATION_ERROR", "attachment type not allowed")
+-        if int(body.get("size_bytes", 0)) > 5 * 1024 * 1024:
+-            raise ServiceError(422, "VALIDATION_ERROR", "attachment too large")
++        pass  # mutation R027_M02: attachment max-size validation removed
+         attachment_id = self._next_id("attachment", "attachment")
+         self.state["attachments"][attachment_id] = {"attachment_id": attachment_id, "payment_id": payment_id, **body}
+         return Response(201, {"attachment_id": attachment_id}, {"correlation_id": correlation_id})

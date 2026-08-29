@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R007/R007_M01/service.py
+@@ -475,7 +475,7 @@
+             now = self._now()
+             starts_at = datetime.fromisoformat(delegation["starts_at"].replace("Z", "+00:00"))
+             ends_at = datetime.fromisoformat(delegation["ends_at"].replace("Z", "+00:00"))
+-            if actor["actor_id"] != delegation["delegate_user_id"] or not (starts_at <= now <= ends_at):
++            if actor["actor_id"] != delegation["delegate_user_id"] or now < starts_at:
+                 self._audit_permission_denial(actor["actor_id"], payment_id, "delegation_inactive")
+                 raise ServiceError(403, "FORBIDDEN", "delegation inactive")
+             roles.add("approver")

@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R016/R016_M01/service.py
+@@ -582,7 +582,7 @@
+         token = self.state["document_tokens"].get(token_id)
+         if token is None or token["document_id"] != document_id:
+             raise ServiceError(404, "NOT_FOUND", "download token not found")
+-        if self._now() > datetime.fromisoformat(token["expires_at"].replace("Z", "+00:00")):
++        if self._now() > datetime.fromisoformat(token["expires_at"].replace("Z", "+00:00")) + timedelta(minutes=1):
+             self._append_audit({"event_type": "document_token_expired", "document_id": document_id, "token_id": token_id})
+             raise ServiceError(410, "GONE", "download token expired")
+         return Response(200, {"document_id": document_id}, {"correlation_id": correlation_id})

@@ -1,0 +1,12 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R042/R042_M02/service.py
+@@ -397,7 +397,8 @@
+         existing = self.state["idempotency_keys"].get(idem_key)
+         if existing is not None:
+             if existing["body_hash"] != body_hash:
+-                raise ServiceError(409, "IDEMPOTENCY_CONFLICT", "idempotency key reused with different body")
++                payment = self.state["payments"][existing["payment_id"]]
++                return Response(200, {"payment_id": payment["payment_id"], "status": payment["status"]}, {"correlation_id": correlation_id})
+             payment = self.state["payments"][existing["payment_id"]]
+             return Response(200, {"payment_id": payment["payment_id"], "status": payment["status"]}, {"correlation_id": correlation_id})
+ 

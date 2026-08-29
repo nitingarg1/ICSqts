@@ -1,0 +1,57 @@
+worksheet_id: H_R060
+requirement_id: R060
+requirement_text: 'Completion of a data export job must emit an event containing requester
+  ID, row count, duration in milliseconds, and success flag.
+
+  '
+category: observability/audit
+source_checklist_path: requirements/obligation_checklists/FINAL/observability_audit.yaml
+formulation_ids_for_reference:
+- R060_F0
+- R060_F1
+- R060_F2
+obligations:
+- obligation_id: R060_O1
+  requirement_id: R060
+  actor: data export job completion logic
+  precondition: data export job completes
+  action: emit a completion event
+  expected_response_or_event: export completion event exists
+  required_state_effect: completion event emitted
+  forbidden_state_effect: completed export job without completion event
+  exception: none stated
+  evidence_needed: export completion event; job metadata
+  why_this_obligation_is_required_by_the_text: Text says completion of data export
+    job must emit an event.
+- obligation_id: R060_O2
+  requirement_id: R060
+  actor: export completion event
+  precondition: completion event is emitted
+  action: include requester ID, row count, duration in milliseconds, and success flag
+  expected_response_or_event: event payload contains all named fields
+  required_state_effect: none beyond event completeness
+  forbidden_state_effect: omission of any required field from completion event
+  exception: none stated
+  evidence_needed: event payload; schema validation
+  why_this_obligation_is_required_by_the_text: Text explicitly lists requester ID,
+    row count, duration in milliseconds, and success flag as event fields.
+required_evidence:
+- Export completion event.
+- Job metadata.
+- Event schema validation.
+valid_alternative_ids:
+- R060_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

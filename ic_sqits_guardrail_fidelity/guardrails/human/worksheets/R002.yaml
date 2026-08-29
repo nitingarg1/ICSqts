@@ -1,0 +1,72 @@
+worksheet_id: H_R002
+requirement_id: R002
+requirement_text: 'A payment greater than 10000 USD may be released only after two
+  distinct approvers have approved it, and at least one approver must hold the `finance_manager`
+  role.
+
+  '
+category: authorization/security
+source_checklist_path: requirements/obligation_checklists/FINAL/authorization_security.yaml
+formulation_ids_for_reference:
+- R002_F0
+- R002_F1
+- R002_F2
+obligations:
+- obligation_id: R002_O1
+  requirement_id: R002
+  actor: payment release workflow
+  precondition: payment amount is greater than 10000 USD
+  action: allow release only after at least two approvers have approved the payment
+  expected_response_or_event: release before two approvals must be blocked
+  required_state_effect: none required by text
+  forbidden_state_effect: no release when fewer than two approvals exist
+  exception: none stated
+  evidence_needed: payment amount; approval history; release response or execution
+    log
+  why_this_obligation_is_required_by_the_text: Text conditions release on two approvals
+    for payments above the threshold.
+- obligation_id: R002_O2
+  requirement_id: R002
+  actor: payment release workflow
+  precondition: payment amount is greater than 10000 USD and release is attempted
+  action: confirm that at least two distinct approvers have approved the payment
+  expected_response_or_event: duplicate approver identities do not satisfy release
+    prerequisite
+  required_state_effect: none beyond prerequisite satisfaction
+  forbidden_state_effect: no release if required approvals are not from distinct approvers
+  exception: none stated
+  evidence_needed: approver identities in approval history; release attempt outcome
+  why_this_obligation_is_required_by_the_text: Text requires two distinct approvers.
+- obligation_id: R002_O3
+  requirement_id: R002
+  actor: payment release workflow
+  precondition: payment amount is greater than 10000 USD and release is attempted
+  action: confirm that at least one approver holds the `finance_manager` role
+  expected_response_or_event: release without a `finance_manager` approver must be
+    blocked
+  required_state_effect: none beyond prerequisite satisfaction
+  forbidden_state_effect: no release when approvals lack a `finance_manager`
+  exception: none stated
+  evidence_needed: approver roles in approval history; release outcome
+  why_this_obligation_is_required_by_the_text: Text explicitly requires at least one
+    approver with `finance_manager` role.
+required_evidence:
+- Payment record with amount and release status.
+- Approval history with approver identities and roles.
+- Release attempt response or execution log.
+valid_alternative_ids:
+- R002_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

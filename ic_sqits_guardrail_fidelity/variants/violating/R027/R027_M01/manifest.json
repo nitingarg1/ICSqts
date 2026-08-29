@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R027_M01",
+  "requirement_id": "R027",
+  "target_obligation_id": "R027_O3",
+  "code_area": "_add_attachment",
+  "expected_behavioral_difference": "Attachment upload validates size but not content type so txt or other files are accepted",
+  "possible_collateral_effects": "Could allow arbitrary file classes into persistence",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "skip attachment content-type validation",
+      "search": "        if body.get(\"content_type\") not in {\"pdf\", \"png\"}:\n            raise ServiceError(422, \"VALIDATION_ERROR\", \"attachment type not allowed\")\n",
+      "replace": "        pass  # mutation R027_M01: attachment content-type validation removed\n"
+    }
+  ]
+}

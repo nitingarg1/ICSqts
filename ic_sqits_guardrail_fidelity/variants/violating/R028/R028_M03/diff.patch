@@ -1,0 +1,12 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R028/R028_M03/service.py
+@@ -654,8 +654,7 @@
+         if not (1 <= len(items) <= 100):
+             raise ServiceError(422, "VALIDATION_ERROR", "invalid batch size")
+         refs = [item.get("client_reference") for item in items]
+-        if len(refs) != len(set(refs)):
+-            raise ServiceError(422, "VALIDATION_ERROR", "duplicate client_reference")
++        # mutation R028_M03: duplicate client_reference validation removed
+         batch_id = self._next_id("batch", "batch")
+         self.state["batch_payouts"][batch_id] = {"batch_id": batch_id, "items": copy.deepcopy(items)}
+         return Response(201, {"batch_id": batch_id}, {"correlation_id": correlation_id})

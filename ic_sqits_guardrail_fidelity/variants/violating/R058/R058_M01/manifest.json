@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R058_M01",
+  "requirement_id": "R058",
+  "target_obligation_id": "R058_O1",
+  "code_area": "_manual_override",
+  "expected_behavioral_difference": "Manual override accepts empty reason because non-empty validation is removed",
+  "possible_collateral_effects": "May reduce audit usefulness while still mutating state",
+  "difficulty": "easy",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "remove manual override reason validation",
+      "search": "        if not reason:\n            raise ServiceError(422, \"VALIDATION_ERROR\", \"manual override reason required\")\n",
+      "replace": "        pass  # mutation R058_M01: manual override reason may be empty\n"
+    }
+  ]
+}

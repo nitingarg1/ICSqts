@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R042_M02",
+  "requirement_id": "R042",
+  "target_obligation_id": "R042_O1",
+  "code_area": "_create_payment",
+  "expected_behavioral_difference": "Reused idempotency key with different body returns original payment_id as if replay were identical",
+  "possible_collateral_effects": "Hides client misuse and suppresses intended conflict",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "treat different-body reuse as identical replay",
+      "search": "            if existing[\"body_hash\"] != body_hash:\n                raise ServiceError(409, \"IDEMPOTENCY_CONFLICT\", \"idempotency key reused with different body\")\n",
+      "replace": "            if existing[\"body_hash\"] != body_hash:\n                payment = self.state[\"payments\"][existing[\"payment_id\"]]\n                return Response(200, {\"payment_id\": payment[\"payment_id\"], \"status\": payment[\"status\"]}, {\"correlation_id\": correlation_id})\n"
+    }
+  ]
+}

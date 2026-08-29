@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R036_M02",
+  "requirement_id": "R036",
+  "target_obligation_id": "R036_O2",
+  "code_area": "_cancel_payment",
+  "expected_behavioral_difference": "Cancel request for APPROVED payment returns 409 but still mutates status to CANCELED",
+  "possible_collateral_effects": "Collateral combines correct response with wrong state effect",
+  "difficulty": "hard",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "mutate canceled status before returning conflict",
+      "search": "        if payment[\"status\"] not in {\"DRAFT\", \"SUBMITTED\"}:\n            raise ServiceError(409, \"STATE_CONFLICT\", \"payment cannot be canceled\")\n",
+      "replace": "        if payment[\"status\"] not in {\"DRAFT\", \"SUBMITTED\"}:\n            self._change_payment_status(payment, \"CANCELED\", actor[\"actor_id\"])\n            raise ServiceError(409, \"STATE_CONFLICT\", \"payment cannot be canceled\")\n"
+    }
+  ]
+}

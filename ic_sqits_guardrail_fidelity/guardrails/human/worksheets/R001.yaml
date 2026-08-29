@@ -1,0 +1,60 @@
+worksheet_id: H_R001
+requirement_id: R001
+requirement_text: 'A payment request may be approved only by a user with the `approver`
+  role, and the user who submitted the request must not approve that same request.
+
+  '
+category: authorization/security
+source_checklist_path: requirements/obligation_checklists/FINAL/authorization_security.yaml
+formulation_ids_for_reference:
+- R001_F0
+- R001_F1
+- R001_F2
+obligations:
+- obligation_id: R001_O1
+  requirement_id: R001
+  actor: user requesting approval
+  precondition: approval request is submitted for an existing payment request
+  action: hold the `approver` role at approval time
+  expected_response_or_event: approval must not occur for a non-approver
+  required_state_effect: none required by text on rejection
+  forbidden_state_effect: no approval may be recorded for a non-approver
+  exception: none stated
+  evidence_needed: request actor role; approval response; approval record or audit
+    entry
+  why_this_obligation_is_required_by_the_text: Text says approval may occur only by
+    a user with the `approver` role.
+- obligation_id: R001_O2
+  requirement_id: R001
+  actor: user requesting approval
+  precondition: approval request is submitted by the payment submitter
+  action: be blocked from approving that same payment request
+  expected_response_or_event: the original submitter must not approve the same request
+  required_state_effect: none required by text on rejection
+  forbidden_state_effect: no approval by the original submitter may be recorded for
+    that same request
+  exception: none stated
+  evidence_needed: submitter identity; acting user identity; response; approval record
+    or audit entry
+  why_this_obligation_is_required_by_the_text: Text explicitly forbids the submitting
+    user from approving the same request.
+required_evidence:
+- Approval endpoint response code and body.
+- Payment approval record showing actor identity.
+- Audit entry for approved or denied approval attempt.
+valid_alternative_ids:
+- R001_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

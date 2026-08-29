@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R034_M02",
+  "requirement_id": "R034",
+  "target_obligation_id": "R034_O1",
+  "code_area": "_reject_payment",
+  "expected_behavioral_difference": "Reject path clears schedule but does not change payment status to REJECTED",
+  "possible_collateral_effects": "Could leave payment resubmittable or active",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "skip REJECTED status transition",
+      "search": "        self._change_payment_status(payment, \"REJECTED\", actor[\"actor_id\"])\n",
+      "replace": "        payment[\"updated_at\"] = self._now_iso()\n"
+    }
+  ]
+}

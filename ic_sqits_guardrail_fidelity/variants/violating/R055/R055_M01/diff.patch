@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R055/R055_M01/service.py
+@@ -841,7 +841,7 @@
+     def _record_guardrail_block(self, context: dict[str, Any], decision: dict[str, Any]) -> None:
+         record = {
+             "guardrail_id": decision.get("guardrail_id"),
+-            "requirement_id": decision.get("requirement_id"),
++            "requirement_id": None,
+             "actor_id": context["actor"].get("actor_id"),
+             "reason": decision.get("reason"),
+             "timestamp": self._now_iso(),

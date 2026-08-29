@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R030/R030_M01/service.py
+@@ -695,7 +695,7 @@
+         payment = self._payment(payment_id)
+         if payment["dispute_status"] == "OPEN":
+             raise ServiceError(409, "STATE_CONFLICT", "refund blocked during dispute")
+-        remaining = Decimal(payment["captured_amount"]) - Decimal(payment["approved_refund_total"])
++        remaining = Decimal(payment["captured_amount"])
+         amount = Decimal(str(body.get("amount", "0")))
+         if amount > remaining:
+             raise ServiceError(422, "VALIDATION_ERROR", "refund exceeds captured remaining amount")

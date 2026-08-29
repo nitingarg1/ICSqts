@@ -1,0 +1,15 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R046/R046_M01/service.py
+@@ -758,7 +758,11 @@
+         return Response(200, {"job_id": job_id, "crashed": True}, {"correlation_id": correlation_id})
+ 
+     def _restart_export(self, job_id: str, correlation_id: str) -> Response:
+-        job = self.state["export_jobs"].get(job_id)
++        original_job_id = job_id
++        job = self.state["export_jobs"].get(original_job_id)
++        job_id = self._next_id("job", "export")
++        if job is not None:
++            self.state["export_jobs"][job_id] = job
+         if job is None:
+             raise ServiceError(404, "NOT_FOUND", "export job not found")
+         written_set = set(job["written_rows"])

@@ -1,0 +1,70 @@
+worksheet_id: H_R004
+requirement_id: R004
+requirement_text: 'If an approval request is made with an inactive session token,
+  the system must return `401`, must not record an approval, and must not change payment
+  state.
+
+  '
+category: authorization/security
+source_checklist_path: requirements/obligation_checklists/FINAL/authorization_security.yaml
+formulation_ids_for_reference:
+- R004_F0
+- R004_F1
+- R004_F2
+obligations:
+- obligation_id: R004_O1
+  requirement_id: R004
+  actor: payment service
+  precondition: approval request arrives with an inactive session token
+  action: return `401`
+  expected_response_or_event: HTTP response code is `401`
+  required_state_effect: none required by text
+  forbidden_state_effect: returning success or non-401 approval response
+  exception: none stated
+  evidence_needed: session token status; HTTP response code
+  why_this_obligation_is_required_by_the_text: Text explicitly requires `401` for
+    inactive-session approval requests.
+- obligation_id: R004_O2
+  requirement_id: R004
+  actor: payment service
+  precondition: approval request arrives with an inactive session token
+  action: refuse to record an approval
+  expected_response_or_event: no approval record is created
+  required_state_effect: none required by text
+  forbidden_state_effect: creation of any approval record
+  exception: none stated
+  evidence_needed: approval table or event log; request outcome
+  why_this_obligation_is_required_by_the_text: Text says system must not record an
+    approval.
+- obligation_id: R004_O3
+  requirement_id: R004
+  actor: payment service
+  precondition: approval request arrives with an inactive session token
+  action: preserve payment state unchanged
+  expected_response_or_event: payment state after request matches state before request
+  required_state_effect: no state change
+  forbidden_state_effect: any payment state transition caused by the request
+  exception: none stated
+  evidence_needed: payment state before request; payment state after request
+  why_this_obligation_is_required_by_the_text: Text explicitly says payment state
+    must not change.
+required_evidence:
+- HTTP response code.
+- Approval table or event log.
+- Payment state snapshot before and after request.
+valid_alternative_ids:
+- R004_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

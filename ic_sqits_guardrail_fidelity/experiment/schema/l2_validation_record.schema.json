@@ -1,0 +1,34 @@
+{
+  "type": "object",
+  "required": [
+    "validation_id",
+    "source_guardrail_id",
+    "decision",
+    "validated_at"
+  ],
+  "properties": {
+    "validation_id": {
+      "type": "string"
+    },
+    "source_guardrail_id": {
+      "type": "string"
+    },
+    "decision": {
+      "type": "string",
+      "enum": [
+        "accepted",
+        "rejected",
+        "escalated"
+      ]
+    },
+    "reason_codes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "validated_at": {
+      "type": "string"
+    }
+  }
+}

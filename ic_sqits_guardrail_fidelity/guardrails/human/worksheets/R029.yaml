@@ -1,0 +1,56 @@
+worksheet_id: H_R029
+requirement_id: R029
+requirement_text: 'A callback URL for asynchronous payment updates must use `https`
+  and its hostname must be on the tenant allowlist.
+
+  '
+category: validation/input constraints
+source_checklist_path: requirements/obligation_checklists/FINAL/validation_input_constraints.yaml
+formulation_ids_for_reference:
+- R029_F0
+- R029_F1
+- R029_F2
+obligations:
+- obligation_id: R029_O1
+  requirement_id: R029
+  actor: callback URL configuration request
+  precondition: callback URL is supplied
+  action: use `https` scheme
+  expected_response_or_event: callback URL uses `https`
+  required_state_effect: none stated
+  forbidden_state_effect: none stated
+  exception: none stated
+  evidence_needed: callback URL payload; validation response
+  why_this_obligation_is_required_by_the_text: Text says callback URL must use `https`.
+- obligation_id: R029_O2
+  requirement_id: R029
+  actor: callback URL configuration request
+  precondition: callback URL is supplied
+  action: use hostname on the tenant allowlist
+  expected_response_or_event: callback URL hostname is on applicable tenant allowlist
+  required_state_effect: none stated
+  forbidden_state_effect: none stated
+  exception: none stated
+  evidence_needed: callback hostname; tenant allowlist record; validation response
+  why_this_obligation_is_required_by_the_text: Text requires hostname to be on the
+    tenant allowlist.
+required_evidence:
+- Callback configuration payload.
+- Tenant allowlist record.
+- Validation response.
+valid_alternative_ids:
+- R029_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

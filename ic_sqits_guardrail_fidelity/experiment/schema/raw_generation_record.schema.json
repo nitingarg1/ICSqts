@@ -1,0 +1,36 @@
+{
+  "type": "object",
+  "required": [
+    "generation_id",
+    "generator_condition",
+    "requirement_id",
+    "formulation_id",
+    "status"
+  ],
+  "properties": {
+    "generation_id": {
+      "type": "string"
+    },
+    "generator_condition": {
+      "type": "string"
+    },
+    "requirement_id": {
+      "type": "string"
+    },
+    "formulation_id": {
+      "type": "string"
+    },
+    "artifact_path": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "error_type": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

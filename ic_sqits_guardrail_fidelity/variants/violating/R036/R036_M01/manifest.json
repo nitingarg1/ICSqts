@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R036_M01",
+  "requirement_id": "R036",
+  "target_obligation_id": "R036_O1",
+  "code_area": "_cancel_payment",
+  "expected_behavioral_difference": "Approved payment can be canceled because allowed-state check includes APPROVED",
+  "possible_collateral_effects": "May overlap with post-approval release tests",
+  "difficulty": "easy",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "allow APPROVED payment cancellation",
+      "search": "        if payment[\"status\"] not in {\"DRAFT\", \"SUBMITTED\"}:\n",
+      "replace": "        if payment[\"status\"] not in {\"DRAFT\", \"SUBMITTED\", \"APPROVED\"}:\n"
+    }
+  ]
+}

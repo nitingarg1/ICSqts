@@ -1,0 +1,13 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R042/R042_M01/service.py
+@@ -395,9 +395,7 @@
+         canonical_body = json.dumps(body, sort_keys=True)
+         body_hash = hashlib.sha256(canonical_body.encode()).hexdigest()
+         existing = self.state["idempotency_keys"].get(idem_key)
+-        if existing is not None:
+-            if existing["body_hash"] != body_hash:
+-                raise ServiceError(409, "IDEMPOTENCY_CONFLICT", "idempotency key reused with different body")
++        if existing is not None and existing["body_hash"] == body_hash:
+             payment = self.state["payments"][existing["payment_id"]]
+             return Response(200, {"payment_id": payment["payment_id"], "status": payment["status"]}, {"correlation_id": correlation_id})
+ 

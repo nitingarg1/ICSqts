@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R002_M01",
+  "requirement_id": "R002",
+  "target_obligation_id": "R002_O1",
+  "code_area": "_release_payment",
+  "expected_behavioral_difference": "High-value payment can be released after only one approval because distinct-approver count is bypassed",
+  "possible_collateral_effects": "May mask missing second approver defect in downstream tests",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "bypass distinct approver count",
+      "search": "            if len(distinct) < 2 or not finance:\n",
+      "replace": "            if not finance:\n"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+worksheet_id: H_R042
+requirement_id: R042
+requirement_text: 'Reusing an idempotency key with a different request body must return
+  `409` and must not create or modify any payment record.
+
+  '
+category: reliability/idempotency
+source_checklist_path: requirements/obligation_checklists/FINAL/reliability_idempotency.yaml
+formulation_ids_for_reference:
+- R042_F0
+- R042_F1
+- R042_F2
+obligations:
+- obligation_id: R042_O1
+  requirement_id: R042
+  actor: create-payment workflow
+  precondition: reused idempotency key arrives with different request body
+  action: return `409`
+  expected_response_or_event: conflict response code is `409`
+  required_state_effect: none required by text on rejection
+  forbidden_state_effect: returning success or non-409 response for conflicting replay
+  exception: none stated
+  evidence_needed: original and repeated request bodies; response code
+  why_this_obligation_is_required_by_the_text: Text explicitly requires `409` for
+    reused idempotency key with different body.
+- obligation_id: R042_O2
+  requirement_id: R042
+  actor: create-payment workflow
+  precondition: conflicting reused idempotency key request is received
+  action: avoid creating or modifying any payment record
+  expected_response_or_event: payment persistence state remains unchanged
+  required_state_effect: no create and no modification
+  forbidden_state_effect: creating or modifying payment record in response to conflicting
+    replay
+  exception: none stated
+  evidence_needed: payment persistence state before and after request; response
+  why_this_obligation_is_required_by_the_text: Text says conflicting reused idempotency
+    key must not create or modify any payment record.
+required_evidence:
+- Original and repeated request bodies.
+- Conflict response code.
+- Payment persistence state before and after second request.
+valid_alternative_ids:
+- R042_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

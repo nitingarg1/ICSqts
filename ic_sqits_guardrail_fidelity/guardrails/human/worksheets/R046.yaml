@@ -1,0 +1,57 @@
+worksheet_id: H_R046
+requirement_id: R046
+requirement_text: 'Restarting an export job after a worker crash must resume under
+  the same job ID and must not duplicate output rows already written.
+
+  '
+category: reliability/idempotency
+source_checklist_path: requirements/obligation_checklists/FINAL/reliability_idempotency.yaml
+formulation_ids_for_reference:
+- R046_F0
+- R046_F1
+- R046_F2
+obligations:
+- obligation_id: R046_O1
+  requirement_id: R046
+  actor: export job recovery logic
+  precondition: worker crash occurs and export job is restarted
+  action: resume under the same job ID
+  expected_response_or_event: restarted job uses original job ID
+  required_state_effect: job identity preserved across recovery
+  forbidden_state_effect: new job ID assigned to restarted instance
+  exception: none stated
+  evidence_needed: job metadata before and after restart; crash and recovery logs
+  why_this_obligation_is_required_by_the_text: Text explicitly requires resume under
+    same job ID.
+- obligation_id: R046_O2
+  requirement_id: R046
+  actor: export job recovery logic
+  precondition: worker crash occurs after some output rows are already written
+  action: avoid duplicating rows already written before restart
+  expected_response_or_event: exported row set contains no duplicates caused by restart
+  required_state_effect: resumed processing continues without duplicate output rows
+  forbidden_state_effect: duplicate output rows from crash recovery
+  exception: none stated
+  evidence_needed: output row set; row duplication check; recovery logs
+  why_this_obligation_is_required_by_the_text: Text explicitly says restart must not
+    duplicate output rows already written.
+required_evidence:
+- Job metadata before and after restart.
+- Crash and recovery logs.
+- Exported row set with duplicate check.
+valid_alternative_ids:
+- R046_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

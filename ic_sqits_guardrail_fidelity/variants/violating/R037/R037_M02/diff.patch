@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R037/R037_M02/service.py
+@@ -713,7 +713,7 @@
+             if task["status"] == "PENDING" and now > datetime.fromisoformat(task["expires_at"].replace("Z", "+00:00")):
+                 task["status"] = "INVALID"
+                 expired.append(task["task_id"])
+-                self._append_audit({"event_type": "delegation_expired", "task_id": task["task_id"], "timestamp": self._now_iso()})
++                pass  # mutation R037_M02: delegation_expired audit omitted
+         return Response(200, {"expired_tasks": expired}, {"correlation_id": correlation_id})
+ 
+     def _provider_message(self, body: dict[str, Any], correlation_id: str) -> Response:

@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R001_M01",
+  "requirement_id": "R001",
+  "target_obligation_id": "R001_O1",
+  "code_area": "_approve_payment",
+  "expected_behavioral_difference": "Non-approver can approve payment because role gate is removed",
+  "possible_collateral_effects": "May also let support or requester actors advance approval counts",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "remove approver role gate",
+      "search": "        if \"approver\" not in roles:\n            self._audit_permission_denial(actor[\"actor_id\"], payment_id, \"missing_approver_role\")\n            raise ServiceError(403, \"FORBIDDEN\", \"approver role required\")\n",
+      "replace": "        pass  # mutation R001_M01: approver role gate removed\n"
+    }
+  ]
+}

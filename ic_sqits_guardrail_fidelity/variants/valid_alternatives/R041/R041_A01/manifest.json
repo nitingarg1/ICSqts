@@ -1,0 +1,9 @@
+{
+  "implementation_id": "R041_A01",
+  "requirement_id": "R041",
+  "variant_type": "valid_alternative",
+  "base_implementation_id": "REFERENCE",
+  "realization_kind": "proposal_only",
+  "rationale": "Assumed compliant alternative for R041 within current single-service architecture.",
+  "status": "ASSUMPTION_BASED_DRAFT"
+}

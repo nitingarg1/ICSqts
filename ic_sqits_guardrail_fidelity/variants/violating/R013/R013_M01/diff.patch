@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R013/R013_M01/service.py
+@@ -933,7 +933,7 @@
+         return self._sanitize(value)
+ 
+     def _sanitize_string(self, value: str) -> str:
+-        value = value.replace(self.state["secrets"]["payment_api_key"], "[REDACTED_SECRET]")
++        value = value
+         if re.fullmatch(r"\d{16}", value):
+             return self._mask_account_number(value)
+         return value

@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R054_M03",
+  "requirement_id": "R054",
+  "target_obligation_id": "R054_O3",
+  "code_area": "_execution_job",
+  "expected_behavioral_difference": "End event carries wrong job_id or result copied from request default",
+  "possible_collateral_effects": "Collateral mostly in schema/content validation",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "emit wrong job_id in end event",
+      "search": "        end = {\"event_type\": \"execution_job_ended\", \"job_id\": job_id, \"result\": result, \"timestamp\": self._now_iso()}\n",
+      "replace": "        end = {\"event_type\": \"execution_job_ended\", \"job_id\": \"wrong-job\", \"result\": result, \"timestamp\": self._now_iso()}\n"
+    }
+  ]
+}

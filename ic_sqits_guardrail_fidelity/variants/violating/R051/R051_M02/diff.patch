@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R051/R051_M02/service.py
+@@ -879,7 +879,7 @@
+         self._append_log(
+             {
+                 "log_type": "request",
+-                "correlation_id": context["correlation_id"],
++                "correlation_id": self._next_id("request", "corr"),
+                 "method": context["method"],
+                 "path": context["path"],
+                 "actor_id": context["actor"].get("actor_id"),

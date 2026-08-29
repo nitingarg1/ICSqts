@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R057/R057_M02/service.py
+@@ -818,7 +818,7 @@
+         return Response(200, {"is_open": True}, {"correlation_id": correlation_id})
+ 
+     def _close_circuit(self, correlation_id: str) -> Response:
+-        self.state["provider_circuit"]["is_open"] = False
++        self.state["provider_circuit"]["is_open"] = True
+         return Response(200, {"is_open": False}, {"correlation_id": correlation_id})
+ 
+     def _manual_override(self, payment_id: str, actor: dict[str, Any], body: dict[str, Any], correlation_id: str) -> Response:

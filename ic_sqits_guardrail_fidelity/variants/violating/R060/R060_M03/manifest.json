@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R060_M03",
+  "requirement_id": "R060",
+  "target_obligation_id": "R060_O2",
+  "code_area": "_complete_export",
+  "expected_behavioral_difference": "Completion event records worker identity instead of requester_id",
+  "possible_collateral_effects": "Collateral mostly affects provenance and attribution",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "record worker identity instead of requester_id",
+      "search": "        self._append_audit({\"event_type\": \"export_completed\", \"job_id\": job_id, \"requester_id\": job[\"requester_id\"], \"row_count\": len(job[\"written_rows\"]), \"duration_ms\": duration_ms, \"success\": True, \"timestamp\": ended_at})\n",
+      "replace": "        self._append_audit({\"event_type\": \"export_completed\", \"job_id\": job_id, \"requester_id\": \"worker-1\", \"row_count\": len(job[\"written_rows\"]), \"duration_ms\": duration_ms, \"success\": True, \"timestamp\": ended_at})\n"
+    }
+  ]
+}

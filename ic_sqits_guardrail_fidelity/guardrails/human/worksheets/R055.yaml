@@ -1,0 +1,63 @@
+worksheet_id: H_R055
+requirement_id: R055
+requirement_text: 'If a guardrail blocks a request, the emitted violation record must
+  include the originating `requirement_id`.
+
+  '
+category: observability/audit
+source_checklist_path: requirements/obligation_checklists/FINAL/observability_audit.yaml
+formulation_ids_for_reference:
+- R055_F0
+- R055_F1
+- R055_F2
+obligations:
+- obligation_id: R055_O1
+  requirement_id: R055
+  actor: guardrail violation recording logic
+  precondition: guardrail blocks a request
+  action: emit a violation record; whether emission itself is mandatory is AMBIGUOUS
+  expected_response_or_event: violation record exists if emitted; emission requirement
+    is AMBIGUOUS
+  required_state_effect: AMBIGUOUS whether violation record emission is required
+  forbidden_state_effect: AMBIGUOUS whether blocked request without violation record
+    violates text
+  exception: none stated
+  evidence_needed: guardrail decision output; violation record payload
+  why_this_obligation_is_required_by_the_text: Text presumes emitted violation record
+    when guardrail blocks a request.
+- obligation_id: R055_O2
+  requirement_id: R055
+  actor: violation record
+  precondition: guardrail blocks a request and a violation record is emitted
+  action: include originating `requirement_id`
+  expected_response_or_event: violation record contains `requirement_id`
+  required_state_effect: none beyond record completeness
+  forbidden_state_effect: violation record missing originating `requirement_id`
+  exception: none stated
+  evidence_needed: violation record payload; requirement mapping table
+  why_this_obligation_is_required_by_the_text: Text explicitly requires the emitted
+    violation record to include originating `requirement_id`.
+required_evidence:
+- Guardrail decision output.
+- Violation record payload.
+- Requirement mapping table.
+valid_alternative_ids:
+- R055_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities:
+- emit a violation record; whether emission itself is mandatory is AMBIGUOUS
+- violation record exists if emitted; emission requirement is AMBIGUOUS
+- AMBIGUOUS whether violation record emission is required
+- AMBIGUOUS whether blocked request without violation record violates text
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

@@ -1,0 +1,9 @@
+status: ASSUMPTION_BASED_DRAFT
+approved_by: ASSUMED_HUMAN_PER_USER_INSTRUCTION
+frozen_at: '2026-08-29'
+provider: ASSUMED_PENDING_SELECTION
+model_id: ASSUMED_PENDING_SELECTION
+temperature: 0
+replicates: 1
+notes:
+- Not protocol-valid final results

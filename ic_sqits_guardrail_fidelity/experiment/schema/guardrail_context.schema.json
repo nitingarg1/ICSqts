@@ -1,0 +1,46 @@
+{
+  "type": "object",
+  "required": [
+    "run_id",
+    "requirement_id",
+    "formulation_id",
+    "generator_condition",
+    "implementation_id",
+    "variant_type"
+  ],
+  "properties": {
+    "run_id": {
+      "type": "string"
+    },
+    "requirement_id": {
+      "type": "string"
+    },
+    "formulation_id": {
+      "type": "string"
+    },
+    "generator_condition": {
+      "type": "string",
+      "enum": [
+        "H",
+        "L0",
+        "L1",
+        "L2"
+      ]
+    },
+    "implementation_id": {
+      "type": "string"
+    },
+    "variant_type": {
+      "type": "string"
+    },
+    "fixture_inputs": {
+      "type": "object"
+    },
+    "evidence_collectors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

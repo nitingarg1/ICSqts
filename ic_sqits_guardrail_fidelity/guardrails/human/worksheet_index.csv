@@ -1,0 +1,49 @@
+requirement_id,worksheet_path,category,review_status,has_valid_alternative_refs,has_boundary_refs,has_expected_verdict_refs,notes
+R001,guardrails/human/worksheets/R001.yaml,authorization/security,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R002,guardrails/human/worksheets/R002.yaml,authorization/security,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R003,guardrails/human/worksheets/R003.yaml,authorization/security,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R004,guardrails/human/worksheets/R004.yaml,authorization/security,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R005,guardrails/human/worksheets/R005.yaml,authorization/security,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R007,guardrails/human/worksheets/R007.yaml,authorization/security,ASSUMPTION_BASED_DRAFT,yes,yes,yes,assumption_mode_user_instruction
+R008,guardrails/human/worksheets/R008.yaml,authorization/security,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R010,guardrails/human/worksheets/R010.yaml,authorization/security,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R011,guardrails/human/worksheets/R011.yaml,data protection/logging,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R012,guardrails/human/worksheets/R012.yaml,data protection/logging,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R013,guardrails/human/worksheets/R013.yaml,data protection/logging,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R014,guardrails/human/worksheets/R014.yaml,data protection/logging,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R016,guardrails/human/worksheets/R016.yaml,data protection/logging,ASSUMPTION_BASED_DRAFT,yes,yes,yes,assumption_mode_user_instruction
+R018,guardrails/human/worksheets/R018.yaml,data protection/logging,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R019,guardrails/human/worksheets/R019.yaml,data protection/logging,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R020,guardrails/human/worksheets/R020.yaml,data protection/logging,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R021,guardrails/human/worksheets/R021.yaml,validation/input constraints,ASSUMPTION_BASED_DRAFT,yes,yes,yes,assumption_mode_user_instruction
+R024,guardrails/human/worksheets/R024.yaml,validation/input constraints,ASSUMPTION_BASED_DRAFT,yes,yes,yes,assumption_mode_user_instruction
+R025,guardrails/human/worksheets/R025.yaml,validation/input constraints,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R026,guardrails/human/worksheets/R026.yaml,validation/input constraints,ASSUMPTION_BASED_DRAFT,yes,yes,yes,assumption_mode_user_instruction
+R027,guardrails/human/worksheets/R027.yaml,validation/input constraints,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R028,guardrails/human/worksheets/R028.yaml,validation/input constraints,ASSUMPTION_BASED_DRAFT,yes,yes,yes,assumption_mode_user_instruction
+R029,guardrails/human/worksheets/R029.yaml,validation/input constraints,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R030,guardrails/human/worksheets/R030.yaml,validation/input constraints,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R031,guardrails/human/worksheets/R031.yaml,state transitions/business invariants,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R032,guardrails/human/worksheets/R032.yaml,state transitions/business invariants,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R033,guardrails/human/worksheets/R033.yaml,state transitions/business invariants,ASSUMPTION_BASED_DRAFT,yes,yes,yes,assumption_mode_user_instruction
+R034,guardrails/human/worksheets/R034.yaml,state transitions/business invariants,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R036,guardrails/human/worksheets/R036.yaml,state transitions/business invariants,ASSUMPTION_BASED_DRAFT,yes,yes,yes,assumption_mode_user_instruction
+R037,guardrails/human/worksheets/R037.yaml,state transitions/business invariants,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R038,guardrails/human/worksheets/R038.yaml,state transitions/business invariants,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R040,guardrails/human/worksheets/R040.yaml,state transitions/business invariants,ASSUMPTION_BASED_DRAFT,yes,yes,yes,assumption_mode_user_instruction
+R041,guardrails/human/worksheets/R041.yaml,reliability/idempotency,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R042,guardrails/human/worksheets/R042.yaml,reliability/idempotency,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R043,guardrails/human/worksheets/R043.yaml,reliability/idempotency,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R044,guardrails/human/worksheets/R044.yaml,reliability/idempotency,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R045,guardrails/human/worksheets/R045.yaml,reliability/idempotency,ASSUMPTION_BASED_DRAFT,yes,yes,yes,assumption_mode_user_instruction
+R046,guardrails/human/worksheets/R046.yaml,reliability/idempotency,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R047,guardrails/human/worksheets/R047.yaml,reliability/idempotency,ASSUMPTION_BASED_DRAFT,yes,yes,yes,assumption_mode_user_instruction
+R049,guardrails/human/worksheets/R049.yaml,reliability/idempotency,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R051,guardrails/human/worksheets/R051.yaml,observability/audit,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R053,guardrails/human/worksheets/R053.yaml,observability/audit,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R054,guardrails/human/worksheets/R054.yaml,observability/audit,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R055,guardrails/human/worksheets/R055.yaml,observability/audit,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R057,guardrails/human/worksheets/R057.yaml,observability/audit,ASSUMPTION_BASED_DRAFT,yes,yes,yes,assumption_mode_user_instruction
+R058,guardrails/human/worksheets/R058.yaml,observability/audit,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R059,guardrails/human/worksheets/R059.yaml,observability/audit,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction
+R060,guardrails/human/worksheets/R060.yaml,observability/audit,ASSUMPTION_BASED_DRAFT,yes,no,yes,assumption_mode_user_instruction

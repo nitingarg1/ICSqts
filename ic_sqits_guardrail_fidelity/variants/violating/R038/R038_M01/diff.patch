@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R038/R038_M01/service.py
+@@ -687,7 +687,7 @@
+ 
+     def _open_chargeback(self, payment_id: str, body: dict[str, Any], correlation_id: str) -> Response:
+         payment = self._payment(payment_id)
+-        payment["dispute_status"] = "OPEN"
++        payment["dispute_status"] = "NONE"
+         payment["updated_at"] = self._now_iso()
+         return Response(201, {"chargeback_id": body.get("chargeback_id")}, {"correlation_id": correlation_id})
+ 

@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R051_M01",
+  "requirement_id": "R051",
+  "target_obligation_id": "R051_O1",
+  "code_area": "handle_request error response builder",
+  "expected_behavioral_difference": "Error responses omit correlation_id header while success responses include it",
+  "possible_collateral_effects": "Defect visible mostly on negative-path executions",
+  "difficulty": "easy",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "drop correlation_id header on error responses",
+      "search": "        return Response(status_code, {\"error\": {\"code\": code, \"message\": message, \"details\": details or {}}}, {\"correlation_id\": correlation_id})\n",
+      "replace": "        return Response(status_code, {\"error\": {\"code\": code, \"message\": message, \"details\": details or {}}}, {})\n"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R041/R041_M03/service.py
+@@ -392,7 +392,7 @@
+         idem_key = headers.get("Idempotency-Key")
+         if not idem_key:
+             raise ServiceError(422, "VALIDATION_ERROR", "Idempotency-Key is required", {"field": "Idempotency-Key"})
+-        canonical_body = json.dumps(body, sort_keys=True)
++        canonical_body = json.dumps(body)
+         body_hash = hashlib.sha256(canonical_body.encode()).hexdigest()
+         existing = self.state["idempotency_keys"].get(idem_key)
+         if existing is not None:

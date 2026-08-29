@@ -1,0 +1,69 @@
+worksheet_id: H_R020
+requirement_id: R020
+requirement_text: 'Both successful and denied reads of the payment-provider configuration
+  must append an audit event containing actor ID, outcome, and configuration name.
+
+  '
+category: data protection/logging
+source_checklist_path: requirements/obligation_checklists/FINAL/data_protection_logging.yaml
+formulation_ids_for_reference:
+- R020_F0
+- R020_F1
+- R020_F2
+obligations:
+- obligation_id: R020_O1
+  requirement_id: R020
+  actor: payment-provider configuration read handling
+  precondition: payment-provider configuration read succeeds
+  action: append an audit event for the successful read
+  expected_response_or_event: successful read produces audit event
+  required_state_effect: audit event appended
+  forbidden_state_effect: successful read without audit event
+  exception: none stated
+  evidence_needed: successful read response; audit event log
+  why_this_obligation_is_required_by_the_text: Text requires successful reads to append
+    an audit event.
+- obligation_id: R020_O2
+  requirement_id: R020
+  actor: payment-provider configuration read handling
+  precondition: payment-provider configuration read is denied
+  action: append an audit event for the denied read
+  expected_response_or_event: denied read produces audit event
+  required_state_effect: audit event appended
+  forbidden_state_effect: denied read without audit event
+  exception: none stated
+  evidence_needed: denied read response; audit event log
+  why_this_obligation_is_required_by_the_text: Text also requires denied reads to
+    append an audit event.
+- obligation_id: R020_O3
+  requirement_id: R020
+  actor: configuration-read audit event
+  precondition: audit event for configuration read is emitted
+  action: include actor ID, outcome, and configuration name
+  expected_response_or_event: event payload contains all named fields
+  required_state_effect: none beyond event completeness
+  forbidden_state_effect: omission of any required field
+  exception: none stated
+  evidence_needed: event payload; schema validation
+  why_this_obligation_is_required_by_the_text: Text explicitly lists actor ID, outcome,
+    and configuration name as required fields.
+required_evidence:
+- Audit log entries for allowed and denied reads.
+- Configuration-read responses.
+- Event field validation.
+valid_alternative_ids:
+- R020_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

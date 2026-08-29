@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R016_M03",
+  "requirement_id": "R016",
+  "target_obligation_id": "R016_O3",
+  "code_area": "_download_document",
+  "expected_behavioral_difference": "Expired token is denied but no document_token_expired audit event is appended",
+  "possible_collateral_effects": "Collateral limited to expired-access observability",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "omit document_token_expired audit event",
+      "search": "            self._append_audit({\"event_type\": \"document_token_expired\", \"document_id\": document_id, \"token_id\": token_id})\n",
+      "replace": "            pass  # mutation R016_M03: document_token_expired audit omitted\n"
+    }
+  ]
+}

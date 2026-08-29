@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R008_M01",
+  "requirement_id": "R008",
+  "target_obligation_id": "R008_O1",
+  "code_area": "_reverse_payment",
+  "expected_behavioral_difference": "Non-treasury actor can reverse settled payment because treasury-role check is removed",
+  "possible_collateral_effects": "Could let admin or requester bypass incident workflow",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "remove treasury role check",
+      "search": "        if \"treasury\" not in actor[\"roles\"]:\n            raise ServiceError(403, \"FORBIDDEN\", \"treasury role required\")\n",
+      "replace": "        pass  # mutation R008_M01: treasury role check removed\n"
+    }
+  ]
+}

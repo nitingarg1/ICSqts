@@ -1,0 +1,16 @@
+status: ASSUMPTION_BASED_DRAFT
+not_for_final_results: true
+requirement_count: 6
+selected_requirements:
+- R001
+- R002
+- R003
+- R004
+- R005
+- R007
+generator_conditions:
+- H
+- L0
+- L1
+- L2
+approval_needed: false

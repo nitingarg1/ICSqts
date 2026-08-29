@@ -1,0 +1,12 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R038/R038_M02/service.py
+@@ -693,8 +693,7 @@
+ 
+     def _create_refund(self, payment_id: str, body: dict[str, Any], correlation_id: str) -> Response:
+         payment = self._payment(payment_id)
+-        if payment["dispute_status"] == "OPEN":
+-            raise ServiceError(409, "STATE_CONFLICT", "refund blocked during dispute")
++        pass  # mutation R038_M02: dispute-status refund block removed
+         remaining = Decimal(payment["captured_amount"]) - Decimal(payment["approved_refund_total"])
+         amount = Decimal(str(body.get("amount", "0")))
+         if amount > remaining:

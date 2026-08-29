@@ -1,0 +1,9 @@
+{
+  "implementation_id": "R058_A01",
+  "requirement_id": "R058",
+  "variant_type": "valid_alternative",
+  "base_implementation_id": "REFERENCE",
+  "realization_kind": "proposal_only",
+  "rationale": "Assumed compliant alternative for R058 within current single-service architecture.",
+  "status": "ASSUMPTION_BASED_DRAFT"
+}

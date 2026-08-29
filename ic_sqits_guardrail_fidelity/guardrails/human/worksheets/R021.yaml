@@ -1,0 +1,58 @@
+worksheet_id: H_R021
+requirement_id: R021
+requirement_text: 'A payment-create request must be rejected unless `amount` is greater
+  than 0 and less than or equal to 100000.
+
+  '
+category: validation/input constraints
+source_checklist_path: requirements/obligation_checklists/FINAL/validation_input_constraints.yaml
+formulation_ids_for_reference:
+- R021_F0
+- R021_F1
+- R021_F2
+obligations:
+- obligation_id: R021_O1
+  requirement_id: R021
+  actor: payment-create request
+  precondition: create-payment request is submitted
+  action: provide `amount` greater than 0
+  expected_response_or_event: request with `amount <= 0` is rejected
+  required_state_effect: none required by text on rejection
+  forbidden_state_effect: successful create with `amount <= 0`
+  exception: none stated
+  evidence_needed: request payload; validation response; payment creation result
+  why_this_obligation_is_required_by_the_text: Text requires `amount` to be greater
+    than 0.
+- obligation_id: R021_O2
+  requirement_id: R021
+  actor: payment-create request
+  precondition: create-payment request is submitted
+  action: provide `amount` less than or equal to 100000
+  expected_response_or_event: request with `amount > 100000` is rejected
+  required_state_effect: none required by text on rejection
+  forbidden_state_effect: successful create with `amount > 100000`
+  exception: none stated
+  evidence_needed: request payload; validation response; payment creation result
+  why_this_obligation_is_required_by_the_text: Text requires `amount` to be less than
+    or equal to 100000.
+required_evidence:
+- Request payloads near lower and upper bounds.
+- Create-payment responses.
+- Persisted payment presence or absence.
+valid_alternative_ids:
+- R021_A01
+boundary_case_ids:
+- R021_B01
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

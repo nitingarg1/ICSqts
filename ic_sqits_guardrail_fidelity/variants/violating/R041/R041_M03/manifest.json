@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R041_M03",
+  "requirement_id": "R041",
+  "target_obligation_id": "R041_O1",
+  "code_area": "_create_payment",
+  "expected_behavioral_difference": "Implementation compares request bodies using unstable serialization and misses identical replay under reordered fields",
+  "possible_collateral_effects": "Defect depends on body canonicalization edge cases",
+  "difficulty": "hard",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "use unstable JSON serialization for idempotency hash",
+      "search": "        canonical_body = json.dumps(body, sort_keys=True)\n",
+      "replace": "        canonical_body = json.dumps(body)\n"
+    }
+  ]
+}

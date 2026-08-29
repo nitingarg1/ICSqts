@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R051/R051_M01/service.py
+@@ -912,7 +912,7 @@
+         return payment
+ 
+     def _response(self, status_code: int, code: str, message: str, correlation_id: str, details: dict[str, Any] | None = None) -> Response:
+-        return Response(status_code, {"error": {"code": code, "message": message, "details": details or {}}}, {"correlation_id": correlation_id})
++        return Response(status_code, {"error": {"code": code, "message": message, "details": details or {}}}, {})
+ 
+     def _sanitize(self, value: Any) -> Any:
+         if isinstance(value, dict):

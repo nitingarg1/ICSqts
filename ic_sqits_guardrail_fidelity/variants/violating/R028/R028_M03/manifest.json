@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R028_M03",
+  "requirement_id": "R028",
+  "target_obligation_id": "R028_O3",
+  "code_area": "_create_batch",
+  "expected_behavioral_difference": "Duplicate client_reference values are accepted because uniqueness check is removed or normalized incorrectly",
+  "possible_collateral_effects": "May interfere with reconciliation cases later",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "allow duplicate client references",
+      "search": "        refs = [item.get(\"client_reference\") for item in items]\n        if len(refs) != len(set(refs)):\n            raise ServiceError(422, \"VALIDATION_ERROR\", \"duplicate client_reference\")\n",
+      "replace": "        refs = [item.get(\"client_reference\") for item in items]\n        # mutation R028_M03: duplicate client_reference validation removed\n"
+    }
+  ]
+}

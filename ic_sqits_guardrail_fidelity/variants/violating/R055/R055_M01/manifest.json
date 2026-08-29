@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R055_M01",
+  "requirement_id": "R055",
+  "target_obligation_id": "R055_O1",
+  "code_area": "_record_guardrail_block",
+  "expected_behavioral_difference": "Guardrail violation record is emitted without requirement_id field",
+  "possible_collateral_effects": "Primary traceability target is lost",
+  "difficulty": "easy",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "remove requirement_id from guardrail record",
+      "search": "            \"requirement_id\": decision.get(\"requirement_id\"),\n",
+      "replace": "            \"requirement_id\": None,\n"
+    }
+  ]
+}

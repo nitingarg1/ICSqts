@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R005_M03",
+  "requirement_id": "R005",
+  "target_obligation_id": "R005_O4",
+  "code_area": "_payment_summary",
+  "expected_behavioral_difference": "Confidential approval comments are returned to support_readonly users because comment filter is skipped",
+  "possible_collateral_effects": "Could also affect other low-privilege summary consumers",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "return confidential comments",
+      "search": "            \"approval_comments\": [entry[\"text\"] for entry in payment[\"approval_comments\"] if not entry.get(\"confidential\")],\n",
+      "replace": "            \"approval_comments\": [entry[\"text\"] for entry in payment[\"approval_comments\"]],\n"
+    }
+  ]
+}

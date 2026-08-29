@@ -1,0 +1,58 @@
+worksheet_id: H_R049
+requirement_id: R049
+requirement_text: 'Importing a reconciliation file whose checksum matches a previously
+  successful import must mark the new attempt as duplicate and must not apply the
+  file contents a second time.
+
+  '
+category: reliability/idempotency
+source_checklist_path: requirements/obligation_checklists/FINAL/reliability_idempotency.yaml
+formulation_ids_for_reference:
+- R049_F0
+- R049_F1
+- R049_F2
+obligations:
+- obligation_id: R049_O1
+  requirement_id: R049
+  actor: reconciliation import workflow
+  precondition: incoming file checksum matches a previously successful import
+  action: mark the new attempt as duplicate
+  expected_response_or_event: import attempt is labeled duplicate
+  required_state_effect: duplicate mark recorded for the new attempt
+  forbidden_state_effect: treating matching-checksum re-import as fresh import
+  exception: none stated
+  evidence_needed: import attempt records; checksums; duplicate-marking response
+  why_this_obligation_is_required_by_the_text: Text says matching-checksum import
+    must mark new attempt as duplicate.
+- obligation_id: R049_O2
+  requirement_id: R049
+  actor: reconciliation import workflow
+  precondition: incoming file checksum matches a previously successful import
+  action: avoid applying file contents a second time
+  expected_response_or_event: reconciliation state is not changed by duplicate re-import
+  required_state_effect: no second application of file contents
+  forbidden_state_effect: applying same file contents again
+  exception: none stated
+  evidence_needed: reconciliation state before and after repeat import; import logs
+  why_this_obligation_is_required_by_the_text: Text explicitly says duplicate import
+    must not apply file contents a second time.
+required_evidence:
+- Import attempt records with checksums.
+- Duplicate-marking response.
+- Reconciliation state before and after repeat import.
+valid_alternative_ids:
+- R049_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

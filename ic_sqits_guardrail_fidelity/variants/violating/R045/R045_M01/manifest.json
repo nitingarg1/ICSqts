@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R045_M01",
+  "requirement_id": "R045",
+  "target_obligation_id": "R045_O1",
+  "code_area": "_webhook_delivery",
+  "expected_behavioral_difference": "Webhook delivery retries on 4xx as well as 5xx because retry classifier is too broad",
+  "possible_collateral_effects": "May create noisy over-retry behavior",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "broaden retry window beyond baseline slice",
+      "search": "        for index, status_code in enumerate(responses[:3], start=1):\n",
+      "replace": "        for index, status_code in enumerate(responses[:4], start=1):\n"
+    }
+  ]
+}

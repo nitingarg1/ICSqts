@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R012_M01",
+  "requirement_id": "R012",
+  "target_obligation_id": "R012_O1",
+  "code_area": "_change_payment_status",
+  "expected_behavioral_difference": "One payment transition updates state without appending audit event because helper call is removed",
+  "possible_collateral_effects": "Collateral limited to chosen transition path",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "remove status-change audit event",
+      "search": "        self._append_audit({\"event_type\": \"payment_status_changed\", \"payment_id\": payment[\"payment_id\"], \"old_status\": old_status, \"new_status\": new_status, \"actor_id\": actor_id, \"timestamp\": self._now_iso()})\n",
+      "replace": "        pass  # mutation R012_M01: status-change audit omitted\n"
+    }
+  ]
+}

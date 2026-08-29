@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R044_M02",
+  "requirement_id": "R044",
+  "target_obligation_id": "R044_O1",
+  "code_area": "_provider_message",
+  "expected_behavioral_difference": "Duplicate provider message is ignored but duplicate_ignored event is not appended",
+  "possible_collateral_effects": "Primary defect is missing observability on dedupe path",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "omit duplicate_ignored event",
+      "search": "            self._append_audit({\"event_type\": \"duplicate_ignored\", \"message_id\": message_id, \"timestamp\": self._now_iso()})\n",
+      "replace": "            pass  # mutation R044_M02: duplicate_ignored audit omitted\n"
+    }
+  ]
+}

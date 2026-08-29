@@ -1,0 +1,61 @@
+worksheet_id: H_R031
+requirement_id: R031
+requirement_text: 'A payment may move from `DRAFT` to `SUBMITTED` only if it has at
+  least one line item and the beneficiary record is verified.
+
+  '
+category: state transitions/business invariants
+source_checklist_path: requirements/obligation_checklists/FINAL/state_transitions_business_invariants.yaml
+formulation_ids_for_reference:
+- R031_F0
+- R031_F1
+- R031_F2
+obligations:
+- obligation_id: R031_O1
+  requirement_id: R031
+  actor: payment transition workflow
+  precondition: transition from `DRAFT` to `SUBMITTED` is requested
+  action: verify payment has at least one line item
+  expected_response_or_event: transition to `SUBMITTED` must not occur when payment
+    has no line items
+  required_state_effect: none required by text on rejection
+  forbidden_state_effect: transition to `SUBMITTED` with no line items
+  exception: none stated
+  evidence_needed: payment state before and after request; payment line-item records;
+    transition response
+  why_this_obligation_is_required_by_the_text: Text conditions transition on at least
+    one line item.
+- obligation_id: R031_O2
+  requirement_id: R031
+  actor: payment transition workflow
+  precondition: transition from `DRAFT` to `SUBMITTED` is requested
+  action: verify beneficiary record is verified
+  expected_response_or_event: transition to `SUBMITTED` must not occur when beneficiary
+    record is not verified
+  required_state_effect: none required by text on rejection
+  forbidden_state_effect: transition to `SUBMITTED` with unverified beneficiary
+  exception: none stated
+  evidence_needed: payment state before and after request; beneficiary verification
+    record; transition response
+  why_this_obligation_is_required_by_the_text: Text conditions transition on verified
+    beneficiary record.
+required_evidence:
+- Payment status and line-item records.
+- Beneficiary verification flag.
+- Transition response and updated payment state.
+valid_alternative_ids:
+- R031_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

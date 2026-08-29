@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R013_M02",
+  "requirement_id": "R013",
+  "target_obligation_id": "R013_O2",
+  "code_area": "handle_request exception path",
+  "expected_behavioral_difference": "Exception logger emits raw exception string containing secret fixture",
+  "possible_collateral_effects": "Can co-occur with unrelated 500-path defects",
+  "difficulty": "hard",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "emit raw exception string containing secret",
+      "search": "                    \"message\": f\"internal error: {type(exc).__name__}\",\n",
+      "replace": "                    \"message\": f\"internal error: {exc}\",\n"
+    }
+  ]
+}

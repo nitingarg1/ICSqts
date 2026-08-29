@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R028/R028_M01/service.py
+@@ -651,7 +651,7 @@
+ 
+     def _create_batch(self, body: dict[str, Any], correlation_id: str) -> Response:
+         items = body.get("items", [])
+-        if not (1 <= len(items) <= 100):
++        if len(items) > 100:
+             raise ServiceError(422, "VALIDATION_ERROR", "invalid batch size")
+         refs = [item.get("client_reference") for item in items]
+         if len(refs) != len(set(refs)):

@@ -1,0 +1,12 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R003/R003_M01/service.py
+@@ -524,8 +524,7 @@
+ 
+     def _void_payment(self, payment_id: str, actor: dict[str, Any], correlation_id: str) -> Response:
+         payment = self._payment(payment_id)
+-        if payment["creator_user_id"] != actor["actor_id"] and "admin" not in actor["roles"]:
+-            raise ServiceError(403, "FORBIDDEN", "void not allowed")
++        pass  # mutation R003_M01: void actor authorization removed
+         if payment["status"] in SETTLED_STATES:
+             raise ServiceError(409, "STATE_CONFLICT", "payment already settled")
+         self._change_payment_status(payment, "VOIDED", actor["actor_id"])

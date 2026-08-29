@@ -1,0 +1,73 @@
+worksheet_id: H_R016
+requirement_id: R016
+requirement_text: 'A document-download token must expire 15 minutes after issuance;
+  requests using an expired token must return `410` and must append a token-expired
+  audit event.
+
+  '
+category: data protection/logging
+source_checklist_path: requirements/obligation_checklists/FINAL/data_protection_logging.yaml
+formulation_ids_for_reference:
+- R016_F0
+- R016_F1
+- R016_F2
+obligations:
+- obligation_id: R016_O1
+  requirement_id: R016
+  actor: document-download token handling
+  precondition: 15 minutes or more have elapsed since token issuance
+  action: treat token as expired
+  expected_response_or_event: expired token is no longer accepted for download
+  required_state_effect: none required by text
+  forbidden_state_effect: successful download using expired token
+  exception: none stated
+  evidence_needed: token issuance timestamp; access attempt timestamp; download outcome
+  why_this_obligation_is_required_by_the_text: Text says token must expire 15 minutes
+    after issuance.
+- obligation_id: R016_O2
+  requirement_id: R016
+  actor: document-download request handling
+  precondition: request uses an expired document-download token
+  action: return `410`
+  expected_response_or_event: HTTP response code is `410`
+  required_state_effect: none required by text
+  forbidden_state_effect: returning success or non-410 response for expired token
+  exception: none stated
+  evidence_needed: response code; token-expiry determination
+  why_this_obligation_is_required_by_the_text: Text explicitly requires `410` for
+    expired-token requests.
+- obligation_id: R016_O3
+  requirement_id: R016
+  actor: document-download request handling
+  precondition: request uses an expired document-download token
+  action: append a token-expired audit event
+  expected_response_or_event: a token-expired audit event is appended
+  required_state_effect: token-expired audit event appended
+  forbidden_state_effect: request using expired token without appended token-expired
+    audit event
+  exception: none stated
+  evidence_needed: expired-token request; corresponding appended token-expired audit
+    event
+  why_this_obligation_is_required_by_the_text: Text explicitly requires a token-expired
+    audit event.
+required_evidence:
+- Token issuance timestamp.
+- Download response code after expiry.
+- Audit log entry for expired-token access.
+valid_alternative_ids:
+- R016_A01
+boundary_case_ids:
+- R016_B01
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

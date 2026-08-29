@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R057/R057_M01/service.py
+@@ -809,7 +809,7 @@
+ 
+     def _open_circuit(self, correlation_id: str) -> Response:
+         circuit = self.state["provider_circuit"]
+-        if not circuit["is_open"]:
++        if True:
+             circuit["is_open"] = True
+             circuit["open_interval"] += 1
+             interval = circuit["open_interval"]

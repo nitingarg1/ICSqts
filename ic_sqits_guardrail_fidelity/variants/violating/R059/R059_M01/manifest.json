@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R059_M01",
+  "requirement_id": "R059",
+  "target_obligation_id": "R059_O1",
+  "code_area": "_reconciliation_check",
+  "expected_behavioral_difference": "Detected mismatch creates review case but does not increment reconciliation_mismatch_count metric",
+  "possible_collateral_effects": "Primary defect is missing metric evidence",
+  "difficulty": "easy",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "skip reconciliation mismatch metric",
+      "search": "            metric = {\"name\": \"reconciliation_mismatch_count\", \"value\": 1, \"batch_id\": batch_id, \"timestamp\": self._now_iso()}\n            self.state[\"metrics\"].append(metric)\n",
+      "replace": "            pass  # mutation R059_M01: reconciliation mismatch metric omitted\n"
+    }
+  ]
+}

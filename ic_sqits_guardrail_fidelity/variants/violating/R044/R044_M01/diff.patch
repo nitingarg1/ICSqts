@@ -1,0 +1,13 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R044/R044_M01/service.py
+@@ -718,9 +718,7 @@
+ 
+     def _provider_message(self, body: dict[str, Any], correlation_id: str) -> Response:
+         message_id = body.get("message_id")
+-        if message_id in self.state["provider_receipts"]:
+-            self._append_audit({"event_type": "duplicate_ignored", "message_id": message_id, "timestamp": self._now_iso()})
+-            return Response(200, {"duplicate": True}, {"correlation_id": correlation_id})
++        pass  # mutation R044_M01: provider receipt dedupe removed
+         self.state["provider_receipts"][message_id] = copy.deepcopy(body)
+         return Response(200, {"duplicate": False}, {"correlation_id": correlation_id})
+ 

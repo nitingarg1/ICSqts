@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R033/R033_M02/service.py
+@@ -671,7 +671,7 @@
+     def _patch_payment(self, payment_id: str, body: dict[str, Any], correlation_id: str) -> Response:
+         payment = self._payment(payment_id)
+         if payment["status"] == "EXECUTED":
+-            disallowed = [key for key in body if key != "reconciliation_note"]
++            disallowed = [key for key in body]
+             if disallowed:
+                 raise ServiceError(409, "STATE_CONFLICT", "only reconciliation_note may change after execution")
+         payment.update(body)

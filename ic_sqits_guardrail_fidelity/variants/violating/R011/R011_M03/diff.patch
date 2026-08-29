@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R011/R011_M03/service.py
+@@ -268,7 +268,7 @@
+                     "log_type": "exception",
+                     "correlation_id": correlation_id,
+                     "path": path,
+-                    "message": f"internal error: {type(exc).__name__}",
++                    "message": f"internal error: {type(exc).__name__} 1111222233334444",
+                 }
+             )
+             response = self._response(500, "INTERNAL_ERROR", "unexpected failure", correlation_id)

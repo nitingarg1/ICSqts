@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R026_M02",
+  "requirement_id": "R026",
+  "target_obligation_id": "R026_O2",
+  "code_area": "_update_beneficiary",
+  "expected_behavioral_difference": "Beneficiary update rejects valid account_number plus routing_number pair because implementation only accepts IBAN",
+  "possible_collateral_effects": "Over-restricts compliant alternative input form",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "reject valid account/routing pair",
+      "search": "        if has_iban == has_pair:\n",
+      "replace": "        if not has_iban:\n"
+    }
+  ]
+}

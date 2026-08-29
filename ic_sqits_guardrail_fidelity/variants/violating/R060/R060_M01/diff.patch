@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R060/R060_M01/service.py
+@@ -770,7 +770,7 @@
+         job["success"] = True
+         ended_at = self._now_iso()
+         duration_ms = int((datetime.fromisoformat(ended_at.replace("Z", "+00:00")) - datetime.fromisoformat(job["started_at"].replace("Z", "+00:00"))).total_seconds() * 1000)
+-        self._append_audit({"event_type": "export_completed", "job_id": job_id, "requester_id": job["requester_id"], "row_count": len(job["written_rows"]), "duration_ms": duration_ms, "success": True, "timestamp": ended_at})
++        pass  # mutation R060_M01: export_completed event omitted
+         return Response(200, {"job_id": job_id, "written_rows": len(job["written_rows"])}, {"correlation_id": correlation_id})
+ 
+     def _takeover_lock(self, job_id: str, body: dict[str, Any], correlation_id: str) -> Response:

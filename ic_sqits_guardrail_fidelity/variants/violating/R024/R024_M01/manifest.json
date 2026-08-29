@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R024_M01",
+  "requirement_id": "R024",
+  "target_obligation_id": "R024_O1",
+  "code_area": "_create_payment",
+  "expected_behavioral_difference": "Scheduled date earlier than request date is accepted because lower-bound check is removed",
+  "possible_collateral_effects": "Could allow backdated execution scenarios",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "remove lower bound on scheduled date",
+      "search": "        if scheduled.date() < request_time.date():\n            raise ServiceError(422, \"VALIDATION_ERROR\", \"scheduled date before request date\")\n",
+      "replace": "        pass  # mutation R024_M01: lower schedule bound removed\n"
+    }
+  ]
+}

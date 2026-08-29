@@ -1,6 +1,6 @@
 # STEP_17_REPORT
 
-- status: HUMAN_GATE_REQUIRED
+- status: APPROVED
 
 ## Files created
 
@@ -42,11 +42,15 @@
 - No external-provider dependency is required; all provider behavior is described as local deterministic simulation.
 - `git diff --check` passes.
 
-## Unresolved decisions
+## Approval record
 
-- Human must confirm that chosen payment/job/application surfaces are sufficient and not overbuilt relative to the frozen requirement corpus.
-- Human should review implementation-constant interpretations for ambiguous source requirements, especially `R025`, `R027`, `R054`, and `R055`, before Step 18 implementation hardens them.
+- Human approval received explicitly in-session with message: `Approve`.
+- Approval interpreted as Step 17 artifact approval required by runbook before Step 18 work.
+
+## Residual notes
+
+- Implementation-constant interpretations for ambiguous source requirements `R025`, `R027`, `R054`, and `R055` were carried into Step 18 and should remain fixed for consistency in later phases.
 
 ## Human gate required
 
-- Yes. Step 17 is owned by agent draft plus human approval. Human must confirm all 48 requirements are exercisable from `application/APPLICATION_SPEC.md` before Step 18 begins.
+- No. Required approval was received and recorded above.

@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R040_M02",
+  "requirement_id": "R040",
+  "target_obligation_id": "R040_O2",
+  "code_area": "_create_refund",
+  "expected_behavioral_difference": "Payment never transitions to REFUNDED even when approved refunds exactly equal captured amount",
+  "possible_collateral_effects": "Over-restricts compliant full refund completion",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "never transition to REFUNDED",
+      "search": "        if Decimal(payment[\"approved_refund_total\"]) == Decimal(payment[\"captured_amount\"]):\n            self._change_payment_status(payment, \"REFUNDED\", \"system\")\n",
+      "replace": "        pass  # mutation R040_M02: full refund no longer changes status\n"
+    }
+  ]
+}

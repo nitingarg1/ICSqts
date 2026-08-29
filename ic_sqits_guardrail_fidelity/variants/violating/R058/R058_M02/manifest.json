@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R058_M02",
+  "requirement_id": "R058",
+  "target_obligation_id": "R058_O2",
+  "code_area": "_manual_override",
+  "expected_behavioral_difference": "Audit event is appended but affected entity ID is omitted or null",
+  "possible_collateral_effects": "Traceability loss on otherwise successful override",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "omit affected entity ID from manual override audit",
+      "search": "        self._append_audit({\"event_type\": \"manual_override\", \"actor_id\": actor[\"actor_id\"], \"affected_entity_id\": payment_id, \"reason\": reason, \"timestamp\": self._now_iso()})\n",
+      "replace": "        self._append_audit({\"event_type\": \"manual_override\", \"actor_id\": actor[\"actor_id\"], \"affected_entity_id\": None, \"reason\": reason, \"timestamp\": self._now_iso()})\n"
+    }
+  ]
+}

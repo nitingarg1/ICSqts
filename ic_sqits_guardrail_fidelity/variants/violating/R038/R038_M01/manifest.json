@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R038_M01",
+  "requirement_id": "R038",
+  "target_obligation_id": "R038_O1",
+  "code_area": "_open_chargeback",
+  "expected_behavioral_difference": "Chargeback creation does not set dispute_status to OPEN",
+  "possible_collateral_effects": "May allow later refunds that should have been blocked",
+  "difficulty": "easy",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "do not set dispute OPEN on chargeback",
+      "search": "        payment[\"dispute_status\"] = \"OPEN\"\n",
+      "replace": "        payment[\"dispute_status\"] = \"NONE\"\n"
+    }
+  ]
+}

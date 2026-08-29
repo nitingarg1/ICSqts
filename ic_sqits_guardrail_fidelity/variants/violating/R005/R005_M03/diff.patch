@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R005/R005_M03/service.py
+@@ -543,7 +543,7 @@
+                 "account_number": self._mask_account_number(beneficiary.get("account_number")),
+                 "routing_number": None if "support_readonly" in actor["roles"] else beneficiary.get("routing_number"),
+             },
+-            "approval_comments": [entry["text"] for entry in payment["approval_comments"] if not entry.get("confidential")],
++            "approval_comments": [entry["text"] for entry in payment["approval_comments"]],
+         }
+         return Response(200, body, {"correlation_id": correlation_id})
+ 

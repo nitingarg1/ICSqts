@@ -1,0 +1,70 @@
+worksheet_id: H_R036
+requirement_id: R036
+requirement_text: 'A payment may be canceled only from `DRAFT` or `SUBMITTED`; a cancel
+  request for `APPROVED` or `EXECUTED` must return `409` and leave status unchanged.
+
+  '
+category: state transitions/business invariants
+source_checklist_path: requirements/obligation_checklists/FINAL/state_transitions_business_invariants.yaml
+formulation_ids_for_reference:
+- R036_F0
+- R036_F1
+- R036_F2
+obligations:
+- obligation_id: R036_O1
+  requirement_id: R036
+  actor: cancel workflow
+  precondition: cancel request is submitted
+  action: permit cancel only from `DRAFT` or `SUBMITTED`
+  expected_response_or_event: cancel from allowed states may proceed
+  required_state_effect: none beyond allowed cancel behavior
+  forbidden_state_effect: cancel success from forbidden states
+  exception: none stated
+  evidence_needed: payment status; cancel response
+  why_this_obligation_is_required_by_the_text: Text says payment may be canceled only
+    from `DRAFT` or `SUBMITTED`.
+- obligation_id: R036_O2
+  requirement_id: R036
+  actor: cancel workflow
+  precondition: cancel request is submitted while payment is `APPROVED` or `EXECUTED`
+  action: return `409`
+  expected_response_or_event: response code is `409`
+  required_state_effect: none required by text beyond unchanged status
+  forbidden_state_effect: returning a response code other than `409`
+  exception: none stated
+  evidence_needed: payment status; cancel response code
+  why_this_obligation_is_required_by_the_text: Text explicitly requires `409` for
+    cancel request in `APPROVED` or `EXECUTED`.
+- obligation_id: R036_O3
+  requirement_id: R036
+  actor: cancel workflow
+  precondition: cancel request is submitted while payment is `APPROVED` or `EXECUTED`
+  action: leave payment status unchanged
+  expected_response_or_event: status after request matches prior status
+  required_state_effect: payment status remains unchanged
+  forbidden_state_effect: changing payment status in response to cancel request
+  exception: none stated
+  evidence_needed: payment state before and after request
+  why_this_obligation_is_required_by_the_text: Text explicitly says forbidden cancel
+    must leave status unchanged.
+required_evidence:
+- Payment status and cancel request.
+- Cancel response codes.
+- Payment state before and after request.
+valid_alternative_ids:
+- R036_A01
+boundary_case_ids:
+- R036_B01
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

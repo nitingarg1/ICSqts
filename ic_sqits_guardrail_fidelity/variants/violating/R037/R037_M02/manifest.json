@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R037_M02",
+  "requirement_id": "R037",
+  "target_obligation_id": "R037_O2",
+  "code_area": "_expire_delegated_tasks",
+  "expected_behavioral_difference": "Expired pending delegated task becomes INVALID but no delegation_expired event is emitted",
+  "possible_collateral_effects": "Primary defect is missing event evidence",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "omit delegation_expired event",
+      "search": "                self._append_audit({\"event_type\": \"delegation_expired\", \"task_id\": task[\"task_id\"], \"timestamp\": self._now_iso()})\n",
+      "replace": "                pass  # mutation R037_M02: delegation_expired audit omitted\n"
+    }
+  ]
+}

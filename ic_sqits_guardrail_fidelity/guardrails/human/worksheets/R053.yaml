@@ -1,0 +1,47 @@
+worksheet_id: H_R053
+requirement_id: R053
+requirement_text: 'The system must record approval latency as the elapsed time between
+  payment submission and the first terminal approval or rejection decision.
+
+  '
+category: observability/audit
+source_checklist_path: requirements/obligation_checklists/FINAL/observability_audit.yaml
+formulation_ids_for_reference:
+- R053_F0
+- R053_F1
+- R053_F2
+obligations:
+- obligation_id: R053_O1
+  requirement_id: R053
+  actor: approval latency measurement logic
+  precondition: payment submission and first terminal approval or rejection decision
+    have occurred
+  action: compute elapsed time from submission to first terminal decision
+  expected_response_or_event: approval latency value reflects that interval
+  required_state_effect: latency value recorded
+  forbidden_state_effect: latency measured from wrong start or end event
+  exception: none stated
+  evidence_needed: submission timestamp; first terminal decision timestamp; recorded
+    latency metric or audit field
+  why_this_obligation_is_required_by_the_text: Text defines approval latency as elapsed
+    time between submission and first terminal approval or rejection decision.
+required_evidence:
+- Submission event timestamp.
+- Decision event timestamp.
+- Metrics or audit record containing latency value.
+valid_alternative_ids:
+- R053_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

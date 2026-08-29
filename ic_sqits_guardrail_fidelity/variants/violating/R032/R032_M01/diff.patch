@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R032/R032_M01/service.py
+@@ -504,7 +504,7 @@
+         }
+         self.state["approvals"].append(approval)
+ 
+-        required_count = self.state["payment_type_policies"].get(payment["payment_type"], 1)
++        required_count = 1
+         current_count = len({entry["actor_id"] for entry in self.state["approvals"] if entry["payment_id"] == payment_id and entry["decision"] == "APPROVE"})
+         if payment["status"] == "SUBMITTED" and current_count >= required_count:
+             self._change_payment_status(payment, "APPROVED", actor["actor_id"])

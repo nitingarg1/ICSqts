@@ -1,0 +1,59 @@
+worksheet_id: H_R037
+requirement_id: R037
+requirement_text: 'If a delegation window expires while a delegated approval task
+  is still pending, that delegated task must become invalid and an expiration event
+  must be emitted.
+
+  '
+category: state transitions/business invariants
+source_checklist_path: requirements/obligation_checklists/FINAL/state_transitions_business_invariants.yaml
+formulation_ids_for_reference:
+- R037_F0
+- R037_F1
+- R037_F2
+obligations:
+- obligation_id: R037_O1
+  requirement_id: R037
+  actor: delegation task management
+  precondition: delegation window expires while delegated approval task is still pending
+  action: mark delegated task invalid
+  expected_response_or_event: task status becomes invalid after expiry
+  required_state_effect: delegated task becomes invalid
+  forbidden_state_effect: pending delegated task remaining valid after delegation
+    expiry
+  exception: none stated
+  evidence_needed: delegation window record; task status before and after expiry
+  why_this_obligation_is_required_by_the_text: Text says pending delegated task must
+    become invalid when delegation window expires.
+- obligation_id: R037_O2
+  requirement_id: R037
+  actor: delegation task management
+  precondition: delegation window expires while delegated approval task is still pending
+  action: emit expiration event
+  expected_response_or_event: expiration event appears in event log
+  required_state_effect: expiration event emitted
+  forbidden_state_effect: invalidation without expiration event
+  exception: none stated
+  evidence_needed: event log entry linked to task expiration
+  why_this_obligation_is_required_by_the_text: Text explicitly requires expiration
+    event to be emitted.
+required_evidence:
+- Delegated task record with expiry time.
+- Task state after expiry processing.
+- Expiration event log.
+valid_alternative_ids:
+- R037_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

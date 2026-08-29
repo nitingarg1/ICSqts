@@ -1,0 +1,31 @@
+{
+  "mutation_id": "R004_M02",
+  "requirement_id": "R004",
+  "target_obligation_id": "R004_O2",
+  "code_area": "_approve_payment",
+  "expected_behavioral_difference": "Service returns 401 for inactive token but still appends approval record before exiting",
+  "possible_collateral_effects": "Collateral includes possible approval-count drift",
+  "difficulty": "hard",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "skip early active-session guard",
+      "search": "        self._require_active_session(actor)\n",
+      "replace": ""
+    },
+    {
+      "kind": "replace",
+      "note": "remove pre-append inactive rejection",
+      "search": "        if not actor[\"active\"]:\n            raise ServiceError(401, \"UNAUTHORIZED\", \"inactive session token\")\n",
+      "replace": "        pass  # mutation R004_M02: inactive rejection moved after approval append\n"
+    },
+    {
+      "kind": "replace",
+      "note": "raise 401 after approval append",
+      "search": "        self.state[\"approvals\"].append(approval)\n\n        required_count = self.state[\"payment_type_policies\"].get(payment[\"payment_type\"], 1)\n",
+      "replace": "        self.state[\"approvals\"].append(approval)\n\n        if not actor[\"active\"]:\n            raise ServiceError(401, \"UNAUTHORIZED\", \"inactive session token\")\n\n        required_count = self.state[\"payment_type_policies\"].get(payment[\"payment_type\"], 1)\n"
+    }
+  ]
+}

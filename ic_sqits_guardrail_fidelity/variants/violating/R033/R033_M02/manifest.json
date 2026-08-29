@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R033_M02",
+  "requirement_id": "R033",
+  "target_obligation_id": "R033_O1",
+  "code_area": "_patch_payment",
+  "expected_behavioral_difference": "Executed payment rejects reconciliation_note updates as well",
+  "possible_collateral_effects": "Over-constrains one explicitly allowed field",
+  "difficulty": "easy",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "reject reconciliation_note updates too",
+      "search": "            disallowed = [key for key in body if key != \"reconciliation_note\"]\n",
+      "replace": "            disallowed = [key for key in body]\n"
+    }
+  ]
+}

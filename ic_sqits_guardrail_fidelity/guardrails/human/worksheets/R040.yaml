@@ -1,0 +1,61 @@
+worksheet_id: H_R040
+requirement_id: R040
+requirement_text: 'A partially refunded payment must remain in `CAPTURED` status until
+  the sum of approved refunds equals the captured amount; only then may status become
+  `REFUNDED`.
+
+  '
+category: state transitions/business invariants
+source_checklist_path: requirements/obligation_checklists/FINAL/state_transitions_business_invariants.yaml
+formulation_ids_for_reference:
+- R040_F0
+- R040_F1
+- R040_F2
+obligations:
+- obligation_id: R040_O1
+  requirement_id: R040
+  actor: payment status management
+  precondition: approved refunds total is less than captured amount
+  action: keep payment status as `CAPTURED`
+  expected_response_or_event: payment remains `CAPTURED`
+  required_state_effect: status remains `CAPTURED`
+  forbidden_state_effect: changing status to `REFUNDED` before refund total reaches
+    captured amount
+  exception: none stated
+  evidence_needed: captured amount; approved refund totals; payment status history
+  why_this_obligation_is_required_by_the_text: Text says partially refunded payment
+    must remain `CAPTURED` until approved refunds equal captured amount.
+- obligation_id: R040_O2
+  requirement_id: R040
+  actor: payment status management
+  precondition: approved refunds total equals captured amount
+  action: permit status to become `REFUNDED`
+  expected_response_or_event: payment status may become `REFUNDED`
+  required_state_effect: none required by text; equality permits but does not require
+    transition
+  forbidden_state_effect: none stated for equality case
+  exception: none stated
+  evidence_needed: captured amount; approved refund totals; payment status history
+  why_this_obligation_is_required_by_the_text: Text says status may become `REFUNDED`
+    only when approved refunds equal captured amount.
+required_evidence:
+- Payment captured amount.
+- Approved refund totals over time.
+- Payment status history.
+valid_alternative_ids:
+- R040_A01
+boundary_case_ids:
+- R040_B01
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

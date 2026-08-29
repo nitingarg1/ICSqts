@@ -1,0 +1,12 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R024/R024_M01/service.py
+@@ -949,8 +949,7 @@
+     def _validate_schedule(self, scheduled_execution_at: str) -> None:
+         scheduled = datetime.fromisoformat(scheduled_execution_at.replace("Z", "+00:00"))
+         request_time = self._now()
+-        if scheduled.date() < request_time.date():
+-            raise ServiceError(422, "VALIDATION_ERROR", "scheduled date before request date")
++        pass  # mutation R024_M01: lower schedule bound removed
+         if scheduled.date() > (request_time + timedelta(days=30)).date():
+             raise ServiceError(422, "VALIDATION_ERROR", "scheduled date more than 30 days after request date")
+ 

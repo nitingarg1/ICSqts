@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R038_M02",
+  "requirement_id": "R038",
+  "target_obligation_id": "R038_O2",
+  "code_area": "_create_refund",
+  "expected_behavioral_difference": "Refund path ignores dispute_status and still creates refunds during open chargeback",
+  "possible_collateral_effects": "Could create both financial and state inconsistencies",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "ignore dispute status when creating refund",
+      "search": "        if payment[\"dispute_status\"] == \"OPEN\":\n            raise ServiceError(409, \"STATE_CONFLICT\", \"refund blocked during dispute\")\n",
+      "replace": "        pass  # mutation R038_M02: dispute-status refund block removed\n"
+    }
+  ]
+}

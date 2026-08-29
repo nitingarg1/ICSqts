@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R044_M01",
+  "requirement_id": "R044",
+  "target_obligation_id": "R044_O1",
+  "code_area": "_provider_message",
+  "expected_behavioral_difference": "Duplicate provider message is processed again because receipt store lookup is skipped",
+  "possible_collateral_effects": "Could create duplicate downstream ledger-side effects",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "skip provider receipt dedupe check",
+      "search": "        if message_id in self.state[\"provider_receipts\"]:\n            self._append_audit({\"event_type\": \"duplicate_ignored\", \"message_id\": message_id, \"timestamp\": self._now_iso()})\n            return Response(200, {\"duplicate\": True}, {\"correlation_id\": correlation_id})\n",
+      "replace": "        pass  # mutation R044_M01: provider receipt dedupe removed\n"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R045_M03",
+  "requirement_id": "R045",
+  "target_obligation_id": "R045_O3",
+  "code_area": "_webhook_delivery",
+  "expected_behavioral_difference": "Webhook delivery continues retrying even after first 200 success",
+  "possible_collateral_effects": "May generate extra successful callbacks beyond intended stop point",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "keep retrying after first success",
+      "search": "            if 200 <= int(status_code) < 300:\n                break\n",
+      "replace": "            if 200 <= int(status_code) < 300:\n                continue\n"
+    }
+  ]
+}

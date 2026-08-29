@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R008_M02",
+  "requirement_id": "R008",
+  "target_obligation_id": "R008_O1",
+  "code_area": "_reverse_payment",
+  "expected_behavioral_difference": "Reversal succeeds without an existing incident ticket because incident lookup is skipped",
+  "possible_collateral_effects": "Primarily affects auditability of reversal scenarios",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "skip incident ticket lookup",
+      "search": "        incident_ticket_id = body.get(\"incident_ticket_id\")\n        if incident_ticket_id not in self.state[\"incident_tickets\"]:\n            raise ServiceError(404, \"NOT_FOUND\", \"incident ticket not found\")\n",
+      "replace": "        incident_ticket_id = body.get(\"incident_ticket_id\")\n        # mutation R008_M02: incident ticket lookup skipped\n"
+    }
+  ]
+}

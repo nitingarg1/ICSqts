@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R010/R010_M01/service.py
+@@ -571,7 +571,7 @@
+     def _create_internal_transfer(self, headers: dict[str, str], body: dict[str, Any], correlation_id: str) -> Response:
+         subject = headers.get("X-mTLS-Subject")
+         service_account = headers.get("X-Service-Account")
+-        if not service_account or subject not in self.state["approved_mtls_subjects"]:
++        if not service_account:
+             raise ServiceError(403, "FORBIDDEN", "mTLS subject not allowlisted")
+         transfer_id = self._next_id("job", "transfer")
+         self.state["internal_transfers"].append({"transfer_id": transfer_id, "amount": body.get("amount")})

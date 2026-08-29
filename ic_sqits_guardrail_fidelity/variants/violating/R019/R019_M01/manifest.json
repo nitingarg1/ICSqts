@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R019_M01",
+  "requirement_id": "R019",
+  "target_obligation_id": "R019_O2",
+  "code_area": "_search_customer_email",
+  "expected_behavioral_difference": "Search log stores raw email string instead of hashed value",
+  "possible_collateral_effects": "Direct privacy leak in logs",
+  "difficulty": "easy",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "log raw email instead of hash",
+      "search": "        self._append_log({\"log_type\": \"search\", \"correlation_id\": correlation_id, \"email_hash\": salted_hash})\n",
+      "replace": "        self._append_log({\"log_type\": \"search\", \"correlation_id\": correlation_id, \"email\": email})\n"
+    }
+  ]
+}

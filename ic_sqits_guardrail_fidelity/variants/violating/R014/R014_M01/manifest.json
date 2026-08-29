@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R014_M01",
+  "requirement_id": "R014",
+  "target_obligation_id": "R014_O1",
+  "code_area": "_audit_permission_denial",
+  "expected_behavioral_difference": "Insufficient-permission approval denial returns 403 but no security audit event is appended",
+  "possible_collateral_effects": "Primary defect is missing denial observability",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "drop security denial audit event",
+      "search": "        self._append_audit({\"event_type\": \"approval_denied_security\", \"actor_id\": actor_id, \"payment_id\": payment_id, \"reason_code\": reason_code, \"timestamp\": self._now_iso()})\n",
+      "replace": "        pass  # mutation R014_M01: denial audit omitted\n"
+    }
+  ]
+}

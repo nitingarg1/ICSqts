@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R040/R040_M01/service.py
+@@ -701,7 +701,7 @@
+             raise ServiceError(422, "VALIDATION_ERROR", "refund exceeds captured remaining amount")
+         refund_id = self._next_id("refund", "refund")
+         payment["approved_refund_total"] = str(Decimal(payment["approved_refund_total"]) + amount)
+-        if Decimal(payment["approved_refund_total"]) == Decimal(payment["captured_amount"]):
++        if amount > 0:
+             self._change_payment_status(payment, "REFUNDED", "system")
+         payment.setdefault("refunds", []).append({"refund_id": refund_id, "amount": str(amount), "status": "APPROVED"})
+         return Response(201, {"refund_id": refund_id}, {"correlation_id": correlation_id})

@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R026/R026_M02/service.py
+@@ -632,7 +632,7 @@
+         routing_number = body.get("routing_number")
+         has_iban = bool(iban)
+         has_pair = bool(account_number and routing_number)
+-        if has_iban == has_pair:
++        if not has_iban:
+             raise ServiceError(422, "VALIDATION_ERROR", "invalid bank detail form")
+         beneficiary["iban"] = iban if has_iban else None
+         beneficiary["account_number"] = account_number if has_pair else beneficiary.get("account_number")

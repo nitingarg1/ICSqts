@@ -1,0 +1,48 @@
+worksheet_id: H_R043
+requirement_id: R043
+requirement_text: 'Retrying the same approval command after a client timeout must
+  not record a duplicate approval action for the same approver and payment.
+
+  '
+category: reliability/idempotency
+source_checklist_path: requirements/obligation_checklists/FINAL/reliability_idempotency.yaml
+formulation_ids_for_reference:
+- R043_F0
+- R043_F1
+- R043_F2
+obligations:
+- obligation_id: R043_O1
+  requirement_id: R043
+  actor: approval workflow
+  precondition: same approval command is retried after client timeout for same approver
+    and payment
+  action: avoid recording duplicate approval action
+  expected_response_or_event: approval history contains no duplicate approval action
+    for same retried command, approver, and payment
+  required_state_effect: no duplicate approval action is recorded
+  forbidden_state_effect: duplicate approval action for same approver and payment
+  exception: none stated
+  evidence_needed: original and retried approval commands; evidence of client timeout;
+    approver identity; payment identity; approval history
+  why_this_obligation_is_required_by_the_text: Text explicitly forbids duplicate approval
+    action on retry after timeout.
+required_evidence:
+- Approval command IDs or replay markers.
+- Approval history table.
+- Response or retry handling log.
+valid_alternative_ids:
+- R043_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

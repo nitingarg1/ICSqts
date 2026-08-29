@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R025/R025_M02/service.py
+@@ -614,7 +614,7 @@
+ 
+     def _reject_payment(self, payment_id: str, actor: dict[str, Any], body: dict[str, Any], correlation_id: str) -> Response:
+         comment = body.get("comment", "")
+-        if not (10 <= len(comment) <= 500):
++        if len(comment) > 500:
+             raise ServiceError(422, "VALIDATION_ERROR", "rejection comment length invalid", {"comment": "must be 10..500 characters"})
+         payment = self._payment(payment_id)
+         payment["approval_comments"].append({"text": comment, "confidential": False})

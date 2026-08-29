@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R002/R002_M03/service.py
+@@ -518,7 +518,7 @@
+             approvals = [entry for entry in self.state["approvals"] if entry["payment_id"] == payment_id and entry["decision"] == "APPROVE"]
+             distinct = {entry["actor_id"] for entry in approvals}
+             finance = any("finance_manager" in entry["roles_at_time"] for entry in approvals)
+-            if len(distinct) < 2 or not finance:
++            if len(distinct) < 2:
+                 raise ServiceError(409, "STATE_CONFLICT", "release prerequisites not met")
+         return Response(200, {"payment_id": payment_id, "released": True}, {"correlation_id": correlation_id})
+ 

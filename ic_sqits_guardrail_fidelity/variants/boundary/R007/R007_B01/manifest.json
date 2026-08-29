@@ -1,0 +1,9 @@
+{
+  "implementation_id": "R007_B01",
+  "requirement_id": "R007",
+  "variant_type": "boundary",
+  "base_implementation_id": "REFERENCE",
+  "boundary_kind": "delegation_window_edge",
+  "rationale": "Delegated approval exactly at active-window boundary scenario.",
+  "status": "ASSUMPTION_BASED_DRAFT"
+}

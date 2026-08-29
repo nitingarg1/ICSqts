@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R021/R021_M01/service.py
+@@ -402,7 +402,7 @@
+             return Response(200, {"payment_id": payment["payment_id"], "status": payment["status"]}, {"correlation_id": correlation_id})
+ 
+         amount = Decimal(str(body.get("amount", "0")))
+-        if amount <= 0 or amount > Decimal("100000"):
++        if amount > Decimal("100000"):
+             raise ServiceError(422, "VALIDATION_ERROR", "invalid payment amount", {"amount": "must be > 0 and <= 100000"})
+ 
+         scheduled_execution_at = body.get("scheduled_execution_at")

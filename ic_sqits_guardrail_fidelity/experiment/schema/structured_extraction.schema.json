@@ -1,0 +1,31 @@
+{
+  "type": "object",
+  "required": [
+    "requirement_id",
+    "formulation_id",
+    "obligations"
+  ],
+  "properties": {
+    "requirement_id": {
+      "type": "string"
+    },
+    "formulation_id": {
+      "type": "string"
+    },
+    "actor": {
+      "type": "string"
+    },
+    "preconditions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "obligations": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    }
+  }
+}

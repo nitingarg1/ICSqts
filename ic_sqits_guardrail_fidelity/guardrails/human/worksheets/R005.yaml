@@ -1,0 +1,83 @@
+worksheet_id: H_R005
+requirement_id: R005
+requirement_text: 'A user with the `support_readonly` role may view payment summaries
+  but must not see full account numbers, routing numbers, or approval comments marked
+  confidential.
+
+  '
+category: authorization/security
+source_checklist_path: requirements/obligation_checklists/FINAL/authorization_security.yaml
+formulation_ids_for_reference:
+- R005_F0
+- R005_F1
+- R005_F2
+obligations:
+- obligation_id: R005_O1
+  requirement_id: R005
+  actor: user with `support_readonly` role
+  precondition: request asks for payment summary view
+  action: be allowed to view payment summaries
+  expected_response_or_event: summary request succeeds for authorized support_readonly
+    actor
+  required_state_effect: none required by text
+  forbidden_state_effect: denial of summary view solely because actor is support_readonly
+  exception: none stated
+  evidence_needed: actor role; summary response
+  why_this_obligation_is_required_by_the_text: Text says support_readonly may view
+    payment summaries.
+- obligation_id: R005_O2
+  requirement_id: R005
+  actor: payment summary response
+  precondition: summary is shown to `support_readonly` actor
+  action: prevent full account numbers from being visible
+  expected_response_or_event: full account numbers are not visible in response
+  required_state_effect: none required by text
+  forbidden_state_effect: exposure of full account numbers
+  exception: none stated
+  evidence_needed: response payload or rendered fields
+  why_this_obligation_is_required_by_the_text: Text says support_readonly must not
+    see full account numbers.
+- obligation_id: R005_O3
+  requirement_id: R005
+  actor: payment summary response
+  precondition: summary is shown to `support_readonly` actor
+  action: prevent routing numbers from being visible
+  expected_response_or_event: routing numbers are not visible in response
+  required_state_effect: none required by text
+  forbidden_state_effect: exposure of routing numbers
+  exception: none stated
+  evidence_needed: response payload or rendered fields
+  why_this_obligation_is_required_by_the_text: Text says support_readonly must not
+    see routing numbers.
+- obligation_id: R005_O4
+  requirement_id: R005
+  actor: payment summary response
+  precondition: summary is shown to `support_readonly` actor
+  action: prevent approval comments marked confidential from being visible
+  expected_response_or_event: confidential approval comments are not visible
+  required_state_effect: none required by text
+  forbidden_state_effect: exposure of confidential approval comments
+  exception: none stated
+  evidence_needed: response payload; confidentiality marking on comments
+  why_this_obligation_is_required_by_the_text: Text explicitly forbids showing confidential
+    approval comments.
+required_evidence:
+- API response payload for support_readonly requests.
+- Field-level masking behavior in rendered response.
+- Access log showing request actor and endpoint.
+valid_alternative_ids:
+- R005_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

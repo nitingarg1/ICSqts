@@ -1,0 +1,63 @@
+worksheet_id: H_R032
+requirement_id: R032
+requirement_text: 'A `SUBMITTED` payment may transition to `APPROVED` only after the
+  required approver count for that payment type has been reached.
+
+  '
+category: state transitions/business invariants
+source_checklist_path: requirements/obligation_checklists/FINAL/state_transitions_business_invariants.yaml
+formulation_ids_for_reference:
+- R032_F0
+- R032_F1
+- R032_F2
+obligations:
+- obligation_id: R032_O1
+  requirement_id: R032
+  actor: payment transition workflow
+  precondition: transition from `SUBMITTED` to `APPROVED` is requested
+  action: apply required approver count for that payment type as transition threshold
+  expected_response_or_event: transition must not occur before payment-type approver
+    count is reached
+  required_state_effect: none required by text
+  forbidden_state_effect: transition to `APPROVED` before required count for that
+    payment type is reached
+  exception: none stated
+  evidence_needed: payment type; payment-type approver-count policy; approval history;
+    payment state before and after request
+  why_this_obligation_is_required_by_the_text: Text references required approver count
+    for that payment type.
+- obligation_id: R032_O2
+  requirement_id: R032
+  actor: payment transition workflow
+  precondition: transition from `SUBMITTED` to `APPROVED` is requested and required
+    approver count for that payment type is known
+  action: permit transition only after that count has been reached
+  expected_response_or_event: transition to `APPROVED` does not occur when recorded
+    approvals are below required count
+  required_state_effect: none required by text on rejection
+  forbidden_state_effect: transition to `APPROVED` before required count reached
+  exception: none stated
+  evidence_needed: approval history; transition response; payment state before and
+    after request
+  why_this_obligation_is_required_by_the_text: Text says payment may transition to
+    `APPROVED` only after required approver count has been reached.
+required_evidence:
+- Payment state record.
+- Payment-type approval policy.
+- Approval history and transition response.
+valid_alternative_ids:
+- R032_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

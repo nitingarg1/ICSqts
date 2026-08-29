@@ -1,0 +1,47 @@
+worksheet_id: H_R030
+requirement_id: R030
+requirement_text: 'A refund request amount must not exceed the captured amount minus
+  all prior approved refunds for that payment.
+
+  '
+category: validation/input constraints
+source_checklist_path: requirements/obligation_checklists/FINAL/validation_input_constraints.yaml
+formulation_ids_for_reference:
+- R030_F0
+- R030_F1
+- R030_F2
+obligations:
+- obligation_id: R030_O1
+  requirement_id: R030
+  actor: refund request
+  precondition: refund amount is requested for a payment
+  action: ensure requested amount does not exceed captured amount minus all prior
+    approved refunds for that payment
+  expected_response_or_event: requested amount is at most remaining refundable amount
+  required_state_effect: none stated
+  forbidden_state_effect: none stated
+  exception: none stated
+  evidence_needed: requested refund amount; captured amount; all prior approved refunds
+    for that payment
+  why_this_obligation_is_required_by_the_text: Text defines maximum request amount
+    as captured amount minus all prior approved refunds for that payment.
+required_evidence:
+- Payment captured amount record.
+- Prior refund records.
+- Refund response and persisted refund state.
+valid_alternative_ids:
+- R030_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

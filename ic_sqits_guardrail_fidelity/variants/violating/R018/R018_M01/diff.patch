@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R018/R018_M01/service.py
+@@ -595,7 +595,7 @@
+             "row_count": 0,
+             "generation_timestamp": self._now_iso(),
+         }
+-        self._append_audit(event)
++        pass  # mutation R018_M01: reconciliation download audit omitted
+         self.state["reconciliation_reports"].append(event)
+         return Response(200, {"report": []}, {"correlation_id": correlation_id})
+ 

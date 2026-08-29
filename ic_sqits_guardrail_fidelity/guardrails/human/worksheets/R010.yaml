@@ -1,0 +1,59 @@
+worksheet_id: H_R010
+requirement_id: R010
+requirement_text: 'A service account may create an internal transfer only when its
+  mTLS client subject is on the approved allowlist; otherwise the request must be
+  denied and no transfer record may be created.
+
+  '
+category: authorization/security
+source_checklist_path: requirements/obligation_checklists/FINAL/authorization_security.yaml
+formulation_ids_for_reference:
+- R010_F0
+- R010_F1
+- R010_F2
+obligations:
+- obligation_id: R010_O1
+  requirement_id: R010
+  actor: service account
+  precondition: service account requests creation of an internal transfer
+  action: have an mTLS client subject that is on the approved allowlist
+  expected_response_or_event: request without allowlisted subject must be denied
+  required_state_effect: none required by text on denial
+  forbidden_state_effect: transfer creation for absent or non-allowlisted subject
+  exception: none stated
+  evidence_needed: mTLS subject in request context; allowlist lookup; response
+  why_this_obligation_is_required_by_the_text: Text conditions transfer creation on
+    allowlisted mTLS client subject.
+- obligation_id: R010_O2
+  requirement_id: R010
+  actor: payment service
+  precondition: internal transfer request is denied because subject is absent or not
+    allowlisted
+  action: avoid creating a transfer record
+  expected_response_or_event: no transfer record exists after denial
+  required_state_effect: none required by text on denial
+  forbidden_state_effect: creation of transfer record for denied request
+  exception: none stated
+  evidence_needed: transfer creation response; persistence log or transfer table
+  why_this_obligation_is_required_by_the_text: Text says denied request must not create
+    a transfer record.
+required_evidence:
+- mTLS subject in request context.
+- Allowlist lookup result.
+- Transfer creation response and persistence log.
+valid_alternative_ids:
+- R010_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

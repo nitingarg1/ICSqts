@@ -1,0 +1,72 @@
+worksheet_id: H_R025
+requirement_id: R025
+requirement_text: 'A rejection decision must include a comment between 10 and 500
+  characters; approval decisions must not require that comment.
+
+  '
+category: validation/input constraints
+source_checklist_path: requirements/obligation_checklists/FINAL/validation_input_constraints.yaml
+formulation_ids_for_reference:
+- R025_F0
+- R025_F1
+- R025_F2
+obligations:
+- obligation_id: R025_O1
+  requirement_id: R025
+  actor: rejection decision request
+  precondition: decision type is rejection
+  action: include a comment
+  expected_response_or_event: rejection decision includes a comment
+  required_state_effect: none stated
+  forbidden_state_effect: none stated
+  exception: approval decisions need not include that comment
+  evidence_needed: rejection decision payload
+  why_this_obligation_is_required_by_the_text: Text says rejection decision must include
+    a comment.
+- obligation_id: R025_O2
+  requirement_id: R025
+  actor: rejection decision comment
+  precondition: decision type is rejection and comment is present
+  action: have length between 10 and 500 characters; endpoint inclusivity is AMBIGUOUS
+  expected_response_or_event: comment length satisfies stated 10-to-500-character
+    range
+  required_state_effect: none stated
+  forbidden_state_effect: none stated
+  exception: approval decisions need not include that comment
+  evidence_needed: rejection decision payload; measured comment length
+  why_this_obligation_is_required_by_the_text: Text fixes comment length between 10
+    and 500 characters.
+- obligation_id: R025_O3
+  requirement_id: R025
+  actor: approval decision request
+  precondition: decision type is approval
+  action: not require a comment
+  expected_response_or_event: absence of that comment is not itself a required-field
+    violation for approval
+  required_state_effect: none required by text
+  forbidden_state_effect: forcing approval to include comment as mandatory field
+  exception: none stated
+  evidence_needed: approval decision payload without comment; validation outcome
+  why_this_obligation_is_required_by_the_text: Text explicitly says approval decisions
+    must not require that comment.
+required_evidence:
+- Decision request payloads.
+- Validation responses for approval and rejection.
+- Recorded decision outcomes.
+valid_alternative_ids:
+- R025_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities:
+- have length between 10 and 500 characters; endpoint inclusivity is AMBIGUOUS
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

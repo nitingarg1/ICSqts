@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R003_M03",
+  "requirement_id": "R003",
+  "target_obligation_id": "R003_O4",
+  "code_area": "_void_payment",
+  "expected_behavioral_difference": "Successful void sets status but does not append payment_voided audit event",
+  "possible_collateral_effects": "Primary defect is observability loss on otherwise valid void",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "omit payment_voided audit event",
+      "search": "        self._append_audit({\"event_type\": \"payment_voided\", \"payment_id\": payment_id, \"actor_id\": actor[\"actor_id\"]})\n",
+      "replace": "        pass  # mutation R003_M03: payment_voided audit omitted\n"
+    }
+  ]
+}

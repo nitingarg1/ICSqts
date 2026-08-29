@@ -1,0 +1,58 @@
+worksheet_id: H_R034
+requirement_id: R034
+requirement_text: 'Rejecting a payment must set status to `REJECTED` and clear any
+  scheduled execution timestamp.
+
+  '
+category: state transitions/business invariants
+source_checklist_path: requirements/obligation_checklists/FINAL/state_transitions_business_invariants.yaml
+formulation_ids_for_reference:
+- R034_F0
+- R034_F1
+- R034_F2
+obligations:
+- obligation_id: R034_O1
+  requirement_id: R034
+  actor: rejection workflow
+  precondition: payment is rejected
+  action: set payment status to `REJECTED`
+  expected_response_or_event: payment record shows `REJECTED`
+  required_state_effect: status becomes `REJECTED`
+  forbidden_state_effect: rejected payment remaining in prior non-rejected state
+  exception: none stated
+  evidence_needed: payment record before and after rejection
+  why_this_obligation_is_required_by_the_text: Text explicitly requires rejected payment
+    status to be `REJECTED`.
+- obligation_id: R034_O2
+  requirement_id: R034
+  actor: rejection workflow
+  precondition: payment is rejected and scheduled execution timestamp exists or may
+    exist
+  action: clear scheduled execution timestamp
+  expected_response_or_event: scheduled execution timestamp is empty after rejection
+  required_state_effect: scheduled execution timestamp cleared
+  forbidden_state_effect: retaining scheduled execution timestamp after rejection
+  exception: none stated
+  evidence_needed: payment record before and after rejection
+  why_this_obligation_is_required_by_the_text: Text explicitly requires clearing scheduled
+    execution timestamp on rejection.
+required_evidence:
+- Payment record before and after rejection.
+- Rejection decision event.
+- Scheduled execution field value.
+valid_alternative_ids:
+- R034_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R024_M02",
+  "requirement_id": "R024",
+  "target_obligation_id": "R024_O2",
+  "code_area": "_create_payment",
+  "expected_behavioral_difference": "Scheduled date more than 30 calendar days ahead is accepted because upper-bound check is skipped",
+  "possible_collateral_effects": "Boundary tests above 30 days would fail to detect rejection",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "remove upper bound on scheduled date",
+      "search": "        if scheduled.date() > (request_time + timedelta(days=30)).date():\n            raise ServiceError(422, \"VALIDATION_ERROR\", \"scheduled date more than 30 days after request date\")\n",
+      "replace": "        pass  # mutation R024_M02: upper schedule bound removed\n"
+    }
+  ]
+}

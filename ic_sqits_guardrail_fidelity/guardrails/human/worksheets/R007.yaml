@@ -1,0 +1,63 @@
+worksheet_id: H_R007
+requirement_id: R007
+requirement_text: 'An approval delegate may act for the original approver only during
+  the configured delegation window, and the delegate must not create a further delegation
+  from that temporary authority.
+
+  '
+category: authorization/security
+source_checklist_path: requirements/obligation_checklists/FINAL/authorization_security.yaml
+formulation_ids_for_reference:
+- R007_F0
+- R007_F1
+- R007_F2
+obligations:
+- obligation_id: R007_O1
+  requirement_id: R007
+  actor: delegate user
+  precondition: delegate attempts to act for the original approver
+  action: act only during configured delegation window
+  expected_response_or_event: delegate must not successfully act for original approver
+    outside configured window
+  required_state_effect: none required by text on rejection
+  forbidden_state_effect: any action by delegate for original approver outside configured
+    delegation window
+  exception: none stated
+  evidence_needed: delegation window record; action timestamp; delegated action response
+    or action record
+  why_this_obligation_is_required_by_the_text: Text says delegate may act only during
+    the configured delegation window.
+- obligation_id: R007_O2
+  requirement_id: R007
+  actor: delegate user
+  precondition: delegate has temporary delegated authority
+  action: not create a further delegation from that authority
+  expected_response_or_event: no further delegation may be created from temporary
+    authority
+  required_state_effect: none required by text
+  forbidden_state_effect: creation of further delegation from temporary authority
+  exception: none stated
+  evidence_needed: delegation-create response; delegation records; actor identity
+  why_this_obligation_is_required_by_the_text: Text explicitly forbids further delegation
+    from temporary authority.
+required_evidence:
+- Delegation record with start and end timestamps.
+- Approval action log with delegate identity.
+- Delegation-create response for chained attempt.
+valid_alternative_ids:
+- R007_A01
+boundary_case_ids:
+- R007_B01
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R047_M02",
+  "requirement_id": "R047",
+  "target_obligation_id": "R047_O2",
+  "code_area": "_takeover_lock",
+  "expected_behavioral_difference": "Multiple successor workers can take over same stale lock because exclusivity state is not persisted",
+  "possible_collateral_effects": "May cause duplicated job execution",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "remove single-successor lock gate",
+      "search": "        if lock[\"successor\"] is not None:\n            raise ServiceError(409, \"STATE_CONFLICT\", \"successor already acquired\")\n",
+      "replace": "        pass  # mutation R047_M02: successor exclusivity removed\n"
+    }
+  ]
+}

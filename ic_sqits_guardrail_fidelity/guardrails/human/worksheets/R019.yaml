@@ -1,0 +1,57 @@
+worksheet_id: H_R019
+requirement_id: R019
+requirement_text: 'Search logs for customer-email lookups must store only a salted
+  hash of the search term and must never store the raw email string.
+
+  '
+category: data protection/logging
+source_checklist_path: requirements/obligation_checklists/FINAL/data_protection_logging.yaml
+formulation_ids_for_reference:
+- R019_F0
+- R019_F1
+- R019_F2
+obligations:
+- obligation_id: R019_O1
+  requirement_id: R019
+  actor: search logging logic
+  precondition: customer-email lookup search term is logged
+  action: store only a salted hash of the search term
+  expected_response_or_event: logged search term is represented as salted hash
+  required_state_effect: none required by text
+  forbidden_state_effect: logging raw search term instead of salted hash
+  exception: none stated
+  evidence_needed: search logs; hashing output for test term
+  why_this_obligation_is_required_by_the_text: Text says logs must store only a salted
+    hash of the search term.
+- obligation_id: R019_O2
+  requirement_id: R019
+  actor: search logging logic
+  precondition: customer-email lookup search term is logged
+  action: avoid storing the raw email string
+  expected_response_or_event: raw email string does not appear in search logs
+  required_state_effect: none required by text
+  forbidden_state_effect: presence of raw email string in logs
+  exception: none stated
+  evidence_needed: search log entries; raw email fixture value
+  why_this_obligation_is_required_by_the_text: Text explicitly forbids storing the
+    raw email string.
+required_evidence:
+- Search log entries.
+- Hashing function output for test input.
+- Raw email fixture used in request.
+valid_alternative_ids:
+- R019_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

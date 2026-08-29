@@ -1,0 +1,9 @@
+{
+  "implementation_id": "R033_B01",
+  "requirement_id": "R033",
+  "variant_type": "boundary",
+  "base_implementation_id": "REFERENCE",
+  "boundary_kind": "allowed_field_only",
+  "rationale": "Executed payment update limited to reconciliation_note only.",
+  "status": "ASSUMPTION_BASED_DRAFT"
+}

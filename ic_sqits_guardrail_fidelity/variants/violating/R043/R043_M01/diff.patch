@@ -1,0 +1,14 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R043/R043_M01/service.py
+@@ -459,10 +459,7 @@
+         self._require_active_session(actor)
+         payment = self._payment(payment_id)
+         command_id = body.get("command_id")
+-        if command_id:
+-            for approval in self.state["approvals"]:
+-                if approval["payment_id"] == payment_id and approval["actor_id"] == actor["actor_id"] and approval.get("command_id") == command_id:
+-                    return Response(200, {"payment_id": payment_id, "status": payment["status"], "duplicate": True}, {"correlation_id": correlation_id})
++        pass  # mutation R043_M01: approval command dedupe removed
+ 
+         delegate_for = None
+         delegation_id = body.get("delegation_id")

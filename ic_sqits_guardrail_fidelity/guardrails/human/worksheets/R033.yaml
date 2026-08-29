@@ -1,0 +1,46 @@
+worksheet_id: H_R033
+requirement_id: R033
+requirement_text: 'Once a payment reaches `EXECUTED`, no mutable field except `reconciliation_note`
+  may be changed.
+
+  '
+category: state transitions/business invariants
+source_checklist_path: requirements/obligation_checklists/FINAL/state_transitions_business_invariants.yaml
+formulation_ids_for_reference:
+- R033_F0
+- R033_F1
+- R033_F2
+obligations:
+- obligation_id: R033_O1
+  requirement_id: R033
+  actor: update workflow
+  precondition: payment is in `EXECUTED` state
+  action: prevent changes to every mutable field other than `reconciliation_note`
+  expected_response_or_event: every other mutable field remains unchanged
+  required_state_effect: none required by text on rejection
+  forbidden_state_effect: modifying other mutable fields after payment reaches `EXECUTED`
+  exception: '`reconciliation_note`'
+  evidence_needed: payment state; update payload; response; post-update record
+  why_this_obligation_is_required_by_the_text: Text says no mutable field except `reconciliation_note`
+    may be changed once payment reaches `EXECUTED`.
+required_evidence:
+- Payment state before update attempt.
+- Update payload showing targeted fields.
+- Response and post-update record.
+valid_alternative_ids:
+- R033_A01
+boundary_case_ids:
+- R033_B01
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R054_M01",
+  "requirement_id": "R054",
+  "target_obligation_id": "R054_O1",
+  "code_area": "_execution_job",
+  "expected_behavioral_difference": "Execution job emits only end event and no start event",
+  "possible_collateral_effects": "Primary defect is missing lifecycle-open evidence",
+  "difficulty": "easy",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "omit execution_job_started event",
+      "search": "        self._append_audit(start)\n",
+      "replace": "        pass  # mutation R054_M01: execution_job_started omitted\n"
+    }
+  ]
+}

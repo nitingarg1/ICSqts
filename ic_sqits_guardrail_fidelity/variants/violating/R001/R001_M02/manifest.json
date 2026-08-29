@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R001_M02",
+  "requirement_id": "R001",
+  "target_obligation_id": "R001_O2",
+  "code_area": "_approve_payment",
+  "expected_behavioral_difference": "Original submitter can approve own payment because self-approval comparison uses wrong field",
+  "possible_collateral_effects": "Primarily affects payments created by same actor",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "break self-approval comparison",
+      "search": "        if payment[\"creator_user_id\"] == actor[\"actor_id\"]:\n",
+      "replace": "        if payment[\"payment_id\"] == actor[\"actor_id\"]:\n"
+    }
+  ]
+}

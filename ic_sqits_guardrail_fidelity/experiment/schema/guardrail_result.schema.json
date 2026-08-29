@@ -1,0 +1,54 @@
+{
+  "type": "object",
+  "required": [
+    "guardrail_id",
+    "requirement_id",
+    "execution_status",
+    "verdict",
+    "runtime_ms"
+  ],
+  "properties": {
+    "guardrail_id": {
+      "type": "string"
+    },
+    "requirement_id": {
+      "type": "string"
+    },
+    "generator_condition": {
+      "type": "string"
+    },
+    "execution_status": {
+      "type": "string",
+      "enum": [
+        "ok",
+        "compile_error",
+        "runtime_error",
+        "timeout",
+        "unsupported"
+      ]
+    },
+    "verdict": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "FAIL",
+        "ERROR"
+      ]
+    },
+    "failed_obligation_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "observed_evidence": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "runtime_ms": {
+      "type": "integer"
+    }
+  }
+}

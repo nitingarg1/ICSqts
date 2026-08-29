@@ -1,0 +1,57 @@
+worksheet_id: H_R051
+requirement_id: R051
+requirement_text: 'Every API response from the payment service must include a `correlation_id`
+  header, and the same ID must appear in the corresponding request log entry.
+
+  '
+category: observability/audit
+source_checklist_path: requirements/obligation_checklists/FINAL/observability_audit.yaml
+formulation_ids_for_reference:
+- R051_F0
+- R051_F1
+- R051_F2
+obligations:
+- obligation_id: R051_O1
+  requirement_id: R051
+  actor: payment service response logic
+  precondition: API response is returned from payment service
+  action: include a `correlation_id` header
+  expected_response_or_event: response contains `correlation_id` header
+  required_state_effect: none required by text
+  forbidden_state_effect: API response without `correlation_id` header
+  exception: none stated
+  evidence_needed: HTTP response headers
+  why_this_obligation_is_required_by_the_text: Text says every API response must include
+    a `correlation_id` header.
+- obligation_id: R051_O2
+  requirement_id: R051
+  actor: request logging logic
+  precondition: API response includes `correlation_id` header
+  action: write the same ID into corresponding request log entry
+  expected_response_or_event: request log contains matching `correlation_id`
+  required_state_effect: request log entry records same ID
+  forbidden_state_effect: log entry missing correlation ID or using different value
+  exception: none stated
+  evidence_needed: response header; request log entry; correlation match check
+  why_this_obligation_is_required_by_the_text: Text explicitly requires same ID to
+    appear in corresponding request log entry.
+required_evidence:
+- HTTP response headers.
+- Request logs.
+- Correlation ID match check.
+valid_alternative_ids:
+- R051_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

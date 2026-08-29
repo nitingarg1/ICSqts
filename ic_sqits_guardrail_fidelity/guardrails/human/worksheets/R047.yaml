@@ -1,0 +1,62 @@
+worksheet_id: H_R047
+requirement_id: R047
+requirement_text: 'If a payout executor lock remains stale for more than five minutes,
+  exactly one successor worker may acquire the lock and continue the job.
+
+  '
+category: reliability/idempotency
+source_checklist_path: requirements/obligation_checklists/FINAL/reliability_idempotency.yaml
+formulation_ids_for_reference:
+- R047_F0
+- R047_F1
+- R047_F2
+obligations:
+- obligation_id: R047_O1
+  requirement_id: R047
+  actor: lock management logic
+  precondition: payout executor lock remains stale for more than five minutes
+  action: allow a successor worker to acquire the lock
+  expected_response_or_event: one successor worker can take over job execution
+  required_state_effect: none required; acquisition is permitted, not mandated
+  forbidden_state_effect: none stated
+  exception: none stated
+  evidence_needed: lock timestamp; worker acquisition log; job execution trace
+  why_this_obligation_is_required_by_the_text: Text says stale lock beyond five minutes
+    may be acquired by a successor worker.
+- obligation_id: R047_O2
+  requirement_id: R047
+  actor: lock management logic
+  precondition: payout executor lock remains stale for more than five minutes and
+    takeover occurs
+  action: ensure exactly one successor worker acquires the lock and continues the
+    job
+  expected_response_or_event: no parallel successor workers continue the same job
+  required_state_effect: if takeover occurs, no more than one successor acquires lock
+    and continues job
+  forbidden_state_effect: multiple successor workers acquiring the lock and continuing
+    job
+  exception: none stated
+  evidence_needed: worker acquisition log; concurrent execution trace
+  why_this_obligation_is_required_by_the_text: Text explicitly says exactly one successor
+    worker may acquire the lock and continue the job.
+required_evidence:
+- Lock record timestamp.
+- Worker acquisition log.
+- Job execution trace after takeover.
+valid_alternative_ids:
+- R047_A01
+boundary_case_ids:
+- R047_B01
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

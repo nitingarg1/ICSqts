@@ -1,0 +1,9 @@
+{
+  "implementation_id": "R026_A01",
+  "requirement_id": "R026",
+  "variant_type": "valid_alternative",
+  "base_implementation_id": "REFERENCE",
+  "realization_kind": "proposal_only",
+  "rationale": "Assumed compliant alternative for R026 within current single-service architecture.",
+  "status": "ASSUMPTION_BASED_DRAFT"
+}

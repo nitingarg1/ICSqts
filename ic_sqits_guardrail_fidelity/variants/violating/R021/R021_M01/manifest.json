@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R021_M01",
+  "requirement_id": "R021",
+  "target_obligation_id": "R021_O1",
+  "code_area": "_create_payment",
+  "expected_behavioral_difference": "Create-payment validates amount presence only and allows zero or negative values",
+  "possible_collateral_effects": "May permit impossible downstream states",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "allow non-positive amounts",
+      "search": "        if amount <= 0 or amount > Decimal(\"100000\"):\n",
+      "replace": "        if amount > Decimal(\"100000\"):\n"
+    }
+  ]
+}

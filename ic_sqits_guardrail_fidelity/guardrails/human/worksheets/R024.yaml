@@ -1,0 +1,59 @@
+worksheet_id: H_R024
+requirement_id: R024
+requirement_text: 'A scheduled payment date must not be earlier than the request date
+  and must not be more than 30 calendar days after the request date.
+
+  '
+category: validation/input constraints
+source_checklist_path: requirements/obligation_checklists/FINAL/validation_input_constraints.yaml
+formulation_ids_for_reference:
+- R024_F0
+- R024_F1
+- R024_F2
+obligations:
+- obligation_id: R024_O1
+  requirement_id: R024
+  actor: scheduled payment request
+  precondition: request includes scheduled payment date
+  action: avoid scheduled date earlier than request date
+  expected_response_or_event: scheduled date is not earlier than request date
+  required_state_effect: none stated
+  forbidden_state_effect: none stated
+  exception: none stated
+  evidence_needed: request date; scheduled date
+  why_this_obligation_is_required_by_the_text: Text says scheduled payment date must
+    not be earlier than request date.
+- obligation_id: R024_O2
+  requirement_id: R024
+  actor: scheduled payment request
+  precondition: request includes scheduled payment date
+  action: avoid scheduled date more than 30 calendar days after request date
+  expected_response_or_event: scheduled date is no more than 30 calendar days after
+    request date
+  required_state_effect: none stated
+  forbidden_state_effect: none stated
+  exception: none stated
+  evidence_needed: request date; scheduled date
+  why_this_obligation_is_required_by_the_text: Text caps scheduled date at 30 calendar
+    days after request date.
+required_evidence:
+- Request timestamps and scheduled dates.
+- Validation responses.
+- Stored scheduled payment record for accepted case.
+valid_alternative_ids:
+- R024_A01
+boundary_case_ids:
+- R024_B01
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

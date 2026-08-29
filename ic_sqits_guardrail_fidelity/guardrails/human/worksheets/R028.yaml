@@ -1,0 +1,69 @@
+worksheet_id: H_R028
+requirement_id: R028
+requirement_text: 'A batch payout request must contain between 1 and 100 items, and
+  all `client_reference` values within the batch must be unique.
+
+  '
+category: validation/input constraints
+source_checklist_path: requirements/obligation_checklists/FINAL/validation_input_constraints.yaml
+formulation_ids_for_reference:
+- R028_F0
+- R028_F1
+- R028_F2
+obligations:
+- obligation_id: R028_O1
+  requirement_id: R028
+  actor: batch payout request
+  precondition: batch request is submitted
+  action: contain at least 1 item
+  expected_response_or_event: batch contains at least 1 item
+  required_state_effect: none stated
+  forbidden_state_effect: none stated
+  exception: none stated
+  evidence_needed: request payload size; validation response
+  why_this_obligation_is_required_by_the_text: Text requires batch to contain between
+    1 and 100 items.
+- obligation_id: R028_O2
+  requirement_id: R028
+  actor: batch payout request
+  precondition: batch request is submitted
+  action: contain no more than 100 items
+  expected_response_or_event: batch contains no more than 100 items
+  required_state_effect: none stated
+  forbidden_state_effect: none stated
+  exception: none stated
+  evidence_needed: request payload size; validation response
+  why_this_obligation_is_required_by_the_text: Text caps batch size at 100 items.
+- obligation_id: R028_O3
+  requirement_id: R028
+  actor: batch payout request
+  precondition: batch request contains items
+  action: keep all `client_reference` values unique within the batch
+  expected_response_or_event: all `client_reference` values within batch are unique
+  required_state_effect: none stated
+  forbidden_state_effect: none stated
+  exception: none stated
+  evidence_needed: batch payload; duplicate detection; validation response
+  why_this_obligation_is_required_by_the_text: Text explicitly requires all `client_reference`
+    values within batch to be unique.
+required_evidence:
+- Batch request payload size.
+- Duplicate reference detection result.
+- Create-batch response and persisted batch state.
+valid_alternative_ids:
+- R028_A01
+boundary_case_ids:
+- R028_B01
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

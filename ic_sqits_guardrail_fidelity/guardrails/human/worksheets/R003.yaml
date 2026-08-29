@@ -1,0 +1,84 @@
+worksheet_id: H_R003
+requirement_id: R003
+requirement_text: 'A payment may be voided only by its creator or by an `admin` user
+  before settlement, and a successful void must set status to `VOIDED` and append
+  a void audit event.
+
+  '
+category: authorization/security
+source_checklist_path: requirements/obligation_checklists/FINAL/authorization_security.yaml
+formulation_ids_for_reference:
+- R003_F0
+- R003_F1
+- R003_F2
+obligations:
+- obligation_id: R003_O1
+  requirement_id: R003
+  actor: user requesting void
+  precondition: void request is submitted for a payment
+  action: be either the payment creator or an `admin`
+  expected_response_or_event: void must not succeed for an actor who is neither creator
+    nor `admin`
+  required_state_effect: none required by text on rejection
+  forbidden_state_effect: no void success for non-creator non-admin actor
+  exception: none stated
+  evidence_needed: actor identity and role; payment creator identity; void response
+  why_this_obligation_is_required_by_the_text: Text limits void permission to creator
+    or `admin`.
+- obligation_id: R003_O2
+  requirement_id: R003
+  actor: payment service
+  precondition: void request is submitted
+  action: allow void only before settlement
+  expected_response_or_event: void must not succeed after settlement
+  required_state_effect: none required by text on rejection
+  forbidden_state_effect: no successful void after settlement
+  exception: none stated
+  evidence_needed: settlement status; void response; payment state timeline
+  why_this_obligation_is_required_by_the_text: Text says void is permitted only before
+    settlement.
+- obligation_id: R003_O3
+  requirement_id: R003
+  actor: payment service
+  precondition: authorized pre-settlement void succeeds
+  action: set payment status to `VOIDED`
+  expected_response_or_event: payment record reflects `VOIDED`
+  required_state_effect: payment status becomes `VOIDED`
+  forbidden_state_effect: payment must not remain in prior active status after successful
+    void
+  exception: none stated
+  evidence_needed: payment state before and after void request
+  why_this_obligation_is_required_by_the_text: Text explicitly requires successful
+    void to set status to `VOIDED`.
+- obligation_id: R003_O4
+  requirement_id: R003
+  actor: payment service
+  precondition: authorized pre-settlement void succeeds
+  action: append a void audit event
+  expected_response_or_event: audit stream contains void event
+  required_state_effect: void audit event is appended
+  forbidden_state_effect: successful void without audit event
+  exception: none stated
+  evidence_needed: audit stream entry linked to void action
+  why_this_obligation_is_required_by_the_text: Text explicitly requires a void audit
+    event on successful void.
+required_evidence:
+- Payment state before and after void request.
+- Actor identity and role in request context.
+- Audit stream entry for void action.
+valid_alternative_ids:
+- R003_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

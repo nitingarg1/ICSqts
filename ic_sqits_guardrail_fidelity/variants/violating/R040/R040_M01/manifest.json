@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R040_M01",
+  "requirement_id": "R040",
+  "target_obligation_id": "R040_O1",
+  "code_area": "_create_refund",
+  "expected_behavioral_difference": "Any positive refund immediately transitions payment to REFUNDED instead of staying CAPTURED on partial total",
+  "possible_collateral_effects": "Can mask under-refund totals in later checks",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "transition to REFUNDED after any positive refund",
+      "search": "        if Decimal(payment[\"approved_refund_total\"]) == Decimal(payment[\"captured_amount\"]):\n            self._change_payment_status(payment, \"REFUNDED\", \"system\")\n",
+      "replace": "        if amount > 0:\n            self._change_payment_status(payment, \"REFUNDED\", \"system\")\n"
+    }
+  ]
+}

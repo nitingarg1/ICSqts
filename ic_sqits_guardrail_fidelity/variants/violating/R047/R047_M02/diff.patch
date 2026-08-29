@@ -1,0 +1,12 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R047/R047_M02/service.py
+@@ -781,8 +781,7 @@
+         acquired_at = datetime.fromisoformat(lock["acquired_at"].replace("Z", "+00:00"))
+         if acquired_at >= stale_cutoff:
+             raise ServiceError(409, "STATE_CONFLICT", "lock not stale")
+-        if lock["successor"] is not None:
+-            raise ServiceError(409, "STATE_CONFLICT", "successor already acquired")
++        pass  # mutation R047_M02: successor exclusivity removed
+         lock["successor"] = body.get("worker_id")
+         return Response(200, {"job_id": job_id, "worker_id": lock["successor"]}, {"correlation_id": correlation_id})
+ 

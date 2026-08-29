@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R026_M01",
+  "requirement_id": "R026",
+  "target_obligation_id": "R026_O4",
+  "code_area": "_update_beneficiary",
+  "expected_behavioral_difference": "Beneficiary update accepts both IBAN and account-plus-routing in same request",
+  "possible_collateral_effects": "Can create ambiguous stored bank details",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "accept both IBAN and account/routing pair",
+      "search": "        if has_iban == has_pair:\n",
+      "replace": "        if not has_iban and not has_pair:\n"
+    }
+  ]
+}

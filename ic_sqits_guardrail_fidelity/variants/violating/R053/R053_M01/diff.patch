@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R053/R053_M01/service.py
+@@ -858,7 +858,7 @@
+     def _record_approval_latency_if_needed(self, payment: dict[str, Any], actor_id: str) -> None:
+         if payment.get("terminal_decision_recorded"):
+             return
+-        submitted_at = payment.get("submitted_at")
++        submitted_at = payment.get("created_at")
+         if submitted_at is None:
+             return
+         start = datetime.fromisoformat(submitted_at.replace("Z", "+00:00"))

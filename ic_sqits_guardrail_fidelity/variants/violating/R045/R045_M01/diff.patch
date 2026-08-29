@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R045/R045_M01/service.py
+@@ -728,7 +728,7 @@
+         delivery_id = body.get("delivery_id")
+         responses = body.get("responses", [])
+         attempts = []
+-        for index, status_code in enumerate(responses[:3], start=1):
++        for index, status_code in enumerate(responses[:4], start=1):
+             attempts.append({"attempt": index, "status_code": status_code})
+             if 200 <= int(status_code) < 300:
+                 break

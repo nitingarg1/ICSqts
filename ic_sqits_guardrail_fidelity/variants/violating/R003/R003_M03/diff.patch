@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R003/R003_M03/service.py
+@@ -529,7 +529,7 @@
+         if payment["status"] in SETTLED_STATES:
+             raise ServiceError(409, "STATE_CONFLICT", "payment already settled")
+         self._change_payment_status(payment, "VOIDED", actor["actor_id"])
+-        self._append_audit({"event_type": "payment_voided", "payment_id": payment_id, "actor_id": actor["actor_id"]})
++        pass  # mutation R003_M03: payment_voided audit omitted
+         return Response(200, {"payment_id": payment_id, "status": payment["status"]}, {"correlation_id": correlation_id})
+ 
+     def _payment_summary(self, payment_id: str, actor: dict[str, Any], correlation_id: str) -> Response:

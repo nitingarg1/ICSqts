@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R046_M02",
+  "requirement_id": "R046",
+  "target_obligation_id": "R046_O2",
+  "code_area": "_restart_export",
+  "expected_behavioral_difference": "Restarted export replays already written rows because written_set dedupe is removed",
+  "possible_collateral_effects": "Can inflate export row counts",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "replay already written rows on restart",
+      "search": "        written_set = set(job[\"written_rows\"])\n        for row in job[\"rows\"]:\n            if row not in written_set:\n                job[\"written_rows\"].append(row)\n                written_set.add(row)\n",
+      "replace": "        for row in job[\"rows\"]:\n            job[\"written_rows\"].append(row)\n"
+    }
+  ]
+}

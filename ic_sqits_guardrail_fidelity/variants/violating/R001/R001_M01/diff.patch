@@ -1,0 +1,13 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R001/R001_M01/service.py
+@@ -484,9 +484,7 @@
+         if not actor["active"]:
+             raise ServiceError(401, "UNAUTHORIZED", "inactive session token")
+ 
+-        if "approver" not in roles:
+-            self._audit_permission_denial(actor["actor_id"], payment_id, "missing_approver_role")
+-            raise ServiceError(403, "FORBIDDEN", "approver role required")
++        pass  # mutation R001_M01: approver role gate removed
+ 
+         if payment["creator_user_id"] == actor["actor_id"]:
+             self._audit_permission_denial(actor["actor_id"], payment_id, "creator_cannot_self_approve")

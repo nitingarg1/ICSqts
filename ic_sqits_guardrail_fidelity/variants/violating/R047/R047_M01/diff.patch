@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R047/R047_M01/service.py
+@@ -777,7 +777,7 @@
+         lock = self.state["payout_locks"].get(job_id)
+         if lock is None:
+             raise ServiceError(404, "NOT_FOUND", "lock not found")
+-        stale_cutoff = self._now() - timedelta(minutes=5)
++        stale_cutoff = self._now() - timedelta(minutes=1)
+         acquired_at = datetime.fromisoformat(lock["acquired_at"].replace("Z", "+00:00"))
+         if acquired_at >= stale_cutoff:
+             raise ServiceError(409, "STATE_CONFLICT", "lock not stale")

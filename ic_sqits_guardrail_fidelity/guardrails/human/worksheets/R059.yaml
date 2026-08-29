@@ -1,0 +1,57 @@
+worksheet_id: H_R059
+requirement_id: R059
+requirement_text: 'Detecting a reconciliation mismatch must increment a mismatch metric
+  and must create a review case linked to the payment batch.
+
+  '
+category: observability/audit
+source_checklist_path: requirements/obligation_checklists/FINAL/observability_audit.yaml
+formulation_ids_for_reference:
+- R059_F0
+- R059_F1
+- R059_F2
+obligations:
+- obligation_id: R059_O1
+  requirement_id: R059
+  actor: reconciliation workflow
+  precondition: reconciliation mismatch is detected
+  action: increment mismatch metric
+  expected_response_or_event: mismatch metric increases
+  required_state_effect: mismatch metric incremented
+  forbidden_state_effect: detected mismatch without metric increment
+  exception: none stated
+  evidence_needed: reconciliation output; metrics scrape or event
+  why_this_obligation_is_required_by_the_text: Text explicitly says detecting mismatch
+    must increment a mismatch metric.
+- obligation_id: R059_O2
+  requirement_id: R059
+  actor: reconciliation workflow
+  precondition: reconciliation mismatch is detected
+  action: create a review case linked to the payment batch
+  expected_response_or_event: review case exists and references payment batch
+  required_state_effect: review case created with batch linkage
+  forbidden_state_effect: detected mismatch without linked review case
+  exception: none stated
+  evidence_needed: review case record; batch link; reconciliation output
+  why_this_obligation_is_required_by_the_text: Text explicitly requires creation of
+    a review case linked to the payment batch.
+required_evidence:
+- Reconciliation comparison output.
+- Metrics scrape or event.
+- Review case record with batch link.
+valid_alternative_ids:
+- R059_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

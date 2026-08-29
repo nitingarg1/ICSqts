@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R028_M01",
+  "requirement_id": "R028",
+  "target_obligation_id": "R028_O1",
+  "code_area": "_create_batch",
+  "expected_behavioral_difference": "Batch payout accepts zero items because minimum-size validation is removed",
+  "possible_collateral_effects": "Could create empty batches that still consume IDs",
+  "difficulty": "easy",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "allow empty batch",
+      "search": "        if not (1 <= len(items) <= 100):\n",
+      "replace": "        if len(items) > 100:\n"
+    }
+  ]
+}

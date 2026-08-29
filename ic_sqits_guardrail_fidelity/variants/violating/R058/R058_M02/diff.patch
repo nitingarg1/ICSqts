@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R058/R058_M02/service.py
+@@ -826,7 +826,7 @@
+         if not reason:
+             raise ServiceError(422, "VALIDATION_ERROR", "manual override reason required")
+         self._payment(payment_id)
+-        self._append_audit({"event_type": "manual_override", "actor_id": actor["actor_id"], "affected_entity_id": payment_id, "reason": reason, "timestamp": self._now_iso()})
++        self._append_audit({"event_type": "manual_override", "actor_id": actor["actor_id"], "affected_entity_id": None, "reason": reason, "timestamp": self._now_iso()})
+         return Response(200, {"payment_id": payment_id}, {"correlation_id": correlation_id})
+ 
+     def _reconciliation_check(self, body: dict[str, Any], correlation_id: str) -> Response:

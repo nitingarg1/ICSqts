@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R029_M01",
+  "requirement_id": "R029",
+  "target_obligation_id": "R029_O2",
+  "code_area": "_set_callback_config",
+  "expected_behavioral_difference": "Callback URL only checks scheme and accepts non-allowlisted hostname",
+  "possible_collateral_effects": "Could point async callbacks to attacker-controlled host",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "accept non-allowlisted hostname",
+      "search": "        if parsed.scheme != \"https\" or parsed.hostname not in self.state[\"tenant_allowlists\"].get(tenant_id, []):\n",
+      "replace": "        if parsed.scheme != \"https\":\n"
+    }
+  ]
+}

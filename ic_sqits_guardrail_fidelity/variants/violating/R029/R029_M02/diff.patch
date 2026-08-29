@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R029/R029_M02/service.py
+@@ -663,7 +663,7 @@
+     def _set_callback_config(self, tenant_id: str, body: dict[str, Any], correlation_id: str) -> Response:
+         callback_url = body.get("callback_url", "")
+         parsed = urlparse(callback_url)
+-        if parsed.scheme != "https" or parsed.hostname not in self.state["tenant_allowlists"].get(tenant_id, []):
++        if parsed.hostname not in self.state["tenant_allowlists"].get(tenant_id, []):
+             raise ServiceError(422, "VALIDATION_ERROR", "callback URL invalid")
+         self.state["callback_configs"][tenant_id] = {"callback_url": callback_url}
+         return Response(200, {"tenant_id": tenant_id, "callback_url": callback_url}, {"correlation_id": correlation_id})

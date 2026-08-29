@@ -1,0 +1,79 @@
+worksheet_id: H_R054
+requirement_id: R054
+requirement_text: 'Every execution job must emit a structured start event and a structured
+  end event containing job ID, result, and timestamp.
+
+  '
+category: observability/audit
+source_checklist_path: requirements/obligation_checklists/FINAL/observability_audit.yaml
+formulation_ids_for_reference:
+- R054_F0
+- R054_F1
+- R054_F2
+obligations:
+- obligation_id: R054_O1
+  requirement_id: R054
+  actor: execution job lifecycle logic
+  precondition: execution job begins
+  action: emit a structured start event
+  expected_response_or_event: start event appears for the job
+  required_state_effect: structured start event emitted
+  forbidden_state_effect: execution job starting without start event
+  exception: none stated
+  evidence_needed: job event stream; job execution records
+  why_this_obligation_is_required_by_the_text: Text requires every execution job to
+    emit a structured start event.
+- obligation_id: R054_O2
+  requirement_id: R054
+  actor: execution job lifecycle logic
+  precondition: execution job ends
+  action: emit a structured end event
+  expected_response_or_event: end event appears for the job
+  required_state_effect: structured end event emitted
+  forbidden_state_effect: execution job ending without end event
+  exception: none stated
+  evidence_needed: job event stream; job execution records
+  why_this_obligation_is_required_by_the_text: Text requires every execution job to
+    emit a structured end event.
+- obligation_id: R054_O3
+  requirement_id: R054
+  actor: structured event or events; AMBIGUOUS which event scope receives named fields
+  precondition: start or end event is emitted for an execution job
+  action: include job ID, result, and timestamp; applicable event scope is AMBIGUOUS
+  expected_response_or_event: applicable event payload contains all named fields;
+    scope is AMBIGUOUS
+  required_state_effect: none beyond event completeness; scope is AMBIGUOUS
+  forbidden_state_effect: omission of job ID, result, or timestamp from event to which
+    clause applies; scope is AMBIGUOUS
+  exception: none stated
+  evidence_needed: event payloads; schema validation
+  why_this_obligation_is_required_by_the_text: Text names job ID, result, and timestamp
+    but grammatical attachment to one or both events is AMBIGUOUS.
+required_evidence:
+- Job event stream.
+- Event schema validation.
+- Job execution records.
+valid_alternative_ids:
+- R054_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities:
+- structured event or events; AMBIGUOUS which event scope receives named fields
+- include job ID, result, and timestamp; applicable event scope is AMBIGUOUS
+- applicable event payload contains all named fields; scope is AMBIGUOUS
+- none beyond event completeness; scope is AMBIGUOUS
+- omission of job ID, result, or timestamp from event to which clause applies; scope
+  is AMBIGUOUS
+- Text names job ID, result, and timestamp but grammatical attachment to one or both
+  events is AMBIGUOUS.
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

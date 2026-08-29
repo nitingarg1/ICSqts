@@ -1,0 +1,10 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R053/R053_M03/service.py
+@@ -503,6 +503,7 @@
+             "decision": "APPROVE",
+         }
+         self.state["approvals"].append(approval)
++        self._record_approval_latency_if_needed(payment, actor["actor_id"])
+ 
+         required_count = self.state["payment_type_policies"].get(payment["payment_type"], 1)
+         current_count = len({entry["actor_id"] for entry in self.state["approvals"] if entry["payment_id"] == payment_id and entry["decision"] == "APPROVE"})

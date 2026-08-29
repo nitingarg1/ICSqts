@@ -1,0 +1,12 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R055/R055_M03/service.py
+@@ -846,8 +846,7 @@
+             "reason": decision.get("reason"),
+             "timestamp": self._now_iso(),
+         }
+-        self.state["guardrail_violations"].append(record)
+-        self._append_audit({"event_type": "guardrail_violation", **record})
++        self._append_log({"log_type": "guardrail_violation", **record})
+ 
+     def _change_payment_status(self, payment: dict[str, Any], new_status: str, actor_id: str) -> None:
+         old_status = payment["status"]

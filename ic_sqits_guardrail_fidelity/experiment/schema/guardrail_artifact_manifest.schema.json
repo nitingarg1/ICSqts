@@ -1,0 +1,33 @@
+{
+  "type": "object",
+  "required": [
+    "guardrail_id",
+    "requirement_id",
+    "generator_condition",
+    "artifact_path",
+    "status"
+  ],
+  "properties": {
+    "guardrail_id": {
+      "type": "string"
+    },
+    "requirement_id": {
+      "type": "string"
+    },
+    "generator_condition": {
+      "type": "string"
+    },
+    "artifact_path": {
+      "type": "string"
+    },
+    "prompt_version": {
+      "type": "string"
+    },
+    "model_config_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    }
+  }
+}

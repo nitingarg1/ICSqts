@@ -1,0 +1,12 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R008/R008_M02/service.py
+@@ -563,8 +563,7 @@
+         if payment["status"] not in SETTLED_STATES:
+             raise ServiceError(409, "STATE_CONFLICT", "payment not settled")
+         incident_ticket_id = body.get("incident_ticket_id")
+-        if incident_ticket_id not in self.state["incident_tickets"]:
+-            raise ServiceError(404, "NOT_FOUND", "incident ticket not found")
++        # mutation R008_M02: incident ticket lookup skipped
+         payment["incident_ticket_id"] = incident_ticket_id
+         return Response(200, {"payment_id": payment_id, "reversed": True}, {"correlation_id": correlation_id})
+ 

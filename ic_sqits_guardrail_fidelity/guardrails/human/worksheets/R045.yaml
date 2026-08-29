@@ -1,0 +1,71 @@
+worksheet_id: H_R045
+requirement_id: R045
+requirement_text: 'Webhook delivery retries may occur on `5xx` responses up to three
+  attempts, and retries must stop immediately after the first successful delivery.
+
+  '
+category: reliability/idempotency
+source_checklist_path: requirements/obligation_checklists/FINAL/reliability_idempotency.yaml
+formulation_ids_for_reference:
+- R045_F0
+- R045_F1
+- R045_F2
+obligations:
+- obligation_id: R045_O1
+  requirement_id: R045
+  actor: webhook delivery retry logic
+  precondition: webhook delivery attempt receives `5xx` response
+  action: may retry delivery
+  expected_response_or_event: retry is permitted after `5xx` response
+  required_state_effect: none stated
+  forbidden_state_effect: none stated
+  exception: max-attempt limit and success-stop rule handled separately
+  evidence_needed: delivery attempt log; response codes; retry scheduler state
+  why_this_obligation_is_required_by_the_text: Text says retries may occur on `5xx`
+    responses.
+- obligation_id: R045_O2
+  requirement_id: R045
+  actor: webhook delivery retry logic
+  precondition: delivery attempts continue after `5xx` responses and no successful
+    delivery has occurred
+  action: limit total attempts to three
+  expected_response_or_event: fourth attempt is not made
+  required_state_effect: no more than three delivery attempts occur
+  forbidden_state_effect: more than three total delivery attempts
+  exception: none stated
+  evidence_needed: delivery attempt log; retry attempt count
+  why_this_obligation_is_required_by_the_text: Text explicitly limits retries to up
+    to three attempts.
+- obligation_id: R045_O3
+  requirement_id: R045
+  actor: webhook delivery retry logic
+  precondition: a delivery attempt succeeds before max attempts are exhausted
+  action: stop retrying immediately after first success
+  expected_response_or_event: no further retry attempts occur after success
+  required_state_effect: retry schedule ends after success
+  forbidden_state_effect: retry attempts after first successful delivery
+  exception: none stated
+  evidence_needed: delivery attempt log with response codes; retry scheduler state
+  why_this_obligation_is_required_by_the_text: Text says retries must stop immediately
+    after the first successful delivery.
+required_evidence:
+- Delivery attempt log with response codes.
+- Retry scheduler state.
+- Final delivery outcome record.
+valid_alternative_ids:
+- R045_A01
+boundary_case_ids:
+- R045_B01
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

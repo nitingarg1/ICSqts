@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R014/R014_M02/service.py
+@@ -867,7 +867,7 @@
+         payment["terminal_decision_recorded"] = True
+ 
+     def _audit_permission_denial(self, actor_id: str, payment_id: str, reason_code: str) -> None:
+-        self._append_audit({"event_type": "approval_denied_security", "actor_id": actor_id, "payment_id": payment_id, "reason_code": reason_code, "timestamp": self._now_iso()})
++        self._append_audit({"event_type": "security_denied", "actor_id": actor_id, "payment_id": payment_id, "reason_code": reason_code, "timestamp": self._now_iso()})
+ 
+     def _append_audit(self, event: dict[str, Any]) -> None:
+         self.state["audit_events"].append(copy.deepcopy(event))

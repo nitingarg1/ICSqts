@@ -1,0 +1,56 @@
+worksheet_id: H_R027
+requirement_id: R027
+requirement_text: 'Attachment upload for a payment request must accept only `pdf`
+  or `png` files no larger than 5 MB.
+
+  '
+category: validation/input constraints
+source_checklist_path: requirements/obligation_checklists/FINAL/validation_input_constraints.yaml
+formulation_ids_for_reference:
+- R027_F0
+- R027_F1
+- R027_F2
+obligations:
+- obligation_id: R027_O1
+  requirement_id: R027
+  actor: attachment upload request
+  precondition: file is submitted for upload
+  action: use file type `pdf` or `png`
+  expected_response_or_event: file outside `pdf` or `png` is not accepted
+  required_state_effect: none stated
+  forbidden_state_effect: accepting file type outside `pdf` or `png`
+  exception: none stated
+  evidence_needed: submitted file; observed file-type determination; acceptance result
+  why_this_obligation_is_required_by_the_text: Text says attachment upload must accept
+    only `pdf` or `png` files.
+- obligation_id: R027_O2
+  requirement_id: R027
+  actor: attachment upload request
+  precondition: file is submitted for upload
+  action: keep file size no larger than 5 MB
+  expected_response_or_event: file larger than 5 MB is not accepted
+  required_state_effect: none stated
+  forbidden_state_effect: accepting file larger than 5 MB
+  exception: none stated
+  evidence_needed: submitted file; observed file size; acceptance result
+  why_this_obligation_is_required_by_the_text: Text sets maximum file size at 5 MB.
+required_evidence:
+- Upload request metadata.
+- Validation response for allowed and disallowed uploads.
+- Attachment persistence result.
+valid_alternative_ids:
+- R027_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

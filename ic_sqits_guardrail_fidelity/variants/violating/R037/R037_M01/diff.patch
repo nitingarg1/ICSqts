@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R037/R037_M01/service.py
+@@ -710,7 +710,7 @@
+         expired = []
+         now = self._now()
+         for task in self.state["delegated_tasks"].values():
+-            if task["status"] == "PENDING" and now > datetime.fromisoformat(task["expires_at"].replace("Z", "+00:00")):
++            if False and task["status"] == "PENDING" and now > datetime.fromisoformat(task["expires_at"].replace("Z", "+00:00")):
+                 task["status"] = "INVALID"
+                 expired.append(task["task_id"])
+                 self._append_audit({"event_type": "delegation_expired", "task_id": task["task_id"], "timestamp": self._now_iso()})

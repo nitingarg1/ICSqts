@@ -1,0 +1,58 @@
+worksheet_id: H_R018
+requirement_id: R018
+requirement_text: 'Every reconciliation report download must append an audit record
+  containing requester ID, applied filters, row count, and generation timestamp.
+
+  '
+category: data protection/logging
+source_checklist_path: requirements/obligation_checklists/FINAL/data_protection_logging.yaml
+formulation_ids_for_reference:
+- R018_F0
+- R018_F1
+- R018_F2
+obligations:
+- obligation_id: R018_O1
+  requirement_id: R018
+  actor: reconciliation report download handling
+  precondition: reconciliation report is downloaded
+  action: append an audit record for the download
+  expected_response_or_event: an audit record is appended for reconciliation report
+    download
+  required_state_effect: audit record appended
+  forbidden_state_effect: report download without audit record
+  exception: none stated
+  evidence_needed: reconciliation report download evidence; appended audit record
+  why_this_obligation_is_required_by_the_text: Text says every reconciliation report
+    download must append an audit record.
+- obligation_id: R018_O2
+  requirement_id: R018
+  actor: reconciliation report download audit record
+  precondition: audit record for download is emitted
+  action: include requester ID, applied filters, row count, and generation timestamp
+  expected_response_or_event: audit record payload contains all required fields
+  required_state_effect: none beyond event completeness
+  forbidden_state_effect: omission of any named field
+  exception: none stated
+  evidence_needed: audit record payload; report metadata; request payload
+  why_this_obligation_is_required_by_the_text: Text explicitly lists the fields that
+    must appear in the audit record.
+required_evidence:
+- Download audit records.
+- Report generation request payload.
+- Generated report metadata.
+valid_alternative_ids:
+- R018_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

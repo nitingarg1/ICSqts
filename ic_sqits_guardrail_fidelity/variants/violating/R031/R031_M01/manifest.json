@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R031_M01",
+  "requirement_id": "R031",
+  "target_obligation_id": "R031_O1",
+  "code_area": "_submit_payment",
+  "expected_behavioral_difference": "DRAFT payment submits without line items because line-item precondition is skipped",
+  "possible_collateral_effects": "May cascade into approvals of incomplete payments",
+  "difficulty": "easy",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "remove line-item submit precondition",
+      "search": "        if payment[\"status\"] != \"DRAFT\" or not payment[\"line_items\"] or not beneficiary[\"verified\"]:\n",
+      "replace": "        if payment[\"status\"] != \"DRAFT\" or not beneficiary[\"verified\"]:\n"
+    }
+  ]
+}

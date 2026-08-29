@@ -1,0 +1,59 @@
+worksheet_id: H_R013
+requirement_id: R013
+requirement_text: 'Secret values from environment variables or secret-manager lookups
+  must not be written to application logs even when an exception occurs.
+
+  '
+category: data protection/logging
+source_checklist_path: requirements/obligation_checklists/FINAL/data_protection_logging.yaml
+formulation_ids_for_reference:
+- R013_F0
+- R013_F1
+- R013_F2
+obligations:
+- obligation_id: R013_O1
+  requirement_id: R013
+  actor: application logger
+  precondition: a non-exception application log is produced
+  action: prevent secret values from environment variables or secret-manager lookups
+    from being written to log
+  expected_response_or_event: normal logs contain no secret value content
+  required_state_effect: none required by text
+  forbidden_state_effect: logging secret values during normal execution
+  exception: none stated
+  evidence_needed: normal execution logs; known secret fixture values
+  why_this_obligation_is_required_by_the_text: Text forbids writing secret values
+    to application logs.
+- obligation_id: R013_O2
+  requirement_id: R013
+  actor: application logger
+  precondition: an exception-related application log is produced
+  action: prevent secret values from environment variables or secret-manager lookups
+    from being written to log
+  expected_response_or_event: exception logs contain no secret value content
+  required_state_effect: none required by text
+  forbidden_state_effect: secret leakage through exception logs
+  exception: exception occurrence does not relax the rule
+  evidence_needed: exception logs; known secret fixture values
+  why_this_obligation_is_required_by_the_text: Text explicitly extends the non-logging
+    rule to exception cases.
+required_evidence:
+- Normal execution logs.
+- Exception trace or error logs.
+- Secret fixture values used in test run.
+valid_alternative_ids:
+- R013_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

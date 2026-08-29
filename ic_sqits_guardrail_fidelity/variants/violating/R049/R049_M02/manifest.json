@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R049_M02",
+  "requirement_id": "R049",
+  "target_obligation_id": "R049_O2",
+  "code_area": "_reconciliation_import",
+  "expected_behavioral_difference": "Repeated successful checksum is marked non-duplicate and file contents are applied a second time",
+  "possible_collateral_effects": "Primary defect is reapplication of duplicate input",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "apply repeated checksum a second time",
+      "search": "        if successful is not None:\n            record = {\"checksum\": checksum, \"duplicate\": True, \"applied\": False}\n            self.state[\"reconciliation_imports\"].append(record)\n            return Response(200, record, {\"correlation_id\": correlation_id})\n",
+      "replace": "        if successful is not None:\n            record = {\"checksum\": checksum, \"duplicate\": False, \"applied\": True}\n            self.state[\"reconciliation_imports\"].append(record)\n            return Response(201, record, {\"correlation_id\": correlation_id})\n"
+    }
+  ]
+}

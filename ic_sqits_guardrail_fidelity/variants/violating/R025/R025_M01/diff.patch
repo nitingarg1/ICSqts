@@ -1,0 +1,12 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R025/R025_M01/service.py
+@@ -464,6 +464,9 @@
+                 if approval["payment_id"] == payment_id and approval["actor_id"] == actor["actor_id"] and approval.get("command_id") == command_id:
+                     return Response(200, {"payment_id": payment_id, "status": payment["status"], "duplicate": True}, {"correlation_id": correlation_id})
+ 
++        if not body.get("comment"):
++            raise ServiceError(422, "VALIDATION_ERROR", "approval comment required", {"comment": "required"})
++
+         delegate_for = None
+         delegation_id = body.get("delegation_id")
+         roles = set(actor["roles"])

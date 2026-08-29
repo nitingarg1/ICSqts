@@ -1,0 +1,13 @@
+status: ASSUMPTION_BASED_DRAFT
+notes: Not protocol-valid final results
+worksheet_fields:
+- worksheet_id
+- requirement_id
+- requirement_text
+- category
+- source_checklist_path
+- obligations
+- required_evidence
+- valid_alternative_ids
+- boundary_case_ids
+- known_ambiguities

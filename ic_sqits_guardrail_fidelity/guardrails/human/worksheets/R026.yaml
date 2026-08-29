@@ -1,0 +1,59 @@
+worksheet_id: H_R026
+requirement_id: R026
+requirement_text: 'A beneficiary bank update request must include either an IBAN or
+  both an account number and routing number, but it must not include both forms at
+  the same time.
+
+  '
+category: validation/input constraints
+source_checklist_path: requirements/obligation_checklists/FINAL/validation_input_constraints.yaml
+formulation_ids_for_reference:
+- R026_F0
+- R026_F1
+- R026_F2
+obligations:
+- obligation_id: R026_O1
+  requirement_id: R026
+  actor: beneficiary bank update request
+  precondition: update request is submitted
+  action: provide either an IBAN or the pair of account number and routing number
+  expected_response_or_event: request contains one required identifier form
+  required_state_effect: none stated
+  forbidden_state_effect: none stated
+  exception: mutual-exclusion rule handled separately
+  evidence_needed: update payload; validation response
+  why_this_obligation_is_required_by_the_text: Text requires one of the two accepted
+    identifier forms.
+- obligation_id: R026_O2
+  requirement_id: R026
+  actor: beneficiary bank update request
+  precondition: request includes bank identifiers
+  action: avoid including both IBAN and account-plus-routing form simultaneously
+  expected_response_or_event: request does not contain both identifier forms simultaneously
+  required_state_effect: none stated
+  forbidden_state_effect: none stated
+  exception: none stated
+  evidence_needed: update payload; validation response
+  why_this_obligation_is_required_by_the_text: Text explicitly says request must not
+    include both forms at the same time.
+required_evidence:
+- Update request payloads.
+- Validation responses.
+- Beneficiary record update result.
+valid_alternative_ids:
+- R026_A01
+boundary_case_ids:
+- R026_B01
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R031_M02",
+  "requirement_id": "R031",
+  "target_obligation_id": "R031_O2",
+  "code_area": "_submit_payment",
+  "expected_behavioral_difference": "DRAFT payment submits with unverified beneficiary because verification check is removed",
+  "possible_collateral_effects": "Could undermine downstream transfer realism",
+  "difficulty": "easy",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "remove beneficiary verification submit precondition",
+      "search": "        if payment[\"status\"] != \"DRAFT\" or not payment[\"line_items\"] or not beneficiary[\"verified\"]:\n",
+      "replace": "        if payment[\"status\"] != \"DRAFT\" or not payment[\"line_items\"]:\n"
+    }
+  ]
+}

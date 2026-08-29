@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R034/R034_M02/service.py
+@@ -619,7 +619,7 @@
+         payment = self._payment(payment_id)
+         payment["approval_comments"].append({"text": comment, "confidential": False})
+         payment["scheduled_execution_at"] = None
+-        self._change_payment_status(payment, "REJECTED", actor["actor_id"])
++        payment["updated_at"] = self._now_iso()
+         self._record_approval_latency_if_needed(payment, actor["actor_id"])
+         return Response(200, {"payment_id": payment_id, "status": payment["status"]}, {"correlation_id": correlation_id})
+ 

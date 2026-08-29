@@ -1,0 +1,205 @@
+implementation_id,requirement_id,variant_type,expected_guardrail_verdict,target_obligation_ids,rationale,human_approved_by,approval_date
+R001_REFERENCE,R001,compliant,non_violating,R001_O1;R001_O2,Reference implementation row for R001 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R002_REFERENCE,R002,compliant,non_violating,R002_O1;R002_O2;R002_O3,Reference implementation row for R002 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R003_REFERENCE,R003,compliant,non_violating,R003_O1;R003_O2;R003_O3;R003_O4,Reference implementation row for R003 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R004_REFERENCE,R004,compliant,non_violating,R004_O1;R004_O2;R004_O3,Reference implementation row for R004 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R005_REFERENCE,R005,compliant,non_violating,R005_O1;R005_O2;R005_O3;R005_O4,Reference implementation row for R005 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R007_REFERENCE,R007,compliant,non_violating,R007_O1;R007_O2,Reference implementation row for R007 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R008_REFERENCE,R008,compliant,non_violating,R008_O1;R008_O2,Reference implementation row for R008 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R010_REFERENCE,R010,compliant,non_violating,R010_O1;R010_O2,Reference implementation row for R010 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R011_REFERENCE,R011,compliant,non_violating,R011_O1;R011_O2,Reference implementation row for R011 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R012_REFERENCE,R012,compliant,non_violating,R012_O1;R012_O2,Reference implementation row for R012 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R013_REFERENCE,R013,compliant,non_violating,R013_O1;R013_O2,Reference implementation row for R013 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R014_REFERENCE,R014,compliant,non_violating,R014_O1;R014_O2,Reference implementation row for R014 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R016_REFERENCE,R016,compliant,non_violating,R016_O1;R016_O2;R016_O3,Reference implementation row for R016 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R018_REFERENCE,R018,compliant,non_violating,R018_O1;R018_O2,Reference implementation row for R018 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R019_REFERENCE,R019,compliant,non_violating,R019_O1;R019_O2,Reference implementation row for R019 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R020_REFERENCE,R020,compliant,non_violating,R020_O1;R020_O2;R020_O3,Reference implementation row for R020 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R021_REFERENCE,R021,compliant,non_violating,R021_O1;R021_O2,Reference implementation row for R021 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R024_REFERENCE,R024,compliant,non_violating,R024_O1;R024_O2,Reference implementation row for R024 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R025_REFERENCE,R025,compliant,non_violating,R025_O1;R025_O3,Reference implementation row for R025 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R026_REFERENCE,R026,compliant,non_violating,R026_O1;R026_O2,Reference implementation row for R026 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R027_REFERENCE,R027,compliant,non_violating,R027_O1;R027_O2,Reference implementation row for R027 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R028_REFERENCE,R028,compliant,non_violating,R028_O1;R028_O2;R028_O3,Reference implementation row for R028 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R029_REFERENCE,R029,compliant,non_violating,R029_O1;R029_O2,Reference implementation row for R029 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R030_REFERENCE,R030,compliant,non_violating,R030_O1,Reference implementation row for R030 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R031_REFERENCE,R031,compliant,non_violating,R031_O1;R031_O2,Reference implementation row for R031 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R032_REFERENCE,R032,compliant,non_violating,R032_O1;R032_O2,Reference implementation row for R032 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R033_REFERENCE,R033,compliant,non_violating,R033_O1,Reference implementation row for R033 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R034_REFERENCE,R034,compliant,non_violating,R034_O1;R034_O2,Reference implementation row for R034 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R036_REFERENCE,R036,compliant,non_violating,R036_O1;R036_O2;R036_O3,Reference implementation row for R036 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R037_REFERENCE,R037,compliant,non_violating,R037_O1;R037_O2,Reference implementation row for R037 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R038_REFERENCE,R038,compliant,non_violating,R038_O1;R038_O2,Reference implementation row for R038 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R040_REFERENCE,R040,compliant,non_violating,R040_O1;R040_O2,Reference implementation row for R040 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R041_REFERENCE,R041,compliant,non_violating,R041_O1;R041_O2,Reference implementation row for R041 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R042_REFERENCE,R042,compliant,non_violating,R042_O1;R042_O2,Reference implementation row for R042 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R043_REFERENCE,R043,compliant,non_violating,R043_O1,Reference implementation row for R043 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R044_REFERENCE,R044,compliant,non_violating,R044_O1;R044_O2,Reference implementation row for R044 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R045_REFERENCE,R045,compliant,non_violating,R045_O1;R045_O2;R045_O3,Reference implementation row for R045 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R046_REFERENCE,R046,compliant,non_violating,R046_O1;R046_O2,Reference implementation row for R046 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R047_REFERENCE,R047,compliant,non_violating,R047_O1;R047_O2,Reference implementation row for R047 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R049_REFERENCE,R049,compliant,non_violating,R049_O1;R049_O2,Reference implementation row for R049 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R051_REFERENCE,R051,compliant,non_violating,R051_O1;R051_O2,Reference implementation row for R051 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R053_REFERENCE,R053,compliant,non_violating,R053_O1,Reference implementation row for R053 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R054_REFERENCE,R054,compliant,non_violating,R054_O1;R054_O2,Reference implementation row for R054 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R055_REFERENCE,R055,compliant,non_violating,R055_O2,Reference implementation row for R055 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R057_REFERENCE,R057,compliant,non_violating,R057_O1;R057_O2,Reference implementation row for R057 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R058_REFERENCE,R058,compliant,non_violating,R058_O1;R058_O2,Reference implementation row for R058 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R059_REFERENCE,R059,compliant,non_violating,R059_O1;R059_O2,Reference implementation row for R059 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R060_REFERENCE,R060,compliant,non_violating,R060_O1;R060_O2,Reference implementation row for R060 under assumption-mode package.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R001_M01,R001,violating,violating,R001_O1,Non-approver can approve payment because role gate is removed,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R001_M02,R001,violating,violating,R001_O2,Original submitter can approve own payment because self-approval comparison uses wrong field,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R002_M01,R002,violating,violating,R002_O1,High-value payment can be released after only one approval because distinct-approver count is bypassed,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R002_M03,R002,violating,violating,R002_O1,Finance-manager prerequisite is skipped so two non-manager approvers can release high-value payment,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R003_M01,R003,violating,violating,R003_O1,Non-creator non-admin actor can void payment because actor authorization check is removed,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R003_M03,R003,violating,violating,R003_O4,Successful void sets status but does not append payment_voided audit event,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R004_M01,R004,violating,violating,R004_O1,Inactive session token is treated as active so approval succeeds instead of returning 401,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R004_M02,R004,violating,violating,R004_O2,Service returns 401 for inactive token but still appends approval record before exiting,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R005_M01,R005,violating,violating,R005_O2,Support summary exposes full account number because masking helper is bypassed,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R005_M03,R005,violating,violating,R005_O4,Confidential approval comments are returned to support_readonly users because comment filter is skipped,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R007_M01,R007,violating,violating,R007_O1,Delegate can approve after delegation window expiry because end-time validation is skipped,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R007_M03,R007,violating,violating,R007_O2,Delegate can create a chained delegation from temporary authority because chained-delegation block is removed,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R008_M01,R008,violating,violating,R008_O1,Non-treasury actor can reverse settled payment because treasury-role check is removed,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R008_M02,R008,violating,violating,R008_O1,Reversal succeeds without an existing incident ticket because incident lookup is skipped,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R010_M01,R010,violating,violating,R010_O1,Service account creates internal transfer without approved mTLS subject because allowlist check is removed,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R010_M02,R010,violating,violating,R010_O1,Authorization checks wrong field and trusts service-account name instead of mTLS subject,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R011_M01,R011,violating,violating,R011_O1,Structured logs capture full account number because redaction is skipped for payment fields,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R011_M03,R011,violating,violating,R011_O1,Unexpected exception logging writes unsanitized payload containing full account number,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R012_M01,R012,violating,violating,R012_O1,One payment transition updates state without appending audit event because helper call is removed,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R012_M02,R012,violating,violating,R012_O2,Audit event is emitted with wrong actor_id because actor source comes from payment creator instead of acting user,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R013_M01,R013,violating,violating,R013_O1,Normal execution log includes raw secret fixture value because config payload is logged before sanitization,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R013_M02,R013,violating,violating,R013_O2,Exception logger emits raw exception string containing secret fixture,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R014_M01,R014,violating,violating,R014_O1,Insufficient-permission approval denial returns 403 but no security audit event is appended,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R014_M02,R014,violating,violating,R014_O1,Security audit event is emitted with wrong event type or generic code instead of approval_denied_security,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R016_M01,R016,violating,violating,R016_O1,Token remains valid at or beyond 15 minutes because expiry comparator is off by one,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R016_M03,R016,violating,violating,R016_O3,Expired token is denied but no document_token_expired audit event is appended,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R018_M01,R018,violating,violating,R018_O1,Reconciliation report download succeeds without appending audit record,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R018_M03,R018,violating,violating,R018_O2,Audit record uses wrong requester identity such as report owner or default admin instead of acting user,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R019_M01,R019,violating,violating,R019_O2,Search log stores raw email string instead of hashed value,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R019_M02,R019,violating,violating,R019_O1,Service hashes email without required salt so log value is deterministic across environments,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R020_M01,R020,violating,violating,R020_O1,Only successful configuration reads append audit events while denied reads are silent,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R020_M02,R020,violating,violating,R020_O2,Denied read is audited but outcome field is always set to allowed,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R021_M01,R021,violating,violating,R021_O1,Create-payment validates amount presence only and allows zero or negative values,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R021_M02,R021,violating,violating,R021_O2,Upper-bound check is removed so amounts over 100000 are accepted,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R024_M01,R024,violating,violating,R024_O1,Scheduled date earlier than request date is accepted because lower-bound check is removed,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R024_M02,R024,violating,violating,R024_O2,Scheduled date more than 30 calendar days ahead is accepted because upper-bound check is skipped,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R025_M01,R025,violating,violating,R025_O4,Approval path incorrectly requires comment and rejects comment-free valid approvals,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R025_M02,R025,violating,violating,R025_O2,Rejection comment minimum length check is removed so short comments are accepted,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R026_M01,R026,violating,violating,R026_O4,Beneficiary update accepts both IBAN and account-plus-routing in same request,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R026_M02,R026,violating,violating,R026_O2,Beneficiary update rejects valid account_number plus routing_number pair because implementation only accepts IBAN,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R027_M01,R027,violating,violating,R027_O3,Attachment upload validates size but not content type so txt or other files are accepted,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R027_M02,R027,violating,violating,R027_O4,Attachment size threshold is off by one or skipped so files larger than 5 MB are accepted,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R028_M01,R028,violating,violating,R028_O1,Batch payout accepts zero items because minimum-size validation is removed,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R028_M03,R028,violating,violating,R028_O3,Duplicate client_reference values are accepted because uniqueness check is removed or normalized incorrectly,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R029_M01,R029,violating,violating,R029_O2,Callback URL only checks scheme and accepts non-allowlisted hostname,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R029_M02,R029,violating,violating,R029_O1,Callback URL only checks allowlist and accepts http scheme,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R030_M01,R030,violating,violating,R030_O1,Refund validator compares request only to captured_amount and ignores prior approved refunds,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R030_M02,R030,violating,violating,R030_O1,Refund validator sums denied or pending refunds as approved and rejects valid remaining balance,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R031_M01,R031,violating,violating,R031_O1,DRAFT payment submits without line items because line-item precondition is skipped,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R031_M02,R031,violating,violating,R031_O2,DRAFT payment submits with unverified beneficiary because verification check is removed,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R032_M01,R032,violating,violating,R032_O1,Payment transitions to APPROVED after first approval because required approver count is hardcoded to one,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R032_M03,R032,violating,violating,R032_O1,Duplicate approvals from same user count toward threshold because distinct approver logic is missing,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R033_M01,R033,violating,violating,R033_O2,Executed payment allows amount or beneficiary edits because mutable-field allowlist is removed,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R033_M02,R033,violating,violating,R033_O1,Executed payment rejects reconciliation_note updates as well,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R034_M01,R034,violating,violating,R034_O2,Reject path sets status REJECTED but leaves scheduled_execution_at unchanged,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R034_M02,R034,violating,violating,R034_O1,Reject path clears schedule but does not change payment status to REJECTED,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R036_M01,R036,violating,violating,R036_O1,Approved payment can be canceled because allowed-state check includes APPROVED,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R036_M02,R036,violating,violating,R036_O2,Cancel request for APPROVED payment returns 409 but still mutates status to CANCELED,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R037_M01,R037,violating,violating,R037_O1,Expired pending delegated task remains pending because expiry processor skips invalidation,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R037_M02,R037,violating,violating,R037_O2,Expired pending delegated task becomes INVALID but no delegation_expired event is emitted,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R038_M01,R038,violating,violating,R038_O1,Chargeback creation does not set dispute_status to OPEN,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R038_M02,R038,violating,violating,R038_O2,Refund path ignores dispute_status and still creates refunds during open chargeback,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R040_M01,R040,violating,violating,R040_O1,Any positive refund immediately transitions payment to REFUNDED instead of staying CAPTURED on partial total,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R040_M02,R040,violating,violating,R040_O2,Payment never transitions to REFUNDED even when approved refunds exactly equal captured amount,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R041_M01,R041,violating,violating,R041_O1,Replay with same idempotency key and same body generates new payment_id because stored-key lookup is skipped,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R041_M03,R041,violating,violating,R041_O1,Implementation compares request bodies using unstable serialization and misses identical replay under reordered fields,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R042_M01,R042,violating,violating,R042_O1,Reused idempotency key with different body creates second payment instead of returning 409,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R042_M02,R042,violating,violating,R042_O1,Reused idempotency key with different body returns original payment_id as if replay were identical,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R043_M01,R043,violating,violating,R043_O1,Retrying same approval command records duplicate approval action because command_id dedupe is removed,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R043_M03,R043,violating,violating,R043_O1,Command replay dedupe state is cleared after success so later retry is treated as new approval,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R044_M01,R044,violating,violating,R044_O1,Duplicate provider message is processed again because receipt store lookup is skipped,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R044_M02,R044,violating,violating,R044_O1,Duplicate provider message is ignored but duplicate_ignored event is not appended,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R045_M01,R045,violating,violating,R045_O1,Webhook delivery retries on 4xx as well as 5xx because retry classifier is too broad,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R045_M03,R045,violating,violating,R045_O3,Webhook delivery continues retrying even after first 200 success,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R046_M01,R046,violating,violating,R046_O1,Restarted export job allocates new job_id instead of reusing original identifier,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R046_M02,R046,violating,violating,R046_O2,Restarted export replays already written rows because written_set dedupe is removed,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R047_M01,R047,violating,violating,R047_O1,Successor worker can acquire lock before stale period exceeds five minutes because threshold check is loosened,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R047_M02,R047,violating,violating,R047_O2,Multiple successor workers can take over same stale lock because exclusivity state is not persisted,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R049_M01,R049,violating,violating,R049_O1,Duplicate detection compares filename or import_id instead of checksum so repeated content is reapplied,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R049_M02,R049,violating,violating,R049_O2,Repeated successful checksum is marked non-duplicate and file contents are applied a second time,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R051_M01,R051,violating,violating,R051_O1,Error responses omit correlation_id header while success responses include it,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R051_M02,R051,violating,violating,R051_O2,Request log entry gets a fresh correlation_id different from response header,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R053_M01,R053,violating,violating,R053_O1,Latency is measured from payment creation time instead of submission time,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R053_M03,R053,violating,violating,R053_O2,Latency is recorded on first approval attempt even when payment is not yet terminal,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R054_M01,R054,violating,violating,R054_O1,Execution job emits only end event and no start event,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R054_M03,R054,violating,violating,R054_O3,End event carries wrong job_id or result copied from request default,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R055_M01,R055,violating,violating,R055_O1,Guardrail violation record is emitted without requirement_id field,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R055_M03,R055,violating,violating,R055_O1,Blocked request is only logged and no guardrail_violations record is persisted,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R057_M01,R057,violating,violating,R057_O2,Provider circuit emits alert on every open call even during same open interval,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R057_M02,R057,violating,violating,R057_O1,Provider circuit fails to emit alert when reopened after close because prior-open flag is never reset,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R058_M01,R058,violating,violating,R058_O1,Manual override accepts empty reason because non-empty validation is removed,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R058_M02,R058,violating,violating,R058_O2,Audit event is appended but affected entity ID is omitted or null,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R059_M01,R059,violating,violating,R059_O1,Detected mismatch creates review case but does not increment reconciliation_mismatch_count metric,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R059_M02,R059,violating,violating,R059_O2,Detected mismatch increments metric but review case is not created,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R060_M01,R060,violating,violating,R060_O1,Completed export job does not emit export_completed event,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R060_M03,R060,violating,violating,R060_O2,Completion event records worker identity instead of requester_id,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R001_A01,R001,valid_alternative,non_violating,R001_O1;R001_O2,Assumed compliant alternative for R001 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R002_A01,R002,valid_alternative,non_violating,R002_O1;R002_O2;R002_O3,Assumed compliant alternative for R002 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R003_A01,R003,valid_alternative,non_violating,R003_O1;R003_O2;R003_O3;R003_O4,Assumed compliant alternative for R003 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R004_A01,R004,valid_alternative,non_violating,R004_O1;R004_O2;R004_O3,Assumed compliant alternative for R004 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R005_A01,R005,valid_alternative,non_violating,R005_O1;R005_O2;R005_O3;R005_O4,Assumed compliant alternative for R005 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R007_A01,R007,valid_alternative,non_violating,R007_O1;R007_O2,Assumed compliant alternative for R007 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R008_A01,R008,valid_alternative,non_violating,R008_O1;R008_O2,Assumed compliant alternative for R008 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R010_A01,R010,valid_alternative,non_violating,R010_O1;R010_O2,Assumed compliant alternative for R010 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R011_A01,R011,valid_alternative,non_violating,R011_O1;R011_O2,Assumed compliant alternative for R011 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R012_A01,R012,valid_alternative,non_violating,R012_O1;R012_O2,Assumed compliant alternative for R012 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R013_A01,R013,valid_alternative,non_violating,R013_O1;R013_O2,Assumed compliant alternative for R013 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R014_A01,R014,valid_alternative,non_violating,R014_O1;R014_O2,Assumed compliant alternative for R014 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R016_A01,R016,valid_alternative,non_violating,R016_O1;R016_O2;R016_O3,Assumed compliant alternative for R016 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R018_A01,R018,valid_alternative,non_violating,R018_O1;R018_O2,Assumed compliant alternative for R018 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R019_A01,R019,valid_alternative,non_violating,R019_O1;R019_O2,Assumed compliant alternative for R019 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R020_A01,R020,valid_alternative,non_violating,R020_O1;R020_O2;R020_O3,Assumed compliant alternative for R020 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R021_A01,R021,valid_alternative,non_violating,R021_O1;R021_O2,Assumed compliant alternative for R021 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R024_A01,R024,valid_alternative,non_violating,R024_O1;R024_O2,Assumed compliant alternative for R024 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R025_A01,R025,valid_alternative,non_violating,R025_O1;R025_O3,Assumed compliant alternative for R025 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R026_A01,R026,valid_alternative,non_violating,R026_O1;R026_O2,Assumed compliant alternative for R026 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R027_A01,R027,valid_alternative,non_violating,R027_O1;R027_O2,Assumed compliant alternative for R027 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R028_A01,R028,valid_alternative,non_violating,R028_O1;R028_O2;R028_O3,Assumed compliant alternative for R028 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R029_A01,R029,valid_alternative,non_violating,R029_O1;R029_O2,Assumed compliant alternative for R029 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R030_A01,R030,valid_alternative,non_violating,R030_O1,Assumed compliant alternative for R030 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R031_A01,R031,valid_alternative,non_violating,R031_O1;R031_O2,Assumed compliant alternative for R031 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R032_A01,R032,valid_alternative,non_violating,R032_O1;R032_O2,Assumed compliant alternative for R032 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R033_A01,R033,valid_alternative,non_violating,R033_O1,Assumed compliant alternative for R033 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R034_A01,R034,valid_alternative,non_violating,R034_O1;R034_O2,Assumed compliant alternative for R034 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R036_A01,R036,valid_alternative,non_violating,R036_O1;R036_O2;R036_O3,Assumed compliant alternative for R036 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R037_A01,R037,valid_alternative,non_violating,R037_O1;R037_O2,Assumed compliant alternative for R037 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R038_A01,R038,valid_alternative,non_violating,R038_O1;R038_O2,Assumed compliant alternative for R038 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R040_A01,R040,valid_alternative,non_violating,R040_O1;R040_O2,Assumed compliant alternative for R040 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R041_A01,R041,valid_alternative,non_violating,R041_O1;R041_O2,Assumed compliant alternative for R041 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R042_A01,R042,valid_alternative,non_violating,R042_O1;R042_O2,Assumed compliant alternative for R042 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R043_A01,R043,valid_alternative,non_violating,R043_O1,Assumed compliant alternative for R043 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R044_A01,R044,valid_alternative,non_violating,R044_O1;R044_O2,Assumed compliant alternative for R044 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R045_A01,R045,valid_alternative,non_violating,R045_O1;R045_O2;R045_O3,Assumed compliant alternative for R045 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R046_A01,R046,valid_alternative,non_violating,R046_O1;R046_O2,Assumed compliant alternative for R046 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R047_A01,R047,valid_alternative,non_violating,R047_O1;R047_O2,Assumed compliant alternative for R047 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R049_A01,R049,valid_alternative,non_violating,R049_O1;R049_O2,Assumed compliant alternative for R049 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R051_A01,R051,valid_alternative,non_violating,R051_O1;R051_O2,Assumed compliant alternative for R051 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R053_A01,R053,valid_alternative,non_violating,R053_O1,Assumed compliant alternative for R053 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R054_A01,R054,valid_alternative,non_violating,R054_O1;R054_O2,Assumed compliant alternative for R054 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R055_A01,R055,valid_alternative,non_violating,R055_O2,Assumed compliant alternative for R055 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R057_A01,R057,valid_alternative,non_violating,R057_O1;R057_O2,Assumed compliant alternative for R057 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R058_A01,R058,valid_alternative,non_violating,R058_O1;R058_O2,Assumed compliant alternative for R058 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R059_A01,R059,valid_alternative,non_violating,R059_O1;R059_O2,Assumed compliant alternative for R059 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R060_A01,R060,valid_alternative,non_violating,R060_O1;R060_O2,Assumed compliant alternative for R060 within current single-service architecture.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R007_B01,R007,boundary,non_violating,R007_O1;R007_O2,Delegated approval exactly at active-window boundary scenario.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R016_B01,R016,boundary,non_violating,R016_O1;R016_O2;R016_O3,Document token scenario pinned at exact 15-minute expiry threshold.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R021_B01,R021,boundary,non_violating,R021_O1;R021_O2,Payment amount accepted at exact upper bound 100000.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R024_B01,R024,boundary,non_violating,R024_O1;R024_O2,Scheduled execution accepted exactly 30 days ahead.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R026_B01,R026,boundary,non_violating,R026_O1;R026_O2,Exactly one valid beneficiary identifier form provided.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R028_B01,R028,boundary,non_violating,R028_O1;R028_O2;R028_O3,Batch payout accepted at exactly 100 unique items.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R033_B01,R033,boundary,non_violating,R033_O1,Executed payment update limited to reconciliation_note only.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R036_B01,R036,boundary,non_violating,R036_O1;R036_O2;R036_O3,Disallowed cancel path leaves payment status unchanged.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R040_B01,R040,boundary,non_violating,R040_O1;R040_O2,Refund total exactly equals captured amount and reaches terminal refunded state.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R045_B01,R045,boundary,non_violating,R045_O1;R045_O2;R045_O3,Webhook retry sequence stops immediately after first success.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R047_B01,R047,boundary,non_violating,R047_O1;R047_O2,Payout lock takeover occurs just beyond stale threshold.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R057_B01,R057,boundary,non_violating,R057_O1;R057_O2,Provider retry circuit reopen emits exactly one fresh alert after close.,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29

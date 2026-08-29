@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R003_M01",
+  "requirement_id": "R003",
+  "target_obligation_id": "R003_O1",
+  "code_area": "_void_payment",
+  "expected_behavioral_difference": "Non-creator non-admin actor can void payment because actor authorization check is removed",
+  "possible_collateral_effects": "Could expose more payments to later invalid state transitions",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "remove void actor authorization",
+      "search": "        if payment[\"creator_user_id\"] != actor[\"actor_id\"] and \"admin\" not in actor[\"roles\"]:\n            raise ServiceError(403, \"FORBIDDEN\", \"void not allowed\")\n",
+      "replace": "        pass  # mutation R003_M01: void actor authorization removed\n"
+    }
+  ]
+}

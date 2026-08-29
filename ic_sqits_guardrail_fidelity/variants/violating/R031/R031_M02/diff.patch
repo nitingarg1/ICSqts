@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R031/R031_M02/service.py
+@@ -449,7 +449,7 @@
+     def _submit_payment(self, payment_id: str, actor: dict[str, Any], correlation_id: str) -> Response:
+         payment = self._payment(payment_id)
+         beneficiary = self.state["beneficiaries"][payment["beneficiary_id"]]
+-        if payment["status"] != "DRAFT" or not payment["line_items"] or not beneficiary["verified"]:
++        if payment["status"] != "DRAFT" or not payment["line_items"]:
+             raise ServiceError(409, "STATE_CONFLICT", "payment cannot be submitted")
+         self._change_payment_status(payment, "SUBMITTED", actor["actor_id"])
+         payment["submitted_at"] = self._now_iso()

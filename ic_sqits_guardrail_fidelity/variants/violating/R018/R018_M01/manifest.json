@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R018_M01",
+  "requirement_id": "R018",
+  "target_obligation_id": "R018_O1",
+  "code_area": "_download_reconciliation_report",
+  "expected_behavioral_difference": "Reconciliation report download succeeds without appending audit record",
+  "possible_collateral_effects": "Main effect is missing auditability of download",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "omit reconciliation download audit",
+      "search": "        self._append_audit(event)\n",
+      "replace": "        pass  # mutation R018_M01: reconciliation download audit omitted\n"
+    }
+  ]
+}

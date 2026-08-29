@@ -1,0 +1,58 @@
+worksheet_id: H_R038
+requirement_id: R038
+requirement_text: 'Opening a chargeback on a captured payment must set `dispute_status`
+  to `OPEN` and must block creation of further refunds until the dispute is resolved.
+
+  '
+category: state transitions/business invariants
+source_checklist_path: requirements/obligation_checklists/FINAL/state_transitions_business_invariants.yaml
+formulation_ids_for_reference:
+- R038_F0
+- R038_F1
+- R038_F2
+obligations:
+- obligation_id: R038_O1
+  requirement_id: R038
+  actor: chargeback workflow
+  precondition: chargeback is opened on a captured payment
+  action: set `dispute_status` to `OPEN`
+  expected_response_or_event: payment dispute status becomes `OPEN`
+  required_state_effect: '`dispute_status` set to `OPEN`'
+  forbidden_state_effect: chargeback opening without dispute status becoming `OPEN`
+  exception: none stated
+  evidence_needed: payment record before and after chargeback opening
+  why_this_obligation_is_required_by_the_text: Text explicitly requires setting `dispute_status`
+    to `OPEN`.
+- obligation_id: R038_O2
+  requirement_id: R038
+  actor: refund creation workflow
+  precondition: dispute remains unresolved after chargeback opened
+  action: block creation of further refunds
+  expected_response_or_event: no further refund is created while dispute remains unresolved
+  required_state_effect: none required by text on rejection
+  forbidden_state_effect: creation of further refund during unresolved dispute
+  exception: dispute resolution ends the block
+  evidence_needed: chargeback record; dispute resolution state; refund-create outcome;
+    refund records
+  why_this_obligation_is_required_by_the_text: Text says further refunds must be blocked
+    until dispute is resolved.
+required_evidence:
+- Payment dispute status.
+- Chargeback event.
+- Refund-create response during open dispute.
+valid_alternative_ids:
+- R038_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

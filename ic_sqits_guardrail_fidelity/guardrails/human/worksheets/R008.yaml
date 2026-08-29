@@ -1,0 +1,60 @@
+worksheet_id: H_R008
+requirement_id: R008
+requirement_text: 'A settled payment may be reversed only by a user with the `treasury`
+  role, and the reversal request must reference an existing incident ticket.
+
+  '
+category: authorization/security
+source_checklist_path: requirements/obligation_checklists/FINAL/authorization_security.yaml
+formulation_ids_for_reference:
+- R008_F0
+- R008_F1
+- R008_F2
+obligations:
+- obligation_id: R008_O1
+  requirement_id: R008
+  actor: user requesting reversal
+  precondition: target payment is settled and reversal is requested
+  action: hold the `treasury` role
+  expected_response_or_event: settled payment must not be reversed by a non-`treasury`
+    user
+  required_state_effect: none required by text on rejection
+  forbidden_state_effect: successful reversal by non-treasury actor
+  exception: none stated
+  evidence_needed: payment settlement status; actor role; reversal response
+  why_this_obligation_is_required_by_the_text: Text says settled payment may be reversed
+    only by user with `treasury` role.
+- obligation_id: R008_O2
+  requirement_id: R008
+  actor: reversal request
+  precondition: target payment is settled and reversal is requested
+  action: reference an existing incident ticket
+  expected_response_or_event: reversal must not occur without reference to an existing
+    incident ticket
+  required_state_effect: none required by text on rejection
+  forbidden_state_effect: reversal without reference to an existing incident ticket
+  exception: none stated
+  evidence_needed: reversal request payload; incident ticket lookup result; reversal
+    response
+  why_this_obligation_is_required_by_the_text: Text explicitly requires reversal request
+    to reference an existing incident ticket.
+required_evidence:
+- Payment settlement status.
+- User role at reversal time.
+- Incident ticket identifier lookup and response.
+valid_alternative_ids:
+- R008_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

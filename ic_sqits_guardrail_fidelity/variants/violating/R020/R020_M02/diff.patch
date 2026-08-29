@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R020/R020_M02/service.py
+@@ -606,7 +606,7 @@
+         return Response(200, {"matched": False}, {"correlation_id": correlation_id})
+ 
+     def _get_provider_config(self, config_name: str, actor: dict[str, Any], correlation_id: str) -> Response:
+-        outcome = "allowed" if "provider_config_reader" in actor["roles"] else "denied"
++        outcome = "allowed"
+         self._append_audit({"event_type": "provider_config_read", "actor_id": actor["actor_id"], "outcome": outcome, "config_name": config_name})
+         if outcome == "denied":
+             raise ServiceError(403, "FORBIDDEN", "provider config read denied")

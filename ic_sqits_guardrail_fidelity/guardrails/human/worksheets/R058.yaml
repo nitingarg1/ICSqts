@@ -1,0 +1,57 @@
+worksheet_id: H_R058
+requirement_id: R058
+requirement_text: 'A manual override action must include a non-empty reason and must
+  append an audit record referencing the affected entity ID.
+
+  '
+category: observability/audit
+source_checklist_path: requirements/obligation_checklists/FINAL/observability_audit.yaml
+formulation_ids_for_reference:
+- R058_F0
+- R058_F1
+- R058_F2
+obligations:
+- obligation_id: R058_O1
+  requirement_id: R058
+  actor: manual override request
+  precondition: manual override action is submitted
+  action: include a non-empty reason
+  expected_response_or_event: manual override action contains a non-empty reason
+  required_state_effect: none stated
+  forbidden_state_effect: manual override action with an empty reason
+  exception: none stated
+  evidence_needed: manual override action payload showing reason
+  why_this_obligation_is_required_by_the_text: Text says manual override action must
+    include a non-empty reason.
+- obligation_id: R058_O2
+  requirement_id: R058
+  actor: manual override workflow
+  precondition: manual override action occurs
+  action: append an audit record referencing affected entity ID
+  expected_response_or_event: audit trail contains override record with entity reference
+  required_state_effect: audit record appended
+  forbidden_state_effect: manual override without audit record or without entity reference
+  exception: none stated
+  evidence_needed: audit record contents; affected entity ID; override response
+  why_this_obligation_is_required_by_the_text: Text explicitly requires audit record
+    referencing affected entity ID.
+required_evidence:
+- Override request payload.
+- Audit record contents.
+- Override response.
+valid_alternative_ids:
+- R058_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

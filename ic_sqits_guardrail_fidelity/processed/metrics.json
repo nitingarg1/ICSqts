@@ -1,0 +1,15 @@
+{
+  "status": "ASSUMPTION_BASED_DRAFT",
+  "notes": [
+    "Not protocol-valid final results",
+    "No raw generation or execution rows available for metric computation."
+  ],
+  "artifact_counts": {
+    "requirements": 48,
+    "approved_mutations": 96,
+    "valid_alternatives": 48,
+    "boundary_cases": 12,
+    "expected_verdict_rows": 204
+  },
+  "metrics": []
+}

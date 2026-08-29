@@ -1,0 +1,59 @@
+worksheet_id: H_R011
+requirement_id: R011
+requirement_text: 'Application logs must never contain a full account number; if an
+  account number is logged, only the last four digits may remain visible.
+
+  '
+category: data protection/logging
+source_checklist_path: requirements/obligation_checklists/FINAL/data_protection_logging.yaml
+formulation_ids_for_reference:
+- R011_F0
+- R011_F1
+- R011_F2
+obligations:
+- obligation_id: R011_O1
+  requirement_id: R011
+  actor: application logger
+  precondition: log output includes account number content
+  action: prevent full account number from appearing
+  expected_response_or_event: log output contains no full account number
+  required_state_effect: none required by text
+  forbidden_state_effect: exposure of full account number in logs
+  exception: none stated
+  evidence_needed: structured log entries; account-number fixtures; log content comparison
+  why_this_obligation_is_required_by_the_text: Text says logs must never contain a
+    full account number.
+- obligation_id: R011_O2
+  requirement_id: R011
+  actor: application logger
+  precondition: an account number is logged
+  action: retain at most the last four digits
+  expected_response_or_event: log output reveals at most last four digits of account
+    number
+  required_state_effect: none required by text
+  forbidden_state_effect: visibility of more than the last four digits when account
+    number is logged
+  exception: none stated
+  evidence_needed: masked log entries; field-level masking output
+  why_this_obligation_is_required_by_the_text: Text explicitly limits visible portion
+    to last four digits.
+required_evidence:
+- Structured log entries.
+- Example payloads written to logger.
+- Masking output comparison.
+valid_alternative_ids:
+- R011_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

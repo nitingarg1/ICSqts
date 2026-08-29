@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R011_M03",
+  "requirement_id": "R011",
+  "target_obligation_id": "R011_O1",
+  "code_area": "handle_request exception path",
+  "expected_behavioral_difference": "Unexpected exception logging writes unsanitized payload containing full account number",
+  "possible_collateral_effects": "Also threatens secret-safety scenarios on error paths",
+  "difficulty": "hard",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "log raw account number on exception path",
+      "search": "                    \"message\": f\"internal error: {type(exc).__name__}\",\n",
+      "replace": "                    \"message\": f\"internal error: {type(exc).__name__} 1111222233334444\",\n"
+    }
+  ]
+}

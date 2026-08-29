@@ -1,0 +1,12 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R008/R008_M01/service.py
+@@ -558,8 +558,7 @@
+ 
+     def _reverse_payment(self, payment_id: str, actor: dict[str, Any], body: dict[str, Any], correlation_id: str) -> Response:
+         payment = self._payment(payment_id)
+-        if "treasury" not in actor["roles"]:
+-            raise ServiceError(403, "FORBIDDEN", "treasury role required")
++        pass  # mutation R008_M01: treasury role check removed
+         if payment["status"] not in SETTLED_STATES:
+             raise ServiceError(409, "STATE_CONFLICT", "payment not settled")
+         incident_ticket_id = body.get("incident_ticket_id")

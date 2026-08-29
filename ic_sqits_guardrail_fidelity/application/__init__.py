@@ -1,0 +1,1 @@
+"""IC-SQITS application package."""

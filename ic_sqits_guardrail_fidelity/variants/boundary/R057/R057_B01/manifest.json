@@ -1,0 +1,9 @@
+{
+  "implementation_id": "R057_B01",
+  "requirement_id": "R057",
+  "variant_type": "boundary",
+  "base_implementation_id": "REFERENCE",
+  "boundary_kind": "reopen_after_close",
+  "rationale": "Provider retry circuit reopen emits exactly one fresh alert after close.",
+  "status": "ASSUMPTION_BASED_DRAFT"
+}

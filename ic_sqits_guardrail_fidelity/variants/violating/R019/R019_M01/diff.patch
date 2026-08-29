@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R019/R019_M01/service.py
+@@ -602,7 +602,7 @@
+     def _search_customer_email(self, body: dict[str, Any], correlation_id: str) -> Response:
+         email = body.get("email", "")
+         salted_hash = hashlib.sha256(f"ic-sqits::{email}".encode()).hexdigest()
+-        self._append_log({"log_type": "search", "correlation_id": correlation_id, "email_hash": salted_hash})
++        self._append_log({"log_type": "search", "correlation_id": correlation_id, "email": email})
+         return Response(200, {"matched": False}, {"correlation_id": correlation_id})
+ 
+     def _get_provider_config(self, config_name: str, actor: dict[str, Any], correlation_id: str) -> Response:

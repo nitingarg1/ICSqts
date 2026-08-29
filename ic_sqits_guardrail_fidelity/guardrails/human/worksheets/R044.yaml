@@ -1,0 +1,57 @@
+worksheet_id: H_R044
+requirement_id: R044
+requirement_text: 'The ledger-posting consumer must ignore a duplicate provider message
+  ID and must append a `duplicate_ignored` event.
+
+  '
+category: reliability/idempotency
+source_checklist_path: requirements/obligation_checklists/FINAL/reliability_idempotency.yaml
+formulation_ids_for_reference:
+- R044_F0
+- R044_F1
+- R044_F2
+obligations:
+- obligation_id: R044_O1
+  requirement_id: R044
+  actor: ledger-posting consumer
+  precondition: incoming provider message ID matches a previously processed message
+  action: ignore the duplicate message for ledger posting
+  expected_response_or_event: no second ledger posting occurs
+  required_state_effect: none required by text beyond suppression
+  forbidden_state_effect: duplicate ledger posting for same provider message ID
+  exception: none stated
+  evidence_needed: consumer input messages; ledger posting records
+  why_this_obligation_is_required_by_the_text: Text says consumer must ignore a duplicate
+    provider message ID.
+- obligation_id: R044_O2
+  requirement_id: R044
+  actor: ledger-posting consumer
+  precondition: duplicate provider message ID is detected
+  action: append a `duplicate_ignored` event
+  expected_response_or_event: event log contains `duplicate_ignored` event
+  required_state_effect: duplicate_ignored event appended
+  forbidden_state_effect: suppressing duplicate without emitting required event
+  exception: none stated
+  evidence_needed: event log entry linked to duplicate handling
+  why_this_obligation_is_required_by_the_text: Text explicitly requires a `duplicate_ignored`
+    event.
+required_evidence:
+- Consumer input messages.
+- Ledger posting records.
+- Event log showing duplicate handling.
+valid_alternative_ids:
+- R044_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

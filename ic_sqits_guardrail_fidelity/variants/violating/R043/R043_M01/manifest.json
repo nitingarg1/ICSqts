@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R043_M01",
+  "requirement_id": "R043",
+  "target_obligation_id": "R043_O1",
+  "code_area": "_approve_payment",
+  "expected_behavioral_difference": "Retrying same approval command records duplicate approval action because command_id dedupe is removed",
+  "possible_collateral_effects": "Can also advance approval threshold too early",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "remove approval command dedupe",
+      "search": "        if command_id:\n            for approval in self.state[\"approvals\"]:\n                if approval[\"payment_id\"] == payment_id and approval[\"actor_id\"] == actor[\"actor_id\"] and approval.get(\"command_id\") == command_id:\n                    return Response(200, {\"payment_id\": payment_id, \"status\": payment[\"status\"], \"duplicate\": True}, {\"correlation_id\": correlation_id})\n",
+      "replace": "        pass  # mutation R043_M01: approval command dedupe removed\n"
+    }
+  ]
+}

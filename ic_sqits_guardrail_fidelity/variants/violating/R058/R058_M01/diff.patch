@@ -1,0 +1,12 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R058/R058_M01/service.py
+@@ -823,8 +823,7 @@
+ 
+     def _manual_override(self, payment_id: str, actor: dict[str, Any], body: dict[str, Any], correlation_id: str) -> Response:
+         reason = body.get("reason", "")
+-        if not reason:
+-            raise ServiceError(422, "VALIDATION_ERROR", "manual override reason required")
++        pass  # mutation R058_M01: manual override reason may be empty
+         self._payment(payment_id)
+         self._append_audit({"event_type": "manual_override", "actor_id": actor["actor_id"], "affected_entity_id": payment_id, "reason": reason, "timestamp": self._now_iso()})
+         return Response(200, {"payment_id": payment_id}, {"correlation_id": correlation_id})

@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R046_M01",
+  "requirement_id": "R046",
+  "target_obligation_id": "R046_O1",
+  "code_area": "_restart_export",
+  "expected_behavioral_difference": "Restarted export job allocates new job_id instead of reusing original identifier",
+  "possible_collateral_effects": "Collateral affects downstream audit linkage",
+  "difficulty": "easy",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "allocate new job_id on export restart",
+      "search": "    def _restart_export(self, job_id: str, correlation_id: str) -> Response:\n        job = self.state[\"export_jobs\"].get(job_id)\n",
+      "replace": "    def _restart_export(self, job_id: str, correlation_id: str) -> Response:\n        original_job_id = job_id\n        job = self.state[\"export_jobs\"].get(original_job_id)\n        job_id = self._next_id(\"job\", \"export\")\n        if job is not None:\n            self.state[\"export_jobs\"][job_id] = job\n"
+    }
+  ]
+}

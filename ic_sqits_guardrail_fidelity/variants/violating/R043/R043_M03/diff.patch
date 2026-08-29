@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R043/R043_M03/service.py
+@@ -498,7 +498,7 @@
+             "actor_id": actor["actor_id"],
+             "roles_at_time": sorted(roles),
+             "delegated_for_user_id": delegate_for,
+-            "command_id": command_id,
++            "command_id": None,
+             "created_at": self._now_iso(),
+             "decision": "APPROVE",
+         }

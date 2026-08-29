@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R049/R049_M01/service.py
+@@ -788,7 +788,7 @@
+ 
+     def _reconciliation_import(self, body: dict[str, Any], correlation_id: str) -> Response:
+         checksum = body.get("checksum")
+-        successful = next((entry for entry in self.state["reconciliation_imports"] if entry["checksum"] == checksum and entry["duplicate"] is False), None)
++        successful = next((entry for entry in self.state["reconciliation_imports"] if entry.get("import_id") == body.get("import_id") and entry["duplicate"] is False), None)
+         if successful is not None:
+             record = {"checksum": checksum, "duplicate": True, "applied": False}
+             self.state["reconciliation_imports"].append(record)

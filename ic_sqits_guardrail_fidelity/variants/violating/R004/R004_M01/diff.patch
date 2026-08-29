@@ -1,0 +1,22 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R004/R004_M01/service.py
+@@ -287,8 +287,7 @@
+             raise RuntimeError(self.state["secrets"]["payment_api_key"])
+ 
+         if method == "POST" and path == "/payments":
+-            self._require_active_session(actor)
+-            return self._create_payment(actor, context["headers"], body, context["correlation_id"])
++                return self._create_payment(actor, context["headers"], body, context["correlation_id"])
+         if method == "POST" and re.fullmatch(r"/payments/[^/]+/line-items", path):
+             self._require_active_session(actor)
+             return self._add_line_items(self._path_id(path), body, context["correlation_id"])
+@@ -481,8 +480,7 @@
+             roles.add("approver")
+             delegate_for = delegation["delegator_user_id"]
+ 
+-        if not actor["active"]:
+-            raise ServiceError(401, "UNAUTHORIZED", "inactive session token")
++        pass  # mutation R004_M01: inactive actor treated as active
+ 
+         if "approver" not in roles:
+             self._audit_permission_denial(actor["actor_id"], payment_id, "missing_approver_role")

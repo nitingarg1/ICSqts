@@ -1,0 +1,15 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R046/R046_M02/service.py
+@@ -761,11 +761,8 @@
+         job = self.state["export_jobs"].get(job_id)
+         if job is None:
+             raise ServiceError(404, "NOT_FOUND", "export job not found")
+-        written_set = set(job["written_rows"])
+         for row in job["rows"]:
+-            if row not in written_set:
+-                job["written_rows"].append(row)
+-                written_set.add(row)
++            job["written_rows"].append(row)
+         job["crashed"] = False
+         job["success"] = True
+         ended_at = self._now_iso()

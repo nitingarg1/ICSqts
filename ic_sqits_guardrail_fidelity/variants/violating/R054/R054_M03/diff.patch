@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R054/R054_M03/service.py
+@@ -801,7 +801,7 @@
+         job_id = body.get("job_id") or self._next_id("job", "exec")
+         result = body.get("result", "SUCCEEDED")
+         start = {"event_type": "execution_job_started", "job_id": job_id, "result": result, "timestamp": self._now_iso()}
+-        end = {"event_type": "execution_job_ended", "job_id": job_id, "result": result, "timestamp": self._now_iso()}
++        end = {"event_type": "execution_job_ended", "job_id": "wrong-job", "result": result, "timestamp": self._now_iso()}
+         self._append_audit(start)
+         self._append_audit(end)
+         self.state["execution_jobs"][job_id] = {"job_id": job_id, "result": result}

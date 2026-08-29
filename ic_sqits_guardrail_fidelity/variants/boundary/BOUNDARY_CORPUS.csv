@@ -1,0 +1,13 @@
+implementation_id,requirement_id,variant_type,base_implementation_id,boundary_kind,rationale,review_status,human_approved_by,approval_date
+R007_B01,R007,boundary,REFERENCE,delegation_window_edge,Delegated approval exactly at active-window boundary scenario.,ASSUMED_APPROVED_VALID_BOUNDARY,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R016_B01,R016,boundary,REFERENCE,token_expiry_threshold,Document token scenario pinned at exact 15-minute expiry threshold.,ASSUMED_APPROVED_VALID_BOUNDARY,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R021_B01,R021,boundary,REFERENCE,max_amount_threshold,Payment amount accepted at exact upper bound 100000.,ASSUMED_APPROVED_VALID_BOUNDARY,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R024_B01,R024,boundary,REFERENCE,schedule_upper_bound,Scheduled execution accepted exactly 30 days ahead.,ASSUMED_APPROVED_VALID_BOUNDARY,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R026_B01,R026,boundary,REFERENCE,xor_identifier_boundary,Exactly one valid beneficiary identifier form provided.,ASSUMED_APPROVED_VALID_BOUNDARY,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R028_B01,R028,boundary,REFERENCE,batch_size_upper_bound,Batch payout accepted at exactly 100 unique items.,ASSUMED_APPROVED_VALID_BOUNDARY,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R033_B01,R033,boundary,REFERENCE,allowed_field_only,Executed payment update limited to reconciliation_note only.,ASSUMED_APPROVED_VALID_BOUNDARY,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R036_B01,R036,boundary,REFERENCE,forbidden_cancel_no_mutation,Disallowed cancel path leaves payment status unchanged.,ASSUMED_APPROVED_VALID_BOUNDARY,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R040_B01,R040,boundary,REFERENCE,full_refund_boundary,Refund total exactly equals captured amount and reaches terminal refunded state.,ASSUMED_APPROVED_VALID_BOUNDARY,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R045_B01,R045,boundary,REFERENCE,retry_stop_on_success,Webhook retry sequence stops immediately after first success.,ASSUMED_APPROVED_VALID_BOUNDARY,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R047_B01,R047,boundary,REFERENCE,stale_lock_threshold,Payout lock takeover occurs just beyond stale threshold.,ASSUMED_APPROVED_VALID_BOUNDARY,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29
+R057_B01,R057,boundary,REFERENCE,reopen_after_close,Provider retry circuit reopen emits exactly one fresh alert after close.,ASSUMED_APPROVED_VALID_BOUNDARY,ASSUMED_HUMAN_PER_USER_INSTRUCTION,2026-08-29

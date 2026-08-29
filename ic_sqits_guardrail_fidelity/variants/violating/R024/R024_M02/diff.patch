@@ -1,0 +1,12 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R024/R024_M02/service.py
+@@ -951,8 +951,7 @@
+         request_time = self._now()
+         if scheduled.date() < request_time.date():
+             raise ServiceError(422, "VALIDATION_ERROR", "scheduled date before request date")
+-        if scheduled.date() > (request_time + timedelta(days=30)).date():
+-            raise ServiceError(422, "VALIDATION_ERROR", "scheduled date more than 30 days after request date")
++        pass  # mutation R024_M02: upper schedule bound removed
+ 
+     def _is_mutating(self, method: str, path: str) -> bool:
+         return method in {"POST", "PUT", "PATCH", "DELETE"}

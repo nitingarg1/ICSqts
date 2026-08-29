@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R018/R018_M03/service.py
+@@ -495,7 +495,7 @@
+         approval = {
+             "approval_id": self._next_id("approval", "approval"),
+             "payment_id": payment_id,
+-            "actor_id": actor["actor_id"],
++            "actor_id": "report_owner",
+             "roles_at_time": sorted(roles),
+             "delegated_for_user_id": delegate_for,
+             "command_id": command_id,

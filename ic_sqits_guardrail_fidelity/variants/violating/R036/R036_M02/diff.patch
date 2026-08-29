@@ -1,0 +1,10 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R036/R036_M02/service.py
+@@ -681,6 +681,7 @@
+     def _cancel_payment(self, payment_id: str, actor: dict[str, Any], correlation_id: str) -> Response:
+         payment = self._payment(payment_id)
+         if payment["status"] not in {"DRAFT", "SUBMITTED"}:
++            self._change_payment_status(payment, "CANCELED", actor["actor_id"])
+             raise ServiceError(409, "STATE_CONFLICT", "payment cannot be canceled")
+         self._change_payment_status(payment, "CANCELED", actor["actor_id"])
+         return Response(200, {"payment_id": payment_id, "status": payment["status"]}, {"correlation_id": correlation_id})

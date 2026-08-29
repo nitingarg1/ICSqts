@@ -1,0 +1,60 @@
+worksheet_id: H_R057
+requirement_id: R057
+requirement_text: 'When the provider retry circuit opens, the system must emit one
+  alert event per open interval and must not emit duplicate alerts until the circuit
+  has closed again.
+
+  '
+category: observability/audit
+source_checklist_path: requirements/obligation_checklists/FINAL/observability_audit.yaml
+formulation_ids_for_reference:
+- R057_F0
+- R057_F1
+- R057_F2
+obligations:
+- obligation_id: R057_O1
+  requirement_id: R057
+  actor: circuit state monitoring logic
+  precondition: provider retry circuit opens
+  action: emit one alert event for that open interval
+  expected_response_or_event: alert event appears when circuit opens
+  required_state_effect: alert event emitted for open interval
+  forbidden_state_effect: no alert for open interval
+  exception: none stated
+  evidence_needed: circuit state-change log; alert event stream
+  why_this_obligation_is_required_by_the_text: Text says system must emit one alert
+    event per open interval.
+- obligation_id: R057_O2
+  requirement_id: R057
+  actor: circuit state monitoring logic
+  precondition: circuit remains open after alert already emitted for the current open
+    interval
+  action: do not emit another alert during same open interval
+  expected_response_or_event: no additional alert events during same open interval
+  required_state_effect: duplicate alerts suppressed
+  forbidden_state_effect: duplicate alert events before circuit closes again
+  exception: none stated
+  evidence_needed: alert event stream; circuit close/open boundary records
+  why_this_obligation_is_required_by_the_text: Text explicitly says duplicate alerts
+    must not be emitted until circuit has closed again.
+required_evidence:
+- Circuit state-change log.
+- Alert event stream.
+- Interval grouping by circuit close/open boundaries.
+valid_alternative_ids:
+- R057_A01
+boundary_case_ids:
+- R057_B01
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

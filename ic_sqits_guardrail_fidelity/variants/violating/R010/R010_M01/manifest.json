@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R010_M01",
+  "requirement_id": "R010",
+  "target_obligation_id": "R010_O1",
+  "code_area": "_create_internal_transfer",
+  "expected_behavioral_difference": "Service account creates internal transfer without approved mTLS subject because allowlist check is removed",
+  "possible_collateral_effects": "Can expose unauthorized transfer records",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "remove mTLS allowlist check",
+      "search": "        if not service_account or subject not in self.state[\"approved_mtls_subjects\"]:\n",
+      "replace": "        if not service_account:\n"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R001/R001_M02/service.py
+@@ -488,7 +488,7 @@
+             self._audit_permission_denial(actor["actor_id"], payment_id, "missing_approver_role")
+             raise ServiceError(403, "FORBIDDEN", "approver role required")
+ 
+-        if payment["creator_user_id"] == actor["actor_id"]:
++        if payment["payment_id"] == actor["actor_id"]:
+             self._audit_permission_denial(actor["actor_id"], payment_id, "creator_cannot_self_approve")
+             raise ServiceError(403, "FORBIDDEN", "creator cannot approve own payment")
+ 

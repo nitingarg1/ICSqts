@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R060_M01",
+  "requirement_id": "R060",
+  "target_obligation_id": "R060_O1",
+  "code_area": "_complete_export",
+  "expected_behavioral_difference": "Completed export job does not emit export_completed event",
+  "possible_collateral_effects": "Primary defect is missing completion observability",
+  "difficulty": "easy",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "omit export_completed event",
+      "search": "        self._append_audit({\"event_type\": \"export_completed\", \"job_id\": job_id, \"requester_id\": job[\"requester_id\"], \"row_count\": len(job[\"written_rows\"]), \"duration_ms\": duration_ms, \"success\": True, \"timestamp\": ended_at})\n",
+      "replace": "        pass  # mutation R060_M01: export_completed event omitted\n"
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+worksheet_id: H_R041
+requirement_id: R041
+requirement_text: 'Repeating a create-payment request with the same idempotency key
+  and the same request body must return the original payment ID and must not create
+  a second payment record.
+
+  '
+category: reliability/idempotency
+source_checklist_path: requirements/obligation_checklists/FINAL/reliability_idempotency.yaml
+formulation_ids_for_reference:
+- R041_F0
+- R041_F1
+- R041_F2
+obligations:
+- obligation_id: R041_O1
+  requirement_id: R041
+  actor: create-payment workflow
+  precondition: repeat create-payment request uses same idempotency key and same request
+    body
+  action: return the original payment ID
+  expected_response_or_event: repeated request responds with previously created payment
+    ID
+  required_state_effect: none beyond reuse of original identifier
+  forbidden_state_effect: returning a different payment ID for identical replay
+  exception: none stated
+  evidence_needed: original and repeated request headers and bodies; response payloads
+  why_this_obligation_is_required_by_the_text: Text explicitly says repeated request
+    must return original payment ID.
+- obligation_id: R041_O2
+  requirement_id: R041
+  actor: create-payment workflow
+  precondition: repeat create-payment request uses same idempotency key and same request
+    body
+  action: avoid creating a second payment record
+  expected_response_or_event: only one payment record exists for the repeated create
+    request
+  required_state_effect: no duplicate payment record is created
+  forbidden_state_effect: creation of a second payment record for identical replay
+  exception: none stated
+  evidence_needed: payment table row count; original and repeated responses
+  why_this_obligation_is_required_by_the_text: Text explicitly says repeated request
+    must not create a second payment record.
+required_evidence:
+- Request headers and bodies.
+- Response payloads across repeated calls.
+- Payment table row count for that key.
+valid_alternative_ids:
+- R041_A01
+boundary_case_ids: []
+minimal_verdict_logic: Block violating implementations; allow compliant, valid-alternative,
+  and approved boundary implementations.
+known_ambiguities: []
+human_author_notes:
+- 'STATUS: ASSUMPTION_BASED_DRAFT
+
+  Not protocol-valid final results.
+
+  Human-only and unfrozen later-phase decisions were filled under explicit user instruction
+  to assume completion.
+
+  Use for package assembly and review only, not as protocol-valid final science.'
+status: ASSUMPTION_BASED_DRAFT

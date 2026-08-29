@@ -1,0 +1,19 @@
+{
+  "mutation_id": "R007_M03",
+  "requirement_id": "R007",
+  "target_obligation_id": "R007_O2",
+  "code_area": "_create_delegation",
+  "expected_behavioral_difference": "Delegate can create a chained delegation from temporary authority because chained-delegation block is removed",
+  "possible_collateral_effects": "May spawn invalid downstream delegated actions",
+  "difficulty": "medium",
+  "variant_type": "violating",
+  "source_file": "application/reference/service.py",
+  "operations": [
+    {
+      "kind": "replace",
+      "note": "allow chained delegation",
+      "search": "            if actor[\"actor_id\"] == source[\"delegate_user_id\"]:\n",
+      "replace": "            if False and actor[\"actor_id\"] == source[\"delegate_user_id\"]:\n"
+    }
+  ]
+}

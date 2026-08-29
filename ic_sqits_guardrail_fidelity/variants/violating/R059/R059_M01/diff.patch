@@ -1,0 +1,12 @@
+--- a/application/reference/service.py
++++ b/variants/violating/R059/R059_M01/service.py
+@@ -832,8 +832,7 @@
+     def _reconciliation_check(self, body: dict[str, Any], correlation_id: str) -> Response:
+         batch_id = body.get("batch_id")
+         if body.get("mismatch"):
+-            metric = {"name": "reconciliation_mismatch_count", "value": 1, "batch_id": batch_id, "timestamp": self._now_iso()}
+-            self.state["metrics"].append(metric)
++            pass  # mutation R059_M01: reconciliation mismatch metric omitted
+             case_id = self._next_id("review_case", "review")
+             self.state["review_cases"][case_id] = {"review_case_id": case_id, "batch_id": batch_id}
+         return Response(200, {"batch_id": batch_id}, {"correlation_id": correlation_id})
